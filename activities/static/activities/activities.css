@@ -1,0 +1,86 @@
+.div-act {
+    border : 1px solid #eee;
+    margin-bottom : 20px;
+    background-color : #fff;
+    border : 1px solid #ccc;
+}
+.head-p {
+    font-size : 15px;
+}
+.act-img {
+    float : left;
+    padding : 10px;
+    width : 120px;
+}
+.act-head {
+    float : left;
+    padding : 10px;
+}
+.imga {
+    width : 100px;
+    height : 100px;
+}
+.time-p {
+    color : #888;
+    font-size : 12px;
+    margin-bottom : 5px;
+}
+.ptime {
+    cursor : pointer;
+}
+.head-p {
+    margin-bottom : 5px;
+}
+.info-p {
+    font-size : 12px;
+    margin-bottom : 5px;
+}
+.act-comm {
+    margin-left : 30px;
+    padding-left : 20px;
+    border-left : 1px solid #ddd;
+    margin-bottom : 10px;
+}
+.ap-img {
+    width : 50px;
+    height : 50px;
+}
+.act-post {
+    overflow : auto;
+    margin-top : 5px;
+}
+.div1 {
+    float : left;
+    padding : 5px;
+    width : 60px;
+}
+.div2 {
+    float : left;
+    width : calc(100% - 60px);
+    width : calc(100%-60px);
+    width : -webkit-calc(100% - 60px);
+    width : -moz-calc(100% - 60px);
+}
+.div-activity {
+    margin-bottom : 20px;
+    overflow : auto;
+    background-color : #fff;
+    border : 1px solid #ccc;
+}
+.aa-img {
+    float : left;
+    padding : 10px;
+    width : 120px;
+}
+.activity-img {
+    width : 100px;
+    height : 100px;
+}
+.aa-info {
+    float : left;
+    padding : 10px;
+    width : calc(100% - 120px);
+    width : calc(100%-120px);
+    width : -webkit-calc(100% - 120px);
+    width : -moz-calc(100% - 120px);
+}

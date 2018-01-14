@@ -1,0 +1,92 @@
+{% spaceless %}
+{% load plustag_extras %}
+<p class="head-main">Plustag</p>
+<p class="info-p-m" style="font-size:13px;">Plustag được tăng lên khi những bình luận vào bài đăng có ảnh của bạn trên dòng thời gian và khoảnh khắc có dấu +. Plustag sẽ tăng theo phần trăm phụ thuộc vào số người plustag và số lượt thích bài đăng của bạn. Plustag sẽ trở về 0% sau mỗi tháng</p>
+<div class="mi_main_div">
+    <p class="mi_main_head">
+    <span><span class="plus-span">+dep</span> - Đẹp</span>
+    {% with a=request.user|total_plustag:'+dep' %}
+    <span style="margin-left:10px;">{{a}}</span><span>&#37;</span></p>
+    {% endwith %}
+    <div class="mi_main_fr">
+        <div class="ele-fr flex-grid">
+            {% with t=request.user|total_plustag_order:'+dep' %}
+            {% for i in t %}
+            {% if i.user == request.user %}
+            <div class="el-fr-img el-fr-img-active">
+            {% else %}
+            <div class="el-fr-img">
+            {% endif %}
+            <a href="{% url 'pro:profile' %}?id={{i.user.id}}">
+            {% if i.user.info.profile_pic %}
+            <img src="{{i.user.info.profile_pic.url}}" title="{{i.user.fullname}}">
+            {% else %}
+            <img src="/static/web/user.jpeg" title="{{i.user.fullname}}">
+            {% endif %}
+            <span class="el-fr-q">{{i.quantity}}</span>
+            </a>
+            </div>
+            {% endfor %}
+            {% endwith %}
+        </div>
+    </div>
+</div>
+<div class="mi_main_div">
+    <p class="mi_main_head">
+    <span><span class="plus-span">+chat</span> - Chất</span>
+    {% with a=request.user|total_plustag:'+chat' %}
+    <span style="margin-left:10px;">{{a}}</span><span>&#37;</span></p>
+    {% endwith %}
+    <div class="mi_main_fr">
+        <div class="ele-fr flex-grid">
+            {% with t=request.user|total_plustag_order:'+chat' %}
+            {% for i in t %}
+            {% if i.user == request.user %}
+            <div class="el-fr-img el-fr-img-active">
+            {% else %}
+            <div class="el-fr-img">
+            {% endif %}
+            <a href="{% url 'pro:profile' %}?id={{i.user.id}}">
+            {% if i.user.info.profile_pic %}
+            <img src="{{i.user.info.profile_pic.url}}" title="{{i.user.fullname}}">
+            {% else %}
+            <img src="/static/web/user.jpeg" title="{{i.user.fullname}}">
+            {% endif %}
+            <span class="el-fr-q">{{i.quantity}}</span>
+            </a>
+            </div>
+            {% endfor %}
+            {% endwith %}
+        </div>
+    </div>
+</div>
+<div class="mi_main_div">
+    <p class="mi_main_head">
+    <span><span class="plus-span">+ngau</span> - Ngầu</span>
+    {% with a=request.user|total_plustag:'+ngau' %}
+    <span style="margin-left:10px;">{{a}}</span><span>&#37;</span></p>
+    {% endwith %}
+    <div class="mi_main_fr">
+        <div class="ele-fr flex-grid">
+            {% with t=request.user|total_plustag_order:'+ngau' %}
+            {% for i in t %}
+            {% if i.user == request.user %}
+            <div class="el-fr-img el-fr-img-active">
+            {% else %}
+            <div class="el-fr-img">
+            {% endif %}
+            <a href="{% url 'pro:profile' %}?id={{i.user.id}}">
+            {% if i.user.info.profile_pic %}
+            <img src="{{i.user.info.profile_pic.url}}" title="{{i.user.fullname}}">
+            {% else %}
+            <img src="/static/web/user.jpeg" title="{{i.user.fullname}}">
+            {% endif %}
+            <span class="el-fr-q">{{i.quantity}}</span>
+            </a>
+            </div>
+            {% endfor %}
+            {% endwith %}
+        </div>
+    </div>
+</div>
+{% endspaceless %}

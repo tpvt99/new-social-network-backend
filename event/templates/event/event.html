@@ -1,0 +1,248 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<div class="eve-head">
+    <p class="eve-hp">{{event.head}}</p>
+    <img src="{{event.image.url}}" class="eve-img">
+</div>
+<div class="eve-info">
+    <p><span class="fa fa-map-marker"></span><span style="margin-left:3px;">Địa điểm:</span><span style="margin-left:3px;">{{event.address}}</span><span style="margin-left:3px;">{{event.city_unicode}}</span><span style="margin-left:3px;">{{event.province_unicode}}</span>
+    <p><span class="fa fa-calendar-plus-o"></span><span style"margin-left:5px;">Thời gian bắt đầu:</span><span class="day" style="margin-left:5px;">{{event.time_begin.day}}</span><span style="margin-left:3px">tháng</span><span class="month" style="margin-left:3px;">{{event.time_begin.month}}</span><span style="margin-left:3px;">năm</span><span class="year" style="margin-left:3px">{{event.time_begin.year}}</span><span style="margin-left:3px;">vào lúc</span><span class="hour" style="margin-left:3px;">{{event.time_begin.hour}}</span><span style="margin-left:3px">giờ</span><span class="minute" style="margin-left:3px;">{{event.time_begin.minute}}</span><span style="margin-left:3px;">phút</span></p>
+    <p><span class="fa fa-calendar-check-o"></span><span style"margin-left:5px;">Thời gian kết thúc:</span><span class="day_e" style="margin-left:5px;">{{event.time_end.day}}</span><span style="margin-left:3px">tháng</span><span class="month_e" style="margin-left:3px;">{{event.time_end.month}}</span><span style="margin-left:3px;">năm</span><span class="year_e" style="margin-left:3px">{{event.time_end.year}}</span><span style="margin-left:3px;">vào lúc</span><span class="hour_e" style="margin-left:3px;">{{event.time_end.hour}}</span><span style="margin-left:3px">giờ</span><span class="minute_e" style="margin-left:3px;">{{event.time_end.minute}}</span><span style="margin-left:3px;">phút</span></p>
+    <p><span class="ion ion-ios-infinite"></span><span style="margin-left:5px;">Độ tuổi:</span><span style="margin-left:3px;">{{event.age_begin}}</span><span style="margin-left:3px;">-</span><span style="margin-left:3px;">{{event.age_end}}</span></p>
+    <p><span class="fa fa-money"></span><span style="margin-left:3px;">Lệ phí:</span>
+    {% if event.fee == 0 %}
+    <span>Miễn phí.</span>
+    {% else %}
+    <span>Có phí.</span>
+    {% endif %}
+    <p style="margin-left:70px;">{{event.fee_des}}</p>
+    </p>
+    <p>Số lượng báo cáo vi phạm: {{event.report}} </p>
+</div>
+<div class="eve-main">
+    <p style="padding:3px 6px;">{{event.des}}</p>
+</div>
+<div class="eve-stat" style="overflow:auto;">
+    <div style="float:left; width:500px;">
+    <p>Những người tham gia sự kiện</p>
+    <div class="eve-accepted">
+        <p>Đã tham gia</p>
+        {% for i in accepted %}
+        <div class="eve-auser" style="width:300px;padding:3px 6px;border-bottom:1px solid #eee;">
+            {% if i.user.info.profile_pic %}
+            <img src="{{i.user.info.profile_pic.url}}" style="width:50px;height:50px;">
+            {% else %}
+            <img src="/static/web/user.jpeg" style="width:50px;height:50px;">
+            {% endif %}
+            <span style="margin-left:5px;"><a href="{% url 'pro:profile' %}?id={{i.user.id}}">{{i.user.fullname}}</a></span>
+            {% if i.update_time %}
+            {% load web_extras %}
+            {% with t=i.update_time|deltatime %}
+            <p class="ptime" data-time="{{t}}" style="font-size:12px;margin-left:60px;color:#777;"></p>
+            {% endwith %}
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% if wait and request.user == event.user %}
+    <div class="eve-wait" style="margin-top:10px;">
+        <p>Chờ xét duyệt từ bạn</p>
+        {% for i in wait %}
+        <div class="eve-wuser" style="overflow:auto;border-bottom:1px solid #ddd;width:300px;padding : 3px 6px;">
+            {% if i.user.info.profile_pic %}
+            <img src="{{i.user.info.profile_pic.url}}" style="width:50px;height:50px;float:left;">
+            {% else %}
+            <img src="/static/web/user.jpeg" style="width:50px;height:50px;float:left;">
+            {% endif %}
+            <div style="float:left;margin-left:10px;">
+                <p style="margin-left:5px;margin-bottom:5px;"><a href="{% url 'pro:profile' %}?id={{i.user.id}}">{{i.user.fullname}}</a></p>
+                <p style="margin-bottom:5px;">
+                <button type="button" class="btn btn-info btn-sm subbut" data-send="true" data-event="{{event.id}}" data-action="accept" data-who="{{i.user.id}}" autocomplete="off">Chấp nhận</button>
+                <button type="button" class="btn btn-warning btn-sm subbut" data-send="true" data-event="{{event.id}}" data-action="refuse" autocomplete="off" data-who="{{i.user.id}}">Từ chối</button></p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% if invite and request.user == event.user %}
+    <div class="eve-invite" style="margin-top:10px;">
+        <p>Chờ xét duyệt từ người được mời</p>
+        {% for i in invite %}
+        <div class="eve-wuser" style="overflow:auto;border-bottom:1px solid #ddd;width:300px;padding : 3px 6px;">
+            {% if i.user.info.profile_pic %}
+            <img src="{{i.user.info.profile_pic.url}}" style="width:50px;height:50px;float:left;">
+            {% else %}
+            <img src="/static/web/user.jpeg" style="width:50px;height:50px;float:left;">
+            {% endif %}
+            <div style="float:left;margin-left:10px;">
+                <p style="margin-left:5px;margin-bottom:5px;"><a href="{% url 'pro:profile' %}?id={{i.user.id}}">{{i.user.fullname}}</a></p>
+                <p style="margin-bottom:5px;">
+                <button type="button" class="btn btn-default btn-sm subbut" data-send="true" data-event="{{event.id}}" data-action="decline" autocomplete="off" data-who="{{i.user.id}}">Hủy lời mời</button></p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% if request.user == event.user %}
+    </div>
+    <div class="fr" style="float:left;width:500px;">
+        <p>Mời bạn bè tham gia sự kiện của bạn</p>
+        {% for i in friends %}
+        <div class="eve-fr" style="overflow:auto;border-bottom:1px solid #ddd;width:300px;padding:3px 6px;">
+            {% if i.friend.info.profile_pic %}
+            <img src="{{i.friend.info.profile_pic.url}}" style="width:50px;height:50px;float:left;">
+            {% else %}
+            <img src="/static/web/user.jpeg" style="width:50px;height:50px;float:left;">
+            {% endif %}
+            <div style="float:left;margin-left:10px;">
+                <p style="margin-left:5px;margin-bottom:5px;"><a href="{% url 'pro:profile' %}?id={{i.friend.id}}">{{i.friend.fullname}}</a></p>
+                <p style="margin-bottom:5px;">
+                {% load event_extras %}
+                {% with z=event|render_participate_button:i.friend %}
+                {% csrf_token %}
+                {% if z == 'join' %}
+                <button type="button" class="btn btn-primary btn-sm subbut" data-event="{{event.id}}" data-action="invite" data-send="true" data-who="{{i.friend.id}}">Mời tham gia</button>
+                {% elif z == 'owner' %}
+                <button type="button" class="btn btn-default btn-sm subbut" data-send="true" data-event="{{event.id}}" data-action="decline" autocomplete="off" data-who="{{i.friend.id}}">Hủy lời mời</button>
+                {% elif z == 'guess' %}
+                <button type="button" class="btn btn-warning btn-sm subbut" data-send="true" data-event="{{event.id}}" data-action="refuse" autocomplete="off" data-who="{{i.friend.id}}">Từ chối</button>
+                <button type="button" class="btn btn-info btn-sm subbut" data-send="true" data-event="{{event.id}}" data-action="accept" autocomplete="off" data-who="{{i.friend.id}}">Chấp nhận</button>
+                {% elif z == 'ok' %}
+                <button type="button" class="btn btn-success btn-sm subbut" data-send="false" disabled autocomplete="off">Đã tham gia</button>
+                {% endif %}
+            </div>
+            {% endwith %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% if request.user == event.user %}
+<div class="comment-interact">
+    {% include 'event/eventpost.html' %}
+</div>
+{% endif %}
+<div class="posts" style="background-color:#fff;margin: 0 auto;width:550px;">
+    {% include 'status/status.html' %}
+</div>
+<style>
+.comment-interact {
+    margin-top : 20px;
+    border-top : 1px solid #eee;
+    padding-top : 20px;
+    margin-bottom : 20px;
+}
+.eve-img {
+    width : 99%;
+    height : 300px;
+}
+.eve-hp {
+    font-size : 18px;
+    font-weight : 600;
+    text-align : center;
+}
+.eve-info,.eve-main {
+    background-color : #fff;
+    border-radius : 3px;
+    border : 1px solid #ddd;
+    width : 99%;
+    margin-top : 30px;
+    font-size : 15px;
+    padding : 5px 10px;
+}
+.eve-stat {
+    background-color : #fff;
+    border-radius : 3px;
+    border : 1px solid #ddd;
+    width : 99%;
+    margin-top : 30px;
+    font-size : 15px;
+    padding : 5px 10px;
+}
+</style>
+<style>
+.post-user {
+    overflow:auto;
+}
+.user-img-div {
+    float : left;
+    width : 50px;
+    padding : 5px;
+}
+.user-info-div {
+    float : left;
+    padding : 5px;
+}
+.user-img {
+    width : 40px;
+    height : 40px;
+    border-radius : 10px;
+}
+.event-content {
+    width : 500px;
+    border-top : 1px solid #ddd;
+    padding : 5px 10px;
+    margin : 0 auto;
+    padding-top : 20px;
+    padding-bottom : 20px;
+}
+.event-content:first-of-type {
+    border:none;
+}
+.post-img {
+    width : 100%;
+    height : 300px;
+}
+.post-comment {
+    margin-top : 20px;
+}
+.u-com-img {
+    width : 30px;
+    height : 30px;
+}
+.comment_post {
+    padding : 5px 10px;
+    border: 1px solid #999;
+    border-radius : 5px;
+    background-color : #fff;
+    width : 350px;
+}
+</style>
+<script>
+function RenDay(a, tz) {
+a.each(function() {
+    var hour=$(this).find('.hour');
+    var day=$(this).find('.day');
+    var month=$(this).find('.month');
+    var year=$(this).find('.year');
+    var t = new Date(Date.UTC(parseInt(year.text()),parseInt(month.text())-1,parseInt(day.text()),parseInt(hour.text())));
+    t.setHours(t.getHours()+tz);
+    hour.text(t.getUTCHours());
+    day.text(t.getUTCDate());
+    month.text(t.getUTCMonth()+1);
+    year.text(t.getUTCFullYear());
+
+    hour=$(this).find('.hour_e');
+    day=$(this).find('.day_e');
+    month=$(this).find('.month_e');
+    year=$(this).find('.year_e');
+    t = new Date(Date.UTC(parseInt(year.text()),parseInt(month.text())-1,parseInt(day.text()),parseInt(hour.text())));
+    t.setHours(t.getHours()+tz);
+    hour.text(t.getUTCHours());
+    day.text(t.getUTCDate());
+    month.text(t.getUTCMonth()+1);
+    year.text(t.getUTCFullYear());
+});
+}
+(function() {
+    var tz = -new Date().getTimezoneOffset()/60;
+    RenDay($('.eve-info'),tz)
+})();
+</script>
+<script type="text/javascript" src="/static/event/subbut.js"></script>
+<script type="text/javascript" src="/static/event/rendertime.js"></script>
+{% endblock %}

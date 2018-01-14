@@ -1,0 +1,183 @@
+<link rel="stylesheet" type="text/css" href="/static/search/left-search.css">
+<div id="left_nav">
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=all">
+        <span class="l_item_head">Hoạt động</span>
+        {% load activity_extras %}
+        {% with t=request.user|total_activity:'all' %}
+        <span class="not-num num-special">{{t.quantity}}</span>
+        {% endwith %}
+    </a>
+    {% with t=request.user|total_activity:'sport' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=sport" data-toggle="tooltip" title="Tìm kiếm thể thao"><i class="fa fa-soccer-ball-o" ></i>
+            <span class="l_item_head l_item_head1">Thể thao</span>
+            <span class="not-num">{{t.quantity}}</span>
+        </a>
+        {% for i in t.activity %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'activity:activity' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.activities_activitiespost_activity_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    {% endwith %}
+    {% with t=request.user|total_activity:'esport' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=esport" data-toggle="tooltip" title="Tìm kiếm esport"><i class="fa fa-gamepad"></i>
+        <span class="l_item_head l_item_head1">Esport</span>
+        <span class="not-num">{{t.quantity}}</span>
+        {% for i in t.activity %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'activity:activity' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.activities_activitiespost_activity_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'volunteer' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=volunteer" data-toggle="tooltip" title="Tìm kiếm hoạt động từ thiện/tình nguyện"><i class="fa fa-heart"></i>
+        <span class="l_item_head l_item_head1">Từ thiện/Tình nguyện</span>
+        <span class="not-num">{{t.quantity}}</span>
+        {% for i in t.activity %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'activity:activity' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.activities_activitiespost_activity_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'clb' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=clb" data-toggle="tooltip" title="Tìm kiếm hoạt động của các câu lạc bộ, đội nhóm"><i class="fa fa-handshake-o"></i>
+        <span class="l_item_head l_item_head1">Clb/Đội nhóm</span>
+        <span class="not-num">{{t.quantity}}</span>
+        {% for i in t.activity %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'activity:activity' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.activities_activitiespost_activity_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'entertainment' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=entertainment" data-toggle="tooltip" title="Tìm kiếm các trò chơi giải trí"><i class="ion ion-android-share-alt"></i>
+        <span class="l_item_head l_item_head1">Vui chơi giải trí</span>
+        <span class="not-num">{{t.quantity}}</span>
+        {% for i in t.activity %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'activity:activity' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.activities_activitiespost_activity_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'exchange' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=exchange" data-toggle="tooltip" title="Tìm kiếm hoạt động giao lưu mọi người, học hỏi điều mới"><i class="fa fa-rss"></i>
+        <span class="l_item_head l_item_head1">Giao lưu học hỏi</span>
+        <span class="not-num">{{t.quantity}}</span>
+        {% for i in t.activity %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'activity:activity' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.activities_activitiespost_activity_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'backpacking' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=backpacking" data-toggle="tooltip" title="Tìm kiếm các chuyến phượt"><i class="fa fa-motorcycle"></i>
+        <span class="l_item_head l_item_head1">Đi phượt</span>
+        <span class="not-num">{{t.quantity}}</span>
+        {% for i in t.activity %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'activity:activity' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.activities_activitiespost_activity_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'sing' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=sing" data-toggle="tooltip" title="Tìm kiếm ca hát"><i class="ion ion-mic-b"></i>
+        <span class="l_item_head l_item_head1">Ca hát</span>
+        <span class="not-num">{{t.quantity}}</span>
+        {% for i in t.activity %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'activity:activity' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.activities_activitiespost_activity_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'camp' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=camp" data-toggle="tooltip" title="Tìm kiếm hội trại"><i class="ion ion-bonfire"></i>
+        <span class="l_item_head l_item_head1">Hội trại</span>
+        <span class="not-num">{{t.quantity}}</span>
+        {% for i in t.activity %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'activity:activity' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.activities_activitiespost_activity_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'transgender' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=transgender" data-toggle="tooltip" title="Tìm kiếm các hoạt động dành cho thế giới thứ ba"><i class="ion ion-transgender"></i>
+        <span class="l_item_head l_item_head1">Thế giới thứ ba</span>
+        <span class="not-num">{{t.quantity}}</span>
+        {% for i in t.activity %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'activity:activity' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.activities_activitiespost_activity_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    </a>
+    {% endwith %}
+    <a class="l_item" href="{% url 'activity:create' %}"><i class="fa fa-plus-square"></i>
+        <span class="l_item_head l_item_head1">Tạo hoạt động</span>
+    </a>
+</div>

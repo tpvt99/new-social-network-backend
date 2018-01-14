@@ -1,0 +1,151 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+
+<div class="contest-cont">
+    <div class="cont-head">
+        {% load activity_extras %}
+        {% with z=contest.head|addslash %}
+        <p class="head-p"><a href="{% url 'contest:contest' contest.id z %}">{{contest.head}}</a></p>
+        {% endwith %}
+    </div>
+    <div class="cont-user">
+        <p>
+        {% if contest.user.info.profile_pic %}
+        <img class="user-img" src="{{contest.user.info.profile_pic.url}}">
+        {% else %}
+        <img class="user-img" src="/static/web/user.jpeg">
+        {% endif %}
+        <span class="user-name"><a href="{% url 'pro:profile' %}?id={{contest.user.id}}">{{contest.user.fullname}}</a></span>
+        <span style="font-size:13px;color:#777;">tổ chức cuộc thi này</span>
+        </p>
+    </div>
+    <div class="cont-info">
+        <p>
+        <span class="fa fa-map-marker"></span>
+        <span>Địa điểm:</span>
+        <span>{{contest.province_unicode}}</span>
+        </p>
+        <p>
+            <p><span class="fa fa-calendar-check-o"></span>
+            <span class="day" style="margin-left:5px;">{{contest.time_begin.day}}</span><span style="margin-left:3px">tháng</span><span class="month" style="margin-left:5px;">{{contest.time_begin.month}}</span><span style="margin-left:3px;">năm</span><span class="year" style="margin-left:5px">{{contest.time_begin.year}}</span>
+            <span class="hour" style="margin-left:5px;display:none;">{{contest.time_begin.hour}}</span>
+            <span class="minute" style="margin-left:5px;display:none;">{{contest.time_begin.minute}}</span>
+        </p>
+        <img class="contest-img" src="{{contest.image.url}}">
+        <p style="padding:10px;work-wrap:break-work;work-break:keep-all;line-height:1.5em">{{contest.des|linebreaksbr}}</p>
+    </div>
+</div>
+
+{% if request.user == contest.user %}
+<div class="contest-post" style="margin-bottom:20px;">
+    {% include 'contest/contestpost.html' %}
+</div>
+{% endif %}
+
+<div class="posts">
+    {% include 'contest/conteststatus.html' %}
+</div>
+
+<style>
+.contest-cont {
+    padding : 10px;
+    width : 600px;
+    margin : 0 auto;
+}
+.head-p {
+    font-weight : 600;
+    font-size : 18px;
+}
+.user-img {
+    width : 35px;
+    height : 35px;
+    border-radius : 5px;
+}
+.user-name {
+    font-size : 15px;
+}
+.contest-img {
+    width : 100%;
+    height : 300px;
+}
+</style>
+<style>
+.post-user {
+    overflow:auto;
+}
+.user-img-div {
+    float : left;
+    width : 50px;
+    padding : 5px;
+}
+.user-info-div {
+    float : left;
+    padding : 5px;
+}
+.user-img {
+    width : 40px;
+    height : 40px;
+    border-radius : 10px;
+}
+.contest-content {
+    width : 500px;
+    border-top : 1px solid #ddd;
+    padding : 5px 10px;
+    margin : 0 auto;
+    padding-top : 20px;
+    padding-bottom : 20px;
+}
+.event-content:first-of-type {
+    border:none;
+}
+.post-img {
+    width : 100%;
+    height : 300px;
+}
+.post-comment {
+    margin-top : 20px;
+}
+.u-com-img {
+    width : 30px;
+    height : 30px;
+}
+.comment_post {
+    padding : 5px 10px;
+    border: 1px solid #999;
+    border-radius : 5px;
+    background-color : #fff;
+    width : 350px;
+}
+</style>
+<script>
+$('.posts').on('submit','.post-form', function(e) {
+    e.preventDefault();
+    var $this = $(this);
+    if($this.find('.comment_post').val().trim() === '') return false;
+    var csrftoken = getCookie('csrftoken');$.ajaxSetup({beforeSend: function(xhr, settings) {if (!csrfSafeMethod(settings.type) && !this.crossDomain) {xhr.setRequestHeader('X-CSRFToken', csrftoken);}}});
+    $.ajax({
+        method : 'POST',
+        url: '/contest/contestpost/comment/',
+        data: {'comment':$this.find('.comment_post').val(), 'id':$this.find('input[name="idpost"]').val()},
+        success : function(data) {
+            if(data!== 'error') {
+            $this.find('.comment_post').val('');
+            $this.parents('.contest-content').find('.other-comments').append(data);
+            }
+        },
+    });
+});
+</script>
+{% endblock %}
+{% block style %}
+<style>
+body {
+    background-color : #fff;
+}
+</style>
+<script type="text/javascript" src="/static/event/rendertime.js"></script>
+{% endblock %}

@@ -1,0 +1,70 @@
+.middle2 {
+    text-align : center;
+}
+.middle1 {
+    text-align : center;
+    margin : 0 auto;
+    margin-top : 70px;
+}
+.head_cr {
+    position : static;
+    z-index : 100;
+    top : 0;
+    padding : 10px;
+    width : 1000px;
+    background-color : #fff;
+    margin  : 0 auto;
+    border-radius : 5px;
+}
+.m_img {
+    width : 250px;
+    height : 150px;
+    border-width: 1px;
+    border-style : solid;
+    border-radius : 3px;
+    border-color : #e1e1e1;
+}
+.m1 { 
+    width : 300px;
+    display : inline-block;
+    cursor : pointer;
+    position : relative;
+}
+#sp1, #es1, #vl1, #bp1, #en1, #ca1, #si1, #cl1, #ex1{
+    font-size : 18px;
+    font-weight : 600;
+    color : red;
+    font-family : Times, "Times New Roman";
+}
+#es1 {
+    color : rgb(40,30,109);
+}
+#vl1 {
+    color : rgb(40,255,09);
+}
+#bp1 {
+    color : rgb(255,128,0);
+}
+#ca1 {
+    color : rgb(138,138,99);
+}
+#si1 {
+    color : rgb(0,172,230);
+}
+#en1 {
+    color : #b300b3;
+}
+#cl1 {
+    color : #99e600;
+}
+#ex1 {
+    color : #008080;
+}
+.m1.ion {
+    color : #000;
+    position : absolute;
+    font-size : 50px;
+    top : 60px;
+    right : 0px;
+    opacity : 1; 
+}

@@ -1,0 +1,343 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+{% spaceless %}
+<div class="main" data-type="{{type}}">
+    <form class="c_f" method="post" enctype="multipart/form-data" autocomplete="off">
+        {% csrf_token %}
+        {% if type == 'sport' %}
+        <legend>Thể thao</legend>
+        {% elif type == 'esport' %}
+        <legend>Thể thao điện tử</legend>
+        {% elif type == 'volunteer' %}
+        <legend>Tình nguyện-từ thiện</legend>
+        {% elif type == 'backpack' %}
+        <legend>Phượt</legend>
+        {% elif type == 'camp' %}
+        <legend>Cắm trại</legend>
+        {% elif type == 'sing' %}
+        <legend>Ca hát</legend>
+        {% elif type == 'entertainment' %}
+        <legend>Vui chơi giải trí</legend>
+        {% elif type == 'clb' %}
+        <legend>Hoạt động dành cho câu lạc bộ</legend>
+        {% elif type == 'exchange' %}
+        <legend>Giao lưu và học hỏi</legend>
+        {% endif %}
+        <div class="c_img">
+            <label class="btn c_ih"><span class="fa fa-image"></span> Ảnh chủ đề 
+                <input class="c_img_in" name="c_img_in" style="display:none;" type="file" accept="image/*"></label>
+            <div class="c_img_err" style="display:none;"></div>
+        </div>
+        <div class="c_organizer">
+            <p class="c_orh">Đại diện người/nhóm tổ chức</p>
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-who="user" data-group="" id="dropdownOrg">
+                    <input type="hidden" name="who-organize" value="user">
+                    <input type="hidden" name="group-id" value="">
+                    <a class="org-span" data-who="user">
+                        {% if request.user.info.profile_pic %}
+                        <img src="{{request.user.info.profile_pic.url}}">
+                        {% else %}
+                        <img src="/static/web/user.jpeg">
+                        {% endif %}
+                        <span style="margin-left:5px;">{{request.user.fullname}}</span>
+                    </a>
+                    <span class="caret" style="margin-left:5px;"></span>
+                </button>
+                {% if request.user.group_group_admin.all %}
+                <ul class="dropdown-menu">
+                    {% with z=request.user.group_group_admin.all %}
+                    {% for i in z %}
+                    <li>
+                        <a class="org-span" data-who="group" data-group="{{i.id}}">
+                        {% if i.group_groupinfo_group.image %}
+                        <img src="{{i.group_groupinfo_group.image.url}}">
+                        {% else %}
+                        <img src="/static/group/group.jpg">
+                        {% endif %}
+                        <span style="margin-left:5px;">{{i.name}}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                    {% endwith %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+        <div class="c_privacy">
+            <p class="c_prih">Quyền riêng tư</p>
+            <div class="dropdown">
+                <button id="priLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="c_pr_div">
+                        <div style="display:inline-block;width:350px;">
+                            <p class="c_pr1"><span class="fa fa-globe" data-pri="public"></span> Công khai</p>
+                            <p class="c_pr2">Mọi người có thể thấy được hoạt động bạn đăng và có quyền gửi lời mời tham gia</p>
+                        </div>
+                        <div style="display:inline-block;">
+                            <span class="caret"></span>
+                        </div>
+                    </div>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="priLabel">
+                    <div class="c_pr_div1">
+                        <div style="display:inline-block;width:350px;">
+                            <p class="c_pr1_x"><span class="fa fa-lock" data-pri="private"></span> Riêng tư</p>
+                            <p class="c_pr2_x">Không ai có thề xem được nội dung hoạt động cũng như không thề gửi lời mời tham gia. Chỉ có bạn mới có quyền mời được người khác tham gia</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="c_type">
+            {% if type == 'sport' %}
+                <p class="c_th">Môn thể thao</p>
+                <select name="c_sport">
+                    {% include 'activity/sport_type.html' %}
+                </select>
+            {% elif type == 'esport' %}
+                <p class="c_th">Môn thể thao</p>
+                <select name="c_esport">
+                    {% include 'activity/esport_type.html' %}
+                </select>
+            {% elif type == 'sing' %}
+                <p class="c_th" style="width:140px;">Thể loại âm nhạc</p>
+                <select name="c_music" >
+                    {% include 'activity/song_type.html' %}
+                </select>
+            {% endif %}
+            <div class="c_type_err" style="display:none;"></div>
+        </div>
+        <div class="c_head" style="margin-bottom:10px;">
+            <p class="c_hh">Chủ đề hoạt động</p>
+            <div class="c_hi">
+                <input name="c_main_in" class="c_main_in" autocomplete="off" autocorrect="off" type="text" placeholder="Chủ đề hoạt động">
+            </div>
+            <div class="c_main_err" style="display:none;"></div>
+        </div>
+        <div class="c_des">
+            <p class="c_dh">Nội dung hoạt động</p>
+            <div class="c_di">
+                <textarea placeholder="Nội dung hoạt động, cách thức tham gia, đối tượng,..." name="c_d_t" class="c_d_t" rows="8"></textarea>
+            </div>
+            <div class="c_des_err" style="display:none;"></div>
+        </div>
+        <div class="c_age">
+            <p class="c_ah">Độ tuồi phù hợp tham gia</p>
+            <div class="c_ai">
+                <select name="beg_a" >
+                    <option value="">Tuổi bắt đầu</option>
+                </select>
+                <select name="end_a">
+                    <option value="">Tuổi kết thúc</option>
+                </select>
+            </div>
+            <div class="c_age_err" style="display:none;"></div>
+        </div>
+        <div class="c_sex">
+            <p class="c_sh">Giới tính phù hợp tham gia</p>
+            <div class="c_si">
+                <div style="display:inline-block;">
+                    <label class="c_s_la"><input type="radio" name="sex" value="male"> <span>Nam</span></label>
+                </div>
+                <div style="display:inline-block;">
+                    <label class="c_s_la"><input type="radio" name="sex" value="female"> <span>Nữ</span></label>
+                </div>
+                <div style="display:inline-block;">
+                    <label class="c_s_la"><input type="radio" name="sex" value="both" checked> <span>Cả hai</span></label>
+                </div>
+            </div>
+        </div>
+        <div class="c_time">
+            <p class="c_tih">Thời gian</p>
+            <div class="c_ti">
+                <span style="display:inline-block;width:60px;">Bắt đầu</span>
+                <div id="c_ti1">
+                    <select name="year" class="c_ti_se">
+                        <option value="">Năm</option>
+                    </select>
+                </div>
+                <div id="c_ti2" >
+                    <select name="month" class="c_ti_se">
+                        <option value="">Tháng</option>
+                    </select>
+                </div>
+                <div id="c_ti3" >
+                    <select name="day" class="c_ti_se">
+                        <option value="">Ngày</option>
+                    </select>
+                </div>
+                <div id="c_ti4" >
+                    <select name="hour" class="c_ti_se">
+                        <option value="">Giờ</option>
+                    </select>
+                </div>
+                <div id="c_ti5" >
+                    <select name="minute" class="c_ti_se">
+                        <option value="">Phút</option>
+                    </select>
+                </div>
+            </div>
+            <div class="c_begin_time" style="display:none;"></div>
+            <div class="c_ti_end" style="margin-top:10px;">
+                <span style="display:inline-block;width:60px;">Kết thúc</span>
+                <div id="c_ti1_e">
+                    <select name="year_e" class="c_ti_se">
+                        <option value="">Năm</option>
+                    </select>
+                </div>
+                <div id="c_ti2_e" >
+                    <select name="month_e" class="c_ti_se">
+                        <option value="">Tháng</option>
+                    </select>
+                </div>
+                <div id="c_ti3_e" >
+                    <select name="day_e" class="c_ti_se">
+                        <option value="">Ngày</option>
+                    </select>
+                </div>
+                <div id="c_ti4_e" >
+                    <select name="hour_e" class="c_ti_se">
+                        <option value="">Giờ</option>
+                    </select>
+                </div>
+                <div id="c_ti5_e" >
+                    <select name="minute_e" class="c_ti_se">
+                        <option value="">Phút</option>
+                    </select>
+                </div>
+            </div>
+            <div class="c_end_time" style="display:none;"></div>
+        </div>
+        <div class="c_place">
+            <p class="c_ph">Địa điểm tổ chức</p>
+            <div class="c_pi">
+                <select name="province">
+                    {% include 'activity/province.html' %}
+                </select>
+                <select name="city">
+                    <option value="">Thành phố/Quận/Huyện</option>
+                </select>
+                <input type="search" name="c_p_in2" class="c_p_in2" autocomplete="off" autocorrect="off" placeholder="Địa chỉ tham gia hoạt động cụ thể"/>
+            </div>
+            <div class="c_place_err" style="display:none;"></div>
+        </div>
+        <div class="c_money">
+            <p class="c_mh">Lệ phí</p>
+            <div class="c_mi">
+                <select name="money">
+                    <option value="yes">Miễn phí</option>
+                    <option value="no">Có phí</option>
+                </select>
+            </div>
+            <div class="c_money_err" style="display:none;"></div>
+        </div>
+        <div class="c_quantity">
+            <p class="c_qh">Số lượng người tham gia</p>
+            <div class="c_qi">
+                <select name="quantity">
+                    <option value="unlimited">Không giới hạn</option>
+                    <option value="limited">Giới hạn</option>
+                </select>
+            </div>
+            <div class="c_quantity_err" style="display:none;"></div>
+        </div>
+        <div class="c_submit">
+            {% if type == 'sport' %}
+            <button type="submit" class="c_bs btn btn-default">Tạo hoạt động</button>
+            {% elif type == 'esport' %}
+            <button type="submit" class="c_bs btn btn-default" style="background-color:rgb(32,28,89);">Tạo hoạt động</button>
+            {% elif type == 'volunteer' %}
+            <button type="submit" class="c_bs btn btn-default" style="background-color:rgb(40,255,09);">Tạo hoạt động</button>
+            {% elif type == 'backpacking' %}
+            <button type="submit" class="c_bs btn btn-default" style="background-color:rgb(255,128,00);">Tạo hoạt động</button>
+            {% elif type == 'camp' %}
+            <button type="submit" class="c_bs btn btn-default" style="background-color:rgb(138,138,99);">Tạo hoạt động</button>
+            {% elif type == 'sing' %}
+            <button type="submit" class="c_bs btn btn-default" style="background-color:rgb(0,172,230);">Tạo hoạt động</button>
+            {% elif type == 'entertainment' %}
+            <button type="submit" class="c_bs btn btn-default" style="background-color:#b300b3;">Tạo hoạt động</button>
+            {% elif type == 'clb' %}
+            <button type="submit" class="c_bs btn btn-default" style="background-color:#99e600;">Tạo hoạt động</button>
+            {% elif type == 'exchange' %}
+            <button type="submit" class="c_bs btn btn-default" style="background-color:#008080;">Tạo hoạt động</button>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endspaceless %}
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="/static/activity/activity.css">
+{% endblock %}
+
+{% block script %}
+<script src="/static/event/time.js" async="true"></script>
+<script src="/static/activity/age.js" async="true"></script>
+<script src="/static/activity/sex.js" async="true"></script>
+<script src="/static/activity/change.js" async="true"></script>
+<script src="/static/activity/province.js"></script>
+<script src="/static/activity/img.js" async="true"></script>
+<script>
+function getContext(eclass) {
+    var e = document.getElementsByName(eclass)[0];
+    if(e.seletedIndex == -1)
+        return null;
+    return e.options[e.selectedIndex].text;
+}
+$('.c_privacy').find('.dropdown-menu').on('click', '.c_pr_div1', function() {
+    var old1 = $('.c_pr1').html();
+    var old2 = $('.c_pr2').html();
+    var new1 = $(this).find('.c_pr1_x').html();
+    var new2 = $(this).find('.c_pr2_x').html();
+    $('.c_pr1').html(new1);
+    $('.c_pr2').html(new2);
+    $('.c_pr1_x').html(old1);
+    $('.c_pr2_x').html(old2);
+});
+$('select[name="province"]').on('change', function() {
+    var a = getCity($(this).val());
+    var pa = $('select[name="city"]');
+    if (a) {
+        pa.empty();
+        for(var i =0; i< a.length ;i++) {
+            pa.append($(['<option>',a[i],'</option>'].join('')));
+        }
+    } else {
+        pa.empty().append('<option value="">Thành phố/Quận/Huyện</option>');
+    }
+});
+(function() {
+    var a=$('select[name="province"]').val();
+    var pa = $('select[name="city"]');
+    if(a) {
+        a=getCity(a);
+        pa.empty();
+        for(var i =0; i< a.length ;i++) {
+            pa.append($(['<option>',a[i],'</option>'].join('')));
+        }
+    }else {
+        pa.empty().append('<option value="">Thành phố/Quận/Huyện</option>');
+    }
+})();
+(function() {
+    t = document.getElementsByClassName("c_img_in");
+    t[0].value = "";
+})();
+$('.org-span').on('click', function() {
+    var newx = $(this);
+    $('input[name="who-organize"]').val(newx.data('who'));
+    $('input[name="group-id"]').val(newx.data('group'));
+    var old = $('#dropdownOrg').find('.org-span');
+    var newx_pa = $(this).parent('li');
+    console.log(newx_pa);
+    newx_pa.append(old);
+    $('#dropdownOrg').prepend(newx);
+});
+</script>
+<script src="/static/activity/submit.js" async="true"></script>
+{% endblock %}

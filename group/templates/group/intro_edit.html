@@ -1,0 +1,30 @@
+<form method="post" action="/group/edit/" enctype="multipart/form-data" class="picf">
+    {% csrf_token %}
+    <input type="hidden" name="group" value="{{group.id}}">
+    <input type="hidden" name="which" value="intro">
+    <p>Thay đổi lời giới thiệu của nhóm</p>
+    <textarea type="text" name="intro" class="prp" placeholder="Giới thiệu về nhóm" rows="5"></textarea>
+    <button type="submit" class="btn btn-sm btn-primary" style="margin-top:20px;width:100px;">Cập nhật</button>
+</form>
+<style>
+.picf {
+    padding : 10px;
+}
+textarea.prp {
+    resize : none;
+    width : 500px;
+    border : 1px solid #ccc;
+    padding : 5px 10px;
+    min-height : 100px;
+    border-radius : 5px;
+    margin : 0 auto;
+}
+</style>
+<script>
+$('.prp').each(function() {
+    this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+}).on('input', function() {
+    this.style.height = 'auto';
+    this.style.height = (this.scrollHeight)+'px';
+});
+</script>

@@ -1,0 +1,118 @@
+<div class="row" >
+        <div class="col-md-12" id="lefttitle" style="text-align:center;">Tìm kiếm hoạt động</div>
+    </div>
+
+    {% load web_extras %}
+    <div class="row">
+        <div class="col-md-12" id="leftcountry">
+            Quốc gia: <a href="#" class="leftli">{{ user.info.country_search.name_unicode }}</a> 
+            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal"><i class="fa fa-cog"></i></button>
+        </div>
+    </div>
+
+    <form method="get" action="{% url 'search:search' 'activity' %}" class="form-horizontal">
+    <div class="row">
+        <div id="leftlistcountry" class="checkbox">
+
+            {% if user.searchcity.city.all %}
+            {% load web_extras %}
+            <ul>
+                {% for city in user.searchcity.city.all %}
+                {% with x=forloop.counter %}
+                <li class="li_search"><input type="radio" name="q" value="{{ city.name_ascii }}" id="{{ 'c'|addstr:x }}" />
+                    <label for="{{ 'c'|addstr:x }}" class="control-label">{{ city.name_unicode }}</label>
+                </li>
+                {% endwith %}
+                {% endfor %}
+            </ul>
+            {% else %}
+
+            <ul>
+                <li class="li_search"><input type="checkbox" name="q" value="Ha Noi" id="c1"/>
+                    <label for="c1" class="control-label">Hà Nội</label>
+                </li>
+                <li class="li_search"><input type="checkbox" name="q" value="Hai Phong" id="c2"/>
+                    <label for="c2" class="control-label">Hải Phòng</label>
+                </li>
+                <li class="li_search"><input type="checkbox" name="q" value="Da Nang" id="c3"/>
+                    <label for="c3" class="control-label">Đà Nẵng</label>
+                </li>
+                <li class="li_search"><input type="checkbox" name="q" value="Ho Chi Minh" id="c4" />
+                    <label for="c4" class="control-label">Thành phố Hồ Chí Minh</label>
+                </li>
+                <li class="li_search"><input type="checkbox" name="q" value="Can Tho" id="c5"/>
+                    <label for="c5" class="control-label">Cần Thơ</label>
+                </li>
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div class="row ">
+        <div class="col-md-4 col-md-offset-3">
+            <input type="submit" value="Tìm kiếm" id="lefts"/>
+        </div>
+    </div>
+
+    </form>
+
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aira-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Chọn các thành phố bạn muốn hiện khi tìm kiếm</h4>
+                </div>
+                <form method="post" action="{% url 'web:searchcity' %}" class="form-horizontal" id="searchcity">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        {% for city in cities %}
+                        <div class="col-md-offset-1 form-group checkbox">
+                            <label class="control-label">
+                                <input class="form-control" type="checkbox" name="city1" value="{{ city.city_code }}">{{ city.name_unicode }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<style>
+#lefts {
+    background-color : rgb(55,70,90);
+    color : white;
+    font-weight : 700;
+    padding : 10px;
+}
+#lefttitle {
+    font-size : 20px;
+    color : rgb(55,51,90);
+    text-align : center;
+}
+#leftcountry {
+    font-size : 16px;
+}
+#leftlistcountry {
+    font-size : 13px;
+}
+#leftlisttime {
+    font-size : 13px;
+}    
+.leftli {
+    color : #00172d;
+}
+.li_search {
+    list-style-type : none;
+}
+.tooltip {
+    background-color : rgb(51, 50, 51);
+}
+</style>

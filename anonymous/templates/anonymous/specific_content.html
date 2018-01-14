@@ -1,0 +1,33 @@
+{% extends 'web/standardpage.html' %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="/static/anonymous/post.css">
+<link rel="stylesheet" type="text/css" href="/static/anonymous/status.min.css">
+{% endblock %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<div class="middle_sta">
+{% include 'anonymous/status_min.html' %}
+</div>
+{% endblock %}
+
+{% block status_script %}
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/static/anonymous/heart.js"></script>
+<script type="text/javascript" src="/static/anonymous/comment.js"></script>
+<script type="text/javascript" src="/static/anonymous/post.js"></script>
+<script type="text/javascript" src="/static/anonymous/status.js"></script>
+<script type="text/javascript" src="/static/anonymous/time.js"></script>
+{% endblock %}
+{% block style %}
+<style>
+body {
+    background-color : #f9e6ff;
+}
+</style>
+{% endblock %}

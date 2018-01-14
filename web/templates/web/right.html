@@ -1,0 +1,125 @@
+<div class="plan_goal">
+    <div class="plan_act">
+        {% load activity_extras %}
+        {% with z=request.user|outgoing_activity %}
+        <p class="act-p">Hoạt động</p>
+        <p><span>{{z|length}}</span><span style="margin-left:3px;">hoạt động sắp tới diễn ra</span></p>
+        {% for t in z %}
+        {% with k=t.head|addslash %}
+        <a class="act_cont" href="{% url 'activity:activity' t.id k %}">
+        {% endwith %}
+            <div style="overflow:auto;">
+                <div class="r-pl-img">
+                <img src="{{t.image.url}}" style="width:40px;height:40px;border-radius:100%;">
+                </div>
+                <div class="r-pl-in">
+                    <p class="ri_ph">{{t.head}}</p>
+                    {% load web_extras %}
+                    {% with k=t.time_begin|deltatime %}
+                    <p class="out_time" data-time="{{k}}" style="color:#777;font-size:12px;margin-bottom:0px;"></p>
+                    {% endwith %}
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+        {% endwith %}
+    </div>
+    <div class="plan_eve">
+        {% load event_extras %}
+        {% with z=request.user|outgoing_event %}
+        <p class="act-p">Sự kiện</p>
+        <p><span>{{z|length}}</span><span style="margin-left:3px;">sự kiện sắp tới diễn ra</span></p>
+        {% for t in z %}
+        {% with k=t.head|addslash %}
+        <a class="act_cont" href="{% url 'event:event' t.id k %}">
+        {% endwith %}
+            <div style="overflow:auto;">
+                <div class="r-pl-img">
+                <img src="{{t.image.url}}" style="width:40px;height:40px;border-radius:100%;">
+                </div>
+                <div class="r-pl-in"> 
+                    <p class="ri_ph">{{t.head}}</p>
+                    {% load web_extras %}
+                    {% with k=t.time_begin|deltatime %}
+                    <p class="out_time" data-time="{{k}}" style="color:#777;font-size:12px;margin-bottom:0px;"></p>
+                    {% endwith %}
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+        {% endwith %}
+    </div>
+</div>
+<div style="font-size:13px;color:#666;padding:5px 5px;">
+    <span>
+        <span>Lifelead</span>
+        <span>&#169;</span>
+        <span>2017</span>
+    </span>
+    <span style="margin-left:10px;">
+        <a href="{% url 'web:contact' %}">Liên hệ</a>
+    </span>
+    <span style="margin-left:10px;">
+        <a href="{% url 'group:groups' %}">Nhóm</a>
+    </span>
+</div>
+<style>
+.plan_goal {
+    font-size : 14px;
+    border-radius : 5px;
+    border : 1px solid #ccc;
+    width : 100%;
+    background-color : #fff;
+    padding : 10px;
+    margin-bottom : 10px;
+    position : static;
+    top : 0px;
+    bottom : 0px;
+}
+.act-p {
+    font-size : 13px;
+    color : #555;
+    font-weight : 600;
+    padding : 10px 0px;
+    padding-top : 5px;
+    margin-bottom : 5px;
+    border-bottom : 1px solid #ddd;
+}
+.act_cont {
+    display : block;
+}
+.r-pl-img {
+    float : left;
+    width : 50px;
+    height : 50px;
+    padding : 5px;
+}
+.r-pl-in {
+    float : left;
+    padding : 5px;
+    width : calc(100%-50px);
+    width : calc(100% - 50px);
+    width : -webkit-calc(100% - 50px);
+    width : -moz-calc(100% - 50px);
+}
+.ri_ph {
+    margin : 0px;
+    color : #444;
+    font-size :13px;
+}
+</style>
+<script>
+(function() {
+    $('.out_time').each(function() {
+        var ren = $(this);
+        var sec = ren.data('time');
+        var minx = parseInt(sec) / 60;
+        var hourx = minx/60;
+        var dayx = hourx / 24;
+        var timex = new Date();
+        timex.setSeconds(timex.getSeconds() + parseFloat(sec));
+        ren.attr('title', [timex.getDate()," tháng ", timex.getMonth()+1, " năm ", timex.getFullYear() ," vào lúc ", timex.getHours(), " giờ ", timex.getMinutes(), " phút" ].join(''));
+        ren.html([Math.floor(dayx) , " ngày ", Math.floor(hourx  - Math.floor(dayx)*24), " giờ ", Math.floor(minx - Math.floor(hourx - Math.floor(dayx)*24)*60 - Math.floor(dayx)*24*60), " phút "].join(''));
+    });
+})();
+</script>

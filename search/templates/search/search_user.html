@@ -1,0 +1,77 @@
+{% extends 'search/search.html' %}
+
+{% block left_user %}
+<div id="left"></div>
+
+<script>
+$('div#left').load("{% url 'search:left' 'user' %}");
+</script>
+
+{% endblock %}
+
+{% block middle_user %}
+<div id="middle">
+    <input type="hidden" id="q_act_s" data-q="{{ request.GET.q }}">
+</div>
+<script>
+(function() {
+    $.ajax({
+        url : '{% url "search:middle" "user" %}',
+        method : 'GET',
+        success : function(data) {
+            $('div#middle').append(data);
+        }
+    });
+})();
+</script>
+{% endblock %}
+
+{% block script_user %}
+<script>
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function csrfSafeMethod(method) {
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+</script>
+
+
+<script>
+(function() {
+    var q = $('input#q_act_s').data('q');
+    $('form#search_form').prop('action', ["{% url 'search:search' 'user' %}?q",q].join(''));
+    $('input#search_bar').prop('placeholder','Tìm kiếm bạn bè');
+})();
+$('document').ready(function() {
+    var search = $('form#search_form');
+    search.find('input#search_bar').on('keyup', function() {
+        var key = $(this).val();
+        $.ajax({
+            url : "{% url 'search:instancesearch' 'user' %}",
+            method : 'GET',
+            data : { 'key':key },
+            success : function(data) {
+                $('div#search_result').empty().append(data).show();
+            }
+        });
+    });
+    search.on('focusout', function() {
+        $(this).find('div#search_result').hide();
+    });
+});
+</script>
+{% endblock %}
+

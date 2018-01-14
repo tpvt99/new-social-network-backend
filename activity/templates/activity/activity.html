@@ -1,0 +1,348 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<div style="display:flex">
+<div class="activity-main">
+    <p class="p-main">Thông tin về hoạt động</p>
+    <div class="activity-head">
+        <p class="ahead-p">Chủ đề hoạt động</p>
+        <p class="ahead-s">{{activity.head}}</p>
+    </div>
+    <div class="activity-type">
+        <p class="atype-p">Thể loại hoạt động</p>
+        <p class="atype-s">
+        {% with a=activity.activity_type %}
+        {% if a == 'sport' %} Thể thao
+        {% elif a == 'esport' %} Esport
+        {% elif a == 'volunteer' %} Tình nguyện
+        {% elif a == 'clb' %} Hoạt động câu lạc bộ - đội nhóm
+        {% elif a == 'entertainment' %} Vui chơi giải trí
+        {% elif a == 'sing' %} Ca hát
+        {% elif a == 'camp' %} Cắm trại
+        {% elif a == 'backpacking' %} Đi phượt
+        {% endif %}
+        {% endwith %}
+        </p>
+    </div>
+    <div class="activity-des">
+        <p class="ades-p">Nội dung hoạt động</p>
+        <p class="ades-s">{{ activity.des|linebreaksbr }}</p>
+    </div>
+    <div class="activity-img">
+        <p class="aimg-p">Ảnh chủ đề của hoạt động</p>;
+        <p class="aimg-s"><img src="{{activity.image.url}}" style="width:100px;height:100px;"></p>
+    </div>
+    <div class="activity-place">
+        <p class="aplace-p">Tổ chức tại</p>
+        <p class="aplace-s">{{activity.address}}</span> - <span class="se-ci">{{activity.city}}</span> - <span class="se-pr">{{activity.province_unicode}}</span>
+    </div>
+    <div class="activity-time">
+        <p class="atime-p">Thời gian tổ chức</p>
+        <p class="atime-sb"><span>Bắt đầu:</span>
+            <span class="hour" style="margin-left:3px;">{{activity.time_begin.hour}}</span><span style="margin-left:3px;margin-right:3px;">giờ</span><span class="minute">{{activity.time_begin.minute}}</span><span style="margin-left:3px">phút</span> -
+            <span class="day">{{activity.time_begin.day}}</span><span style="margin-left:3px;margin-right:3px;">tháng</span><span class="month">{{activity.time_begin.month}}</span><span style="margin-left:3px;margin-right:3px;">năm</span><span class="year">{{activity.time_begin.year}}</span>
+        </p>
+        <p class="atime-se"><span>Kết thúc:</span>
+            <span class="houre" style="margin-left:3px;">{{activity.time_end.hour}}</span><span style="margin-left:3px;margin-right:3px;">giờ</span><span class="minutee">{{activity.time_end.minute}}</span><span style="margin-left:3px">phút</span> -
+            <span class="daye">{{activity.time_end.day}}</span><span style="margin-left:3px;margin-right:3px;">tháng</span><span class="monthe">{{activity.time_end.month}}</span><span style="margin-left:3px;margin-right:3px;">năm</span><span class="yeare">{{activity.time_end.year}}</span>
+        </p>
+    </div>
+    <div class="activity-quantity">
+        <p class="aquan-p">Số lượng người tham gia</p>
+        <p class="aquan-s">
+        {% if activity.quantity == 0 %}
+            Không giới hạn
+        {% else %}
+            Giới hạn: {{ activity.quantity }}
+        {% endif %}</p>
+    </div>
+    <div class="activity-fee">
+        <p class="afee-p">Phí tham gia hoạt động</p>
+        <p class="afee-s">
+        {% if activity.fee == 0 %}
+            Miễn phí
+        {% else %}
+            Có phí: {{ activity.fee }} VND
+        {% endif %}</p>
+    </div>
+    <div class="activity-sex">
+        <p class="asex-p">Giới tính phù hợp tham gia</p>
+        <p class="asex-s">
+        {% if activity.sex == 'both' %} Cả hai
+        {% elif activity.sex == 'male' %} Nam
+        {% else %} Nữ
+        {% endif %}</p>
+    </div>
+</div>
+<div class="activity-stat">
+    <p class="p-stat"> Tình trạng hoạt động của bạn</p>
+    <div class="activity-spam">
+        <p class="st-spam"><span class="ion ion-android-warning" style="margin-right:5px;"></span>Số lượng báo cáo vi phạm:<span style="margin-left:5px;cursor:pointer;" data-toggle="tooltip" data-placement="right" title="Chúng tôi không thể cung cấp danh tính người báo cáo hoạt động của bạn vi phạm">{{ activity.report }}</span><p>
+    </div>
+    <div class="activity-who">
+        <p class="st-who"><span class="ion ion-person-stalker"></span>
+        {% load activity_extras %}
+        {% with a=activity|activityparticipants:1 %}
+        <span>Số lượng người tham gia:</span><span style="margin-left:5px;">{{a|length}}</span></p>
+        {% for x in a %}
+        <div class="act-ap">
+            {% if x.person.info.profile_pic %}
+            <img src="{{x.person.info.profile_pic.url}}" style="width:40px;height:40px;">
+            {% else %}
+            <img src="/static/web/user.jpeg" style="width:40px;height:40px;">
+            {% endif %}
+            <span style="margin-left:5px;">{{x.person.fullname}}</span>
+        </div> 
+        {% endfor %}
+        {% endwith %}
+        <p class="st-invite"><span class="fa fa-envelope"></span>
+        {% with a=activity|activityparticipants:0 %}
+        <span>Lời mời tham gia:</span><span style="margin-left:5px;">{{a|length}}</span></p>
+        {% for i in a %}
+            <div class="act-who">
+                {% if i.person.info.profile_pic %}
+                <img src="{{i.person.info.profile_pic.url}}" class="aw-img" >
+                {% else %}
+                <img src="/static/web/user.jpeg" class="aw-img">
+                {% endif %}
+                <div style="float:left;margin-left:5px;">
+                    <p>{{i.person.fullname}}</p>
+                    {% if request.user == activity.user %}
+                        {% if i.guess_invite == True %}
+                            <p>
+                            {% csrf_token %}
+                            <button class="btn btn-primary btnx" data-action="accept" data-act="{{activity.id}}" data-send="true" data-who="{{i.person.id}}" autocomplete="off">Chấp nhận</button><button class="btn btn-default btnx" style="margin-left:10px;" data-send="true" data-action="refuse" data-act="{{activity.id}}" data-who="{{i.person.id}}" autocomplete="off">Từ chối</button></p>
+                        {% else %}
+                            <p>
+                            {% csrf_token %}
+                            <button class="btn btn-default btnx" style="margin-left:10px;" data-action="decline" data-send="true"data-act="{{activity.id}}" data-who="{{i.person.id}}" autocomplete="off">Hủy lời mời</button></p>
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+            </div>
+        {% endfor %}
+        {% endwith %}
+    </div>
+    {% if request.user == activity.user %}
+    <div class="activity-invite">
+        <p style="text-align:center;"><button type="button" class="btn btn-info" style="padding:3px 6px;text-align:center;margin:10px;">Mời thêm bạn bè tham gia</button></p>
+        <div class="invite-list">
+            {% for friend in friends %}
+            <div class="in-fr">
+                {% if friend.friend.info.profile_pic %}
+                <img src="{{friend.friend.info.profile_pic.url}}" style="width:50px;height:50px;float:left">
+                {% else %}
+                <img src="/static/web/user.jpeg" style="width:50px;height:50px;float:left;">
+                {% endif %}
+                <div style="float:left;margin-left:10px;">
+                    <p>{{friend.friend.fullname}}</p>
+                    {% load activity_extras %}
+                {% with a=activity|render_participate_button:friend.friend %}
+                    {% if a == 'join' %}
+                    <p>
+                    {% csrf_token %}
+                    <button type="button" class="btnx btn btn-primary btn-sm" data-send="true" autocomplete="off" data-act="{{activity.id}}" data-action="invite" data-who="{{friend.friend.id}}">Mời tham gia</button></p>
+                    {% elif a == 'ok' %}
+                    <p>
+                    <button type="button" class="btnx btn btn-success btn-sm" autocomplete="off" disabled data-send="false">Đã tham gia</button></p>
+                    {% elif a == 'guess' %}
+                    <p>
+                    {% csrf_token %}
+                    <button class="btn btn-primary btnx btn-sm" data-action="accept" data-act="{{activity.id}}" data-who="{{friend.friend.id}}" data-send="true" autocomplete="off">Chấp nhận</button>
+                    <button class="btn btn-default btnx btn-sm" style="margin-left:10px;" data-action="refuse" data-send="true" data-act="{{activity.id}}" data-who="{{friend.friend.id}}" autocomplete="off">Từ chối</button></p>
+                    {% elif a == 'owner' %}
+                    <p>
+                    {% csrf_token %}
+                    <button class="btn btn-default btnx" style="margin-left:10px;" data-action="decline" data-send="true" data-act="{{activity.id}}" data-who="{{friend.friend.id}}" autocomplete="off">Hủy lời mời</button></p>
+                    {% endif %}
+                {% endwith %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+</div>
+{% if request.user == activity.user %}
+<div class="comment-interact">
+    {% include 'activity/activitypost.html' %}
+</div>
+{% endif %}
+<div class="posts" style="background-color:#fff;width:550px;margin:0 auto;">
+    {% include 'status/status.html' %}
+</div>
+<style>
+.comment-interact {
+    margin-top : 20px;
+    border-top : 1px solid #eee;
+    padding-top : 20px;
+    margin-bottom : 20px;
+}
+.activity-main {
+    display : inline-block;
+    width : 500px;
+    background-color : #fff;
+}
+.p-main {
+    text-align:center;
+    font-size:18px;
+    background-color : #009990;
+    color : #fff;
+}
+.activity-stat {
+    margin-left : 50px;
+    width : 400px;
+    background-color : #fff;
+    display : inline-block;
+}
+.p-stat {
+    text-align : center;
+    font-size : 18px;
+    background-color : #751aff;
+    color : #fff;
+}
+.activity-head, .activity-des {
+    margin-top : 10px;
+    margin-bottom  : 10px;
+}
+.ahead-p, .ades-p, .aplace-p,.aimg-p,.atype-p,.atime-p,.aquan-p ,.afee-p ,.asex-p{
+    font-size : 16px;
+    padding : 2px 4px;
+    text-align : center;
+    display:inline-block;
+}
+.afee-p {
+    color : #ff8533;
+}
+.aquan-p {
+    color : #7575a3;
+}
+.ahead-p {
+    color : #ff4d4d;
+}
+.ades-p {
+    color : #00ff55;
+}
+.aplace-p {
+    color : #00ace6;
+}
+.aimg-p {
+    color : #990099;
+}
+.atype-p {
+    color : #00ffff;
+}
+.atime-p {
+    color : #e6e600;
+}
+.asex-p{
+    color : #ace600;
+}
+.ahead-s {
+    font-size : 15px;
+    display:inline-block;
+    margin-left : 10px;
+}
+.ades-s {
+    font-size : 15px;
+    margin-left : 10px;
+    word-wrap : break-word;
+    word-break : keep-all;
+}
+.act-ap {
+    padding : 2px 4px;
+    margin : 5px;
+}
+.act-who {
+    overflow : auto;
+    margin : 5px;
+}
+.aw-img {
+    float : left;
+    width : 40px;
+    height : 40px;
+    border-radius : 3px;
+    border : 1px solid #eaeaea;
+}
+.btnx {
+    padding : 2px 4px;
+}
+.invite-list {
+    overflow-y : scroll;
+    height : 300px;
+    border : 1px solid #eee;
+    padding : 2px 4px;
+}
+.in-fr {
+    overflow : auto;
+    margin : 5px;
+}
+</style>
+<style>
+.post-user {
+    overflow:auto;
+}
+.user-img-div {
+    float : left;
+    width : 50px;
+    padding : 5px;
+}
+.user-info-div {
+    float : left;
+    padding : 5px;
+}
+.user-img {
+    width : 40px;
+    height : 40px;
+    border-radius : 10px;
+}
+.activity-content {
+    width : 500px;
+    border-top : 1px solid #ddd;
+    padding : 5px 10px;
+    margin : 0 auto;
+    padding-top : 20px;
+    padding-bottom : 20px;
+}
+.activity-content:first-of-type {
+    border:none;
+}
+.post-img {
+    width : 100%;
+    height : 300px;
+}
+.post-comment {
+    margin-top : 20px;
+}
+.u-com-img {
+    width : 30px;
+    height : 30px;
+}
+.comment_post {
+    padding : 5px 10px;
+    border: 1px solid #999;
+    border-radius : 5px;
+    background-color : #fff;
+    width : 350px;
+}
+</style>
+{% endblock %}
+
+{% block script %}
+<script>
+function Time() {
+    var x = $('.ptime');
+x.each(function() {var ren = $(this);var sec = ren.data('time');var minx = parseInt(sec) / 60;var hourx = minx/60;var dayx = hourx / 24;var timex = new Date();timex.setSeconds(timex.getSeconds() - parseFloat(sec));ren.attr('title', [timex.getDate()," tháng ", timex.getMonth()+1, " năm ", timex.getFullYear() ," vào lúc ", timex.getHours(), " giờ ", timex.getMinutes(), " phút" ].join(''));if(sec < 60 ) {ren.html( [Math.round(sec)," giây trước"].join(''));}else if (minx < 60) {ren.html([Math.round(minx), " phút trước"].join(''));}else if( hourx < 24) {ren.html([Math.round(hourx), " giờ trước"].join(''));}else if(Math.round(dayx) <= 1) {ren.html([Math.round(dayx), " ngày trước"].join(''));}else {ren.html([timex.getDate()," tháng ", timex.getMonth()+1, " năm ", timex.getFullYear()].join(''));}});};
+
+Time();
+
+(function() {var x = $('.activity-main');var tz = -new Date().getTimezoneOffset()/60;x.each(function() {var hour=$(this).find('.hour');var day=$(this).find('.day');var month=$(this).find('.month');var year=$(this).find('.year');var t = new Date(Date.UTC(parseInt(year.text()),parseInt(month.text())-1,parseInt(day.text()),parseInt(hour.text())));t.setHours(t.getHours()+tz);hour.text(t.getUTCHours());day.text(t.getUTCDate());month.text(t.getUTCMonth()+1);year.text(t.getUTCFullYear());});})();
+(function() {var x = $('.activity-main');var tz = -new Date().getTimezoneOffset()/60;x.each(function() {var hour=$(this).find('.houre');var day=$(this).find('.daye');var month=$(this).find('.monthe');var year=$(this).find('.yeare');var t = new Date(Date.UTC(parseInt(year.text()),parseInt(month.text())-1,parseInt(day.text()),parseInt(hour.text())));t.setHours(t.getHours()+tz);hour.text(t.getUTCHours());day.text(t.getUTCDate());month.text(t.getUTCMonth()+1);year.text(t.getUTCFullYear());});})();
+</script>
+<script type="text/javascript" src="/static/activity/button_btnx.js"></script>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<div>
+    <form class="act-form" method="post" enctype="multipart/form-data" autocomplete="off">
+        {% csrf_token %}
+        <input type="hidden" name="act_id" value="{{activity.id}}">
+        <div style="padding:10px;">
+            <textarea name="des" class="form-des" placeholder="Lưu giữ những khoảnh khắc khi tham gia hoạt động" rows="5"></textarea>
+            <div class="ac-friend" style="display:none;">
+                <input type="text" class="ac-frin ain" autocomplete="false" value="" placeholder="Tên bạn bè">
+                <div style="display:none;" class="hiddenin">
+                </div>
+                <div class="dropdown">
+                    <div class="dropdown-menu fr-div" style="display:none;">
+                    </div>
+                </div>
+                <div class="ac-frlist">
+                </div>
+            </div>
+            <div class="ac-image">
+            </div>
+        </div>
+        <div class="form-option">
+            <span id="addfr" title="Gắn thẻ bạn bè" data-toggle="tooltip" class="xio"><span class="ion ion-person-add iopts"></span></span>
+            <label title="Thêm ảnh" class="xio" data-toggle="tooltip"><span class="fa fa-image iopts"></span>
+                <input type="file" accept="image/*" style="display:none;" name="image" class="form-img">
+            </label>
+            <button type="submit" class="btn btn-primary btn-sm" style="float:right;">Đăng bài</button>
+            <div style="float:right;padding-right:10px;">
+                <div class="dropdown">
+                    <button type="button" class="btn btn-default btn-sm" aria-haspopup="true" data-toggle="dropdown" id="pribut" aria-expanded="false">
+                        <input type="hidden" name="privacy" value="public">
+                        <span class="ren-pri"><span class="fa fa-globe"></span><span style="margin-left:3px;">Công khai</span></span>
+                        <span class="caret"></span>
+                    </button>
+                    <div class="dropdown-menu pridiv" aria-labelledby="pribut">
+                        <p class="pri-p">Ai có thể thấy được bài đăng của bạn?</p>
+                        <div class="div-pri" data-privacy="public">
+                            <p><span class="fa fa-globe"></span><span style="margin-left:5px;">Công khai</span></p>
+                            <p style="margin-left:10px;">Bài đăng của bạn sẽ được thấy bởi tất cả mọi người</p>
+                        </div>
+                        <div class="div-pri" data-privacy="friend">
+                            <p><span class="ion ion-person-stalker"></span><span style="margin-left:5px;">Bạn bè</span></p>
+                            <p style="margin-left:10px;">Bài đăng của bạn chỉ có bạn bè của bạn mới xem được</p>
+                        </div>
+                        <div class="div-pri" data-privacy="private">
+                            <p><span class="fa fa-lock"></span><span style="margin-left:5px;">Riêng tư</span></p>
+                            <p style="margin-left:10px;">Bài đăng của bạn chỉ có bạn và những người được bạn gắn thẻ mới thấy được</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="content">
+    {% include 'status/status.html' %}
+</div>
+<style>
+.stat-cont {
+    margin : 0 auto;
+    margin-top : 20px;
+    width : 600px;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="/static/act/actpost.css">
+<script type="text/javascript" src="/static/act/textarea_autoheight.js"></script>
+<script type="text/javascript" src="/static/act/ajaxfriend.js"></script>
+<script type="text/javascript" src="/static/act/image_url.js"></script>
+<script type="text/javascript" src="/static/act/privacy.js"></script>
+<script>
+$('#addfr').on('click', function() {
+    $('.ac-friend').show();
+});
+$('.act-form').on('submit', function(e) {
+    e.preventDefault();
+    var f = new FormData($(this)[0]); 
+    if(f.get('des').trim() === '') return false;
+    var csrftoken = getCookie('csrftoken');$.ajaxSetup({beforeSend: function(xhr, settings) {if (!csrfSafeMethod(settings.type) && !this.crossDomain) {xhr.setRequestHeader('X-CSRFToken', csrftoken);}}});
+    $.ajax({
+        method : 'POST',
+        url : '/activities/create/',
+        data : f,
+        processData : false,
+        contentType : false,
+        success: function(data) {
+            $('.form-des').val('');
+            $('.form-img').val('');
+            $('.content').prepend(data);
+            $('.c_img_div').remove();
+        }
+    });
+});
+</script>
+{% endblock %}

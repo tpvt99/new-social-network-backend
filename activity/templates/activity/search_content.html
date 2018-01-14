@@ -1,0 +1,244 @@
+{% for act in activity %}
+<div class="sp-content">
+    <div class="se-head">
+        {% with a=act.activity_type %}
+        {% if a == 'sport' %}
+            {% with b=act.activity_activitysport_activity.all|first %}
+        <span class="se-h">Thể thao</span><span style="margin-left : 5px;">- {{b.type_of_sport_unicode}}</span>
+            {% endwith %}
+        {% elif a == 'esport' %}
+            {% with b=act.activity_activityesport_activity.all|first %}
+        <span class="se-h">Esport</span><span style="margin-left : 5px;">- {{b.type_of_esport_unicode}}</span>
+            {% endwith %}
+        {% elif a == 'volunteer' %}
+        <span class="se-h">Tình nguyện</span>
+        {% elif a == 'clb' %}
+        <span class="se-h">Hoạt động câu lạc bộ - đội nhóm</span>
+        {% elif a == 'entertainment' %}
+        <span class="se-h">Vui chơi giải trí</span>
+        {% elif a == 'sing' %}
+            {% with b=act.activity_activitymusic_activity.all|first %}
+        <span class="se-h">Ca hát</span><span style="margin-left:5px;">- {{b.type_of_music_unicode}}</span>
+            {% endwith %}
+        {% elif a == 'camp' %}
+        <span class="se-h">Cắm trại</span>
+        {% elif a == 'backpacking' %}
+        <span class="se-h">Đi phượt</span>
+        {% elif a == 'exchange' %}
+        <span class="se-h">Giao lưu học hỏi</span>
+        {% endif %}
+        {% endwith %}
+        <div style="float:right;">
+            {% csrf_token %}
+            {% load activity_extras %}
+            {% with a=act|render_participate_button:request.user %}
+            {% if a == 'join' %}
+                <button type="button" class="btn btn-primary btn-sm btnx" data-act="{{act.id}}" data-action="join" data-send="true" data-who="{{request.user.id}}">Tham gia</button>
+            {% elif a == 'ok' %}
+            <button type="button" class="btn btn-success btn-sm btnx" data-send="false" disabled autocomplete="off">Đã tham gia</button>
+            {% elif a == 'host' %}
+                <button type="button" class="btn btn-success btn-sm btnx" data-send="false" disabled autocomplete="off" style="margin-right:10px;">Bạn là người tổ chức</button>
+            {% elif a == 'owner' %}
+                <button type="button" class="btn btn-warning btn-sm btnx" data-send="true" data-act="{{act.id}}" data-action="refuse" autocomplete="off" data-who="{{request.user.id}}">Từ chối</button>
+                <button type="button" class="btn btn-info btn-sm btnx" data-send="true" data-act="{{act.id}}" data-action="accept" autocomplete="off" data-who="{{request.user.id}}">Chấp nhận</button>
+            {% elif a == 'guess' %}
+                <button type="button" class="btn btn-default btn-sm btnx" data-send="true" data-act="{{act.id}}" data-action="decline" autocomplete="off" data-who="{{request.user.id}}">Hủy tham gia</button>
+            {% endif %}
+            {% if a != 'host' %}
+            {% with z=act|render_report:request.user %}
+            {% if z == True %}
+            <button type="button"  class="btn btn-sm btn-danger btnx" data-action="report" data-send="false" data-act="{{act.id}}" autocomplete="off"><span style="padding-right:5px;margin-right:5px;border-right:1px solid #fff;" disabled>{{act.report}}</span>Bạn đã báo cáo vi phạm</button>
+            {% else %}
+            <button type="button" title="Chúng tôi sẽ luôn luôn giữ bí mật về người báo cáo vi phạm" class="btn btn-sm btn-danger btnx" data-action="report" data-send="true" data-act="{{act.id}}" autocomplete="off"><span style="padding-right:5px;margin-right:5px;border-right:1px solid #fff;">{{act.report}}</span>Báo cáo vi phạm</button>
+            {% endif %}
+            {% endwith %}
+            {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+    <div class="se-main">
+        <div class="se-if-head">
+            <span>{{ act.head }}</span>
+        </div>
+        <div class="se-ii">
+            {% if act.group %}
+                {% if act.group.groupinfo.image %}
+                <p class="hold-p"> - Tổ chức bởi nhóm <img src="{{act.goup.groupinfo.image.url}}" class="hold-img"><a href="{% url 'group:group' %}">{{act.group.name}}</a></p>
+                {% else %}
+                <p class="hold-p"> - Tổ chức bởi nhóm <img src="/static/group/group.jpg" class="hold-img"><a href="{% url 'group:group' act.group.id %}">{{act.group.name}}</a></p>
+                {% endif %}
+            {% else %}
+                {% if act.user.info.profile_pic %}
+                <p class="hold-p"> - Tổ chức bởi<img src="{{ act.user.info.profile_pic.url }}" class="hold-img"><a href="{% url 'pro:profile' %}?id={{act.user.id}}">{{act.user.fullname}}</a></p>
+                {% else %}
+                <p class="hold-p"> - Tổ chức bởi<img src="/static/web/user.jpeg" class="hold-img"><a href="{% url 'pro:profile' %}?id={{act.user.id}}">{{act.user.fullname}}</a></p>
+                {% endif %}
+            {% endif %}
+            <p><span class="ion ion-location" style="margin-right:5px;font-size:16px;"></span><span class="se-add">{{act.address}}</span> - <span class="se-ci">{{act.city}}</span> - <span class="se-pr">{{act.province_unicode}}</span></p>
+            <p style="white-space:nowrap;"><span class="fa fa-calendar-check-o"></span>
+            <span class="hour" style="margin-left:3px;">{{act.time_begin.hour}}</span><span style="margin-left:3px;margin-right:3px;">giờ</span><span class="minute">{{act.time_begin.minute}}</span><span style="margin-left:3px">phút</span> -
+            <span class="day">{{act.time_begin.day}}</span><span style="margin-left:3px;margin-right:3px;">tháng</span><span class="month">{{act.time_begin.month}}</span><span style="margin-left:3px;margin-right:3px;">năm</span><span class="year">{{act.time_begin.year}}</span>
+            </p>
+            {% if act.fee != 0 %}
+            <p><span class="fa fa-money"></span><span style="margin-left:5px;" title="Currency is VND">{{ act.fee }} VND</span></p>
+            {% endif %}
+        </div>
+        <div style="display:flex;">
+            <div class="se-img-v">
+                <img src="{{ act.image.url }}" class="se-img">
+                {% load activity_extras %}
+                {% with a=act.id|quantity %}
+                <div class="se-quan">
+                    {% if act.quantity == 0 %}
+                    <span class="se-quan1"><span class="ion ion-person-stalker"></span><span class="se-j">{{a.len}}/<span class="ion ion-ios-infinite"></span></span></span>
+                    {% else %}
+                    <span class="se-quan1"><span class="ion ion-person-stalker"></span><span class="se-j">{{a.len}}/{{act.quantity}}</span></span>
+                    {% endif %}
+                </div>
+                <div class="se-sex">
+                    {% if act.sex == 'male' %}
+                    <span class="se-jm"><span class="ion ion-male"></span><span class="se-j">{{a.m}}</span></span>
+                    {% elif act.sex == 'female' %}
+                    <span class="se-jf"><span class="ion ion-female"></span><span class="se-j">{{a.f}}</span></span>
+                    {% else %}
+                    <span class="se-jm"><span class="ion ion-male"></span><span class="se-j">{{a.m}}</span></span>
+                    <span class="se-jf"><span class="ion ion-female"></span><span class="se-j">{{a.f}}</span></span>
+                    {% endif %}
+                </div>
+                {% endwith %}
+            </div>
+            <div class="se-info-v">
+                <div class="se-des">
+                    {{ act.des|linebreaksbr }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<style>
+.sp-content {
+    display : block;
+    margin-top : 20px;
+    background-color : #fff;
+    padding : 5px 10px;
+    border : 1px solid #ccc;
+    border-radius : 3px;
+}
+.se-join {
+    margin-top : 5px;
+    display : inline-block;
+}
+.se-j {
+    margin-left : 5px;
+}
+.se-jm {
+    margin-left : 10px;
+    color : #0e6eb8;
+    display : inline-block;
+}
+.se-jf {
+    margin-left : 10px;
+    color : #ff1493;
+    display : inline-block;
+}
+.se-quan {
+    margin-top : 3px;
+    margin-left : 3px;
+}
+.se-sex {
+    margin-left : 10px;
+    border-left : 1px solid #e1e1e1;
+}
+.se-but {
+    background-color : #fff;
+    font-weight : 400;
+    border-radius : .285em;
+    cursor : pointer;
+    display : inline-block;
+    vertical-align : baseline;
+    outline : 0;
+    font-family : 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    padding : 3px;
+    text-align : center;
+    color : rgba(0,0,0,0.7);
+    border-color : rgba(0,0,0,0.2);
+    border-style : solid;
+    border-width : 1px;
+}
+.se-but:hover {
+    color : red;
+}
+.se-info-v {
+    display : inline-block;
+    width : 450px;
+}
+.se-img-v {
+    display : inline-block;
+    width : 150px;
+}
+.se-img {
+    width : 150px;
+    height : 150px;
+    border-radius : 4px;
+    border-width : 1px;
+    border-style : solid;
+    border-color : #fff;
+}
+.hold-img {
+    width : 25px;
+    height : 25px;
+    border-radius : 2px;
+    margin-right : 5px;
+    margin-left : 5px;
+}
+.hold-p {
+    color : #666;
+}
+.se-head {
+    border-bottom : 1px solid #e1e1e1;
+    overflow : hidden;
+    padding-bottom : 5px;
+    margin-bottom : 5px;
+}
+.se-h {
+    font-size : 15px;
+    float : left;
+}
+.se-des {
+    margin-left : 10px;
+    word-wrap : break-word;
+    word-break : keep-all;
+}
+.se-if-head {
+    font-size : 16px;
+    margin-left : 5px;
+    word-wrap : break-word;
+    word-break : keep-all;
+    margin-bottom : 10px;
+    color : #333;
+    font-weight : 600;
+}
+.se-ii {
+    font-size : 14px;
+    color : #444;
+}
+</style>
+<script>
+(function() {
+    var x = $('.sp-content');
+    var tz = -new Date().getTimezoneOffset()/60;
+    x.each(function() {
+        var hour=$(this).find('.hour');
+        var day=$(this).find('.day');
+        var month=$(this).find('.month');
+        var year=$(this).find('.year');
+        var t = new Date(Date.UTC(parseInt(year.text()),parseInt(month.text())-1,parseInt(day.text()),parseInt(hour.text())));
+        t.setHours(t.getHours()+tz);
+        hour.text(t.getUTCHours());
+        day.text(t.getUTCDate());
+        month.text(t.getUTCMonth()+1);
+        year.text(t.getUTCFullYear());
+    });
+})();
+</script>

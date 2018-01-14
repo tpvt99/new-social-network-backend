@@ -1,0 +1,11 @@
+{% csrf_token %}
+{% for i in friend %}
+<a href="javascript:void(0);" style="display:block;padding:5px;font-size:13px" data-who="{{i.friend.id}}" data-action="invite" data-group="{{group.id}}" class="member-add-a" data-send="true">
+{% if i.friend.info.profile_pic %}
+<img src="{{i.friend.info.profile_pic.url}}" style="width:35px;height:35px;">
+{% else %}
+<img src="/static/web/user.jpeg" style="width:35px;height:35px;">
+{% endif %}
+<span style="margin-left:5px;">{{i.friend.fullname}}</span>
+{% endfor %}
+</a>

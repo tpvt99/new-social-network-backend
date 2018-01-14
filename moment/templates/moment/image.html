@@ -1,0 +1,60 @@
+{% for image in images %}
+{% load moment_extras %}
+<div class="moment-item clearfix">
+    <div class="moment-user">
+        {% if image.user.info.profile_pic %}
+        <img src="{{image.user.info.profile_pic.url}}" class="moment-user-img">
+        {% else %}
+        <img src="/static/web/user.jpeg" class="moment-user-img">
+        {% endif %}
+        {% with a=image|total_plustag_of_specific_moment %}
+        {% for i in a %}
+        {% if i.quantity != 0 %}
+        <p style="color:#e74c3c;"><span>{{i.tag}}</span> <span>{{i.quantity}}</span></p>
+        {% endif %}
+        {% endfor %}
+        {% endwith %}
+    </div>
+    <div class="moment-info">
+        <div class="moment-head flex-grid">
+            <div>
+                <p class="moment-user-name"><a href="{% url 'pro:profile' %}?id={{request.user.id}}">{{image.user.fullname}}</a></p>
+                {% load web_extras %}
+                {% with z=image.time_create|deltatime %}
+                <p class="moment-time" data-time="{{z}}"></p>
+                {% endwith %}
+            </div>
+        </div>
+        <p class="moment-text">{{image.text}}</p>
+        <img src="{{image.image.url}}" class="moment-img">
+        <div class="moment-static">
+            {% if not comments %}
+            {% with z=image.moment_momentcomment_moment.all|length %}
+            {% if z != 0 %}
+            <p><a href="#"><span>{{z}}</span><span style="margin-left:5px;">bình luận</span></a></p>
+            {% endif %}
+            {% endwith %}
+            {% endif %}
+        </div>
+        <div class="moment-index" style="display:none;">
+            {% include 'moment/comment.html' %}
+        </div>
+        <div class="moment-comment">
+            <form method="post" action="/moment/comment/" class="comment-form-moment" autocomplete="off">
+                {% csrf_token %}
+                <div class="moment-comment-text flex-grid">
+                    {% if request.user.info.profile_pic %}
+                    <img src="{{request.user.info.profile_pic.url}}" class="c-moment-user-img">
+                    {% else %}
+                    <img src="/static/web/user.jpeg" class="c-moment-user-img">
+                    {% endif %}
+                    <div class="comment-text-div">
+                        <input type="text" placeholder="Nhập bình luận" name="comment" class="comment-text" data-m="{{image.id}}">
+                    </div>
+                    <button type="submit" style="display:none;"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}

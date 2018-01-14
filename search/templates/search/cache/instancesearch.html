@@ -1,0 +1,104 @@
+<div class="row" style="color:black;" id="is_total">
+    <div class="col-md-12">
+
+        {% if acts %}
+        <div class="row" id="is_h">
+            <div class="col-md-12">Hoạt động/sự kiện</div>
+        </div>
+        {% for act in acts %}
+        <a href="#" class="search_link"> 
+            <div class="row is_more">
+                <div class="col-md-9 search_info">
+                    <div class="row">
+                    </div>
+                    <div class="row">
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+        {% endif %}
+
+        {% if users%}
+        <div class="row column" class="is_h">
+            <div class="large-12 column">Mọi người</div>
+        </div>
+
+        {% for user in users%}
+        <a href="#" class="search_link">
+            <div class="row is_more">
+                <div class="col-md-3" class="search_img">
+                    {% if user.profile_pic %}
+                    <img src="{{ person.profile_pic.url }}" class="is_img col-md-12"></img>
+                    {% else %}
+                    {% load staticfiles %}
+                    <img src="{% static 'web/user.jpeg' %}" class="is_img col-md-12">
+                    {% endif %}
+                </div>
+                <div class="col-md-9 search_info">
+                    <div class="row">
+                        <div class="col-md-12 acx is_fullname">{{ user.fullname }}</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+        {% endif %}
+        <div class="row column" id="more_lookup">
+            <div class="large-12 column">
+                <a href="{% url 'search:search' field  %}?q={{ key }}"> Tìm kiếm thêm cho kết quả {{ key }} <span><i class="fa fa-search"></i></span> </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<style>
+#is_total {
+    font-size : 13px;
+    background-color : #fafafa;
+}
+.is_more { 
+    padding : 5px;
+    font-size : 12px;
+    line-height : 1;
+    border-bottom : 1px solid #e1e2e3;
+}
+.is_more:hover {
+    background-color : rgb(213,221,228);
+    color : white;
+}
+.acx {
+    font-size : 12px;
+}
+.search_img {
+    margin : 0px;
+    padding : 0px;
+}
+.search_key {
+    z-index : 1;
+}
+.search_info {
+    margin: 0px;
+    padding : 0px;
+}
+.is_title {
+    font-weight : 500;
+    font-size : 13px;
+}
+.is_fullname {
+    font-weight : 500;
+    font-size : 13px;
+}
+.is_city {
+    font-size : 12px;
+    color : black;
+}
+.is_time {
+    font-size : 12px;
+    color : black;
+}
+.is_h {
+    background-color : #ededed;
+    color : rgb(21,21,21);
+}
+</style>

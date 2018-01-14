@@ -1,0 +1,91 @@
+.act-form {
+    width : 600px;
+    border : 1px solid #ccc;
+    border-radius : 5px;
+    background-color : #fff;
+    margin : 0 auto;
+    margin-bottom : 20px;
+}
+.form-des {
+    padding : 5px 10px;
+    resize : none;
+    background-color : #fff;
+    border : 1px solid #ccc;
+    border : none;
+    width : 100%;
+}
+.form-option {
+    padding : 10px;
+    border-top : 1px solid #ccc;
+    background-color : #f1f1f1;
+}
+.iopts {
+    float : left;
+    font-size : 20px;
+    color : #555;
+    cursor : pointer;
+}
+.xio {
+    padding-left : 30px;
+}
+.xio:first-child {
+    padding-left : 0px;
+}
+.form-sub {
+    float : right;
+}
+.ac-friend,.ac-image {
+    margin-top : 15px;
+}
+.ac-frin {
+    border : none;
+    width : 100%;
+    border-left: 1px solid #ccc;
+    padding : 3px 6px;
+}
+.fr-c {
+    border-bottom : 1px solid #e1e1e1;
+    padding-bottom : 2px;
+    padding-top : 2px;
+    cursor : pointer;
+}
+.fr-c:hover {
+    background-color : #b3e9ff;
+}
+.c_img_div {
+    width : 100px;
+    position : relative;
+}
+.ld_cl {
+    position : absolute;
+    cursor : pointer;
+    color : #111;
+    font-size : 25px;
+    top : 5;
+    right : 10px;
+    z-index : 20;
+}
+.cimg:hover {
+    opacity : 0.3;
+}
+.pridiv {
+    width : 250px;
+    padding : 5px;
+    border : 1px solid #aaa;
+}
+.pri-p {
+    font-size : 12px;
+    color : #555;
+}
+.div-pri {
+    font-size : 14px;
+    padding : 5px;
+    padding-bottom : 10px;
+}
+.div-pri:hover {
+    background-color : #b3e9ff;
+    cursor : pointer;
+}
+.div-pri p {
+    margin : 0;
+}

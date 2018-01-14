@@ -1,0 +1,39 @@
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div id="stm_div1">
+        <textarea name="status" id="st_st" placeholder="Chia sẻ suy nghĩ của bạn" autocomplete="off"></textarea>
+    </div>
+</form>
+<style>
+#stm_div1 {
+    margin : 10px;
+}
+#st_st {
+    resize : none;
+    width : 90%;
+    padding : 10px;
+    border : none;
+}
+#st_st::-webkit-input-placeholder:focus {
+    color : #aaa;
+}
+#st_st:-moz-placeholder:focus {
+    color : #aaa;
+    opacity : 1;
+}
+#st_st::-moz-placeholder:focus {
+    color : #aaa;
+    opacity : 1;
+}
+#st_st:-ms-input-placeholder:focus {
+    color : #aaa;
+}
+</style>
+<script>
+    $('#st_st').each(function() {
+        this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+    }).on('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight)+'px';
+    });
+</script>

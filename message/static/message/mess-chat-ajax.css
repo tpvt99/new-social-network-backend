@@ -1,0 +1,96 @@
+.div-chat {
+    width : 250px;
+    margin-right : 10px;
+    max-height : 300px;
+    display : flex;
+    flex-flow : column nowrap;
+    position : relative;
+    border-top-left-radius : 5px;
+    border-top-right-radius : 5px;
+    border : 1px solid #ccc;
+}
+.chat-title {
+    padding : 5px 5px;
+    border-bottom : 1px solid #ccc;
+    display : flex;
+    flex-flow : row nowrap;
+    justify-content : space-between;
+    background-color : #fafafa;
+    color : #777;
+}
+.chat-title p {
+    margin : 0;
+}
+.chat-title-active {
+    color : #fff;
+    background-color : #1abc9c;
+}
+.chat-body {
+    background-color : #fff;
+}
+.chat-body {
+    height : 250px;
+    overflow-x : hidden;
+    overflow-y : auto;
+    padding : 10px;
+}
+.chat-bottom {
+    width :100%;
+    height : 100%;
+}
+.mess-in {
+    width : 100%;
+    border : none;
+    border-top : 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding : 3px 6px;
+}
+.chat-box1 {
+    display : flex;
+    flex-flow : row-reverse nowrap;
+    align-content : flex-end;
+    margin : 10px 0px;
+}
+.chat-box2 {
+    display : flex;
+    flex-flow : row nowrap;
+    align-content : flex-start;
+    margin : 10px 0px;
+}
+.chat-box1-img, .chat-box2-img {
+    width : 35px;
+    height : 35px;
+    border-radius : 100%;
+    border : 1px solid #eee;
+}
+.chat-box2-img {
+}
+.chat-con-1 {
+    text-align : left;
+    margin-right : 10px;
+    background-color : #3889db;
+    border : 1px solid #3889db;
+    border-radius : 5px;
+}
+.chat-con-style {
+    max-width : 150px;
+    font-size : 13px;
+    color : #fff;
+    padding : 5px;
+}
+.chat-con-2 {
+    text-align : left;
+    margin-left : 10px;
+    background-color : #2ecc71;
+    border : 1px solid #2ecc71;
+    border-radius : 5px;
+}
+.chat-box-wrapper {
+    display : flex;
+    flex-direction : row-reverse;
+}
+.chat-con-text {
+    word-break : keep-all;
+    word-wrap : break-word;
+    margin : 0;
+}

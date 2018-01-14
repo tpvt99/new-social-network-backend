@@ -1,0 +1,43 @@
+.stat {width : 500px;background-color : #fff;border-style : solid;border-color : #d1d1d1;border-radius : 3px;border-width : 1px;margin-left : 30px;margin-top : 20px;}
+.stat:last-of-type {margin-bottom : 50px;}
+.stat_des {padding : 6px 9px;}
+.stat-fe {padding : 3px 6px;}
+.stat-vote {margin-left : 5px;}
+.stat_stat {padding : 3px 6px;border-top : 1px solid #e1e1e1;}
+.stat-us{margin-left:5px;}
+.stat-ss {display : block;margin-left : 5px; width : 100%;border-right : 1px solid #e1e1e1;cursor : pointer;text-align:center;}
+.stat-user {
+    margin-top : 5px;
+    text-align : right;
+}
+.stat-ue {
+    margin-right : 10px;
+    font-size : 14px;
+    color : #555;
+}
+.stat-ue-ano {
+    margin-right : 10px;
+    font-size : 14px;
+    color : #555;
+}
+.stat-time {
+    margin-top : 0px;
+    margin-right : 10px;
+    font-size : 13px;
+    color : #888;
+    cursor : pointer;
+}
+.stat-heart {color : #999;font-size : 15px;}
+.stat_comments {background-color : #e1e1e1;}
+.com-create {margin-top : 5px;padding : 6px 9px;}
+.com-user {display : inline-block;margin-left : 5px;}
+.com-input {display : inline-block;margin-left : 5px;}
+.com-in {padding : 3px 6px;border : 1px solid #d1d1d1;border-radius : 3px;background-color : #fff;min-width : 300px;}
+.com-in:focus {border-color : #888;}#dLabel:hover {text-decoration : none;}
+.c-choose {display : block;cursor : pointer;padding : 3px 6px;}
+.c-choose:hover {background-color : #80bfff;}
+.com-us-img {width : 20px;height : 20px;}
+.who-comm {border-bottom : 1px solid #e1e1e1;padding: 3px 6px;}
+.w-c-i {padding-left : 10px;}
+.s-co {background-color : #f1f1f1;}
+.stat-ss:hover {text-decoration : underline;}

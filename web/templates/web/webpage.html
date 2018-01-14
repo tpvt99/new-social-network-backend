@@ -1,0 +1,83 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<div class="web-page clearfix" style="width:100%;">
+    <div id="nav-left">
+        {% include 'web/left_webpage.html' %}
+    </div>
+    <div id="nav-middle">
+        {% include 'web/middle.html' %}
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<script>
+$('.head-vi-active').removeClass('head-vi-active');
+$('a[data-a="2"]').addClass('head-vi-active');
+(function() {
+    var ref = getParameterByName('ref');
+    if (ref === 'friend' || ref === '') {
+        $('p.p-child').removeClass('p-active');
+        $('p.t-friend').addClass('p-active');
+    } else if(ref === 'work') {
+        $('p.p-child').removeClass('p-active');
+        $('p.t-work').addClass('p-active');
+    } else if(ref === 'entertainment') {
+        $('p.p-child').removeClass('p-active');
+        $('p.t-entertainment').addClass('p-active');
+    }
+}());
+</script>
+<script type="text/javascript" src="/static/message/handle_mess.js"></script>
+
+{% endblock %}
+{% block right-mess %}
+<div class="right-absolute">
+    <div class="right-mess">
+        {% include 'web/right-mess.html' %}
+    </div>
+</div>
+{% endblock %}
+
+
+{% block head %}
+<style>
+#nav-left {
+    width : 18%;
+    float : left;
+}
+#nav-middle {
+    width : 550px;
+    margin-left : 20px;
+    float : left;
+}
+#nav-right {
+    float : left;
+    width : 310px;
+    margin-left : 20px;
+    position : relative;
+}
+#nav-right-good {
+    float : left;
+    margin-left : 10px;
+    width : 70px;
+}
+.right-static {
+    position :fixed;
+    width : 180px;
+    top : 60px;
+    right : 5px;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="/static/web/left_webpage.css">
+<link rel="stylesheet" type="text/css" href="/static/web/right-mess.css">
+<link rel="stylesheet" type="text/css" href="/static/message/mess-chat-ajax.css">
+{% endblock %}

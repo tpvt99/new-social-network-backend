@@ -1,0 +1,105 @@
+{% for event in events %}
+<div class="eve-cont">
+    <div class="eve-head" style="overflow:auto;">
+        <div style="float:left;">
+            {% load activity_extras %}
+            {% with a=event.head|addslash %}
+            <p style="font-size:16px;font-weight:700;padding:3px 6px;"><a href="{% url 'event:event' event.id a %}">{{event.head}}</a></p>
+            {% endwith %}
+        </div>
+        <div style="float:right">
+            <form>
+                {% csrf_token %}
+            {% load event_extras %}
+            {% with a=event|render_participate_button:request.user %}
+            {% if a == 'join' %}
+            <button type="button" class="btn btn-primary btn-sm subbut" data-event="{{event.id}}" data-action="join" data-send="true" data-who="{{request.user.id}}">Tham gia</button>
+            {% elif a == 'ok' %}
+            <button type="button" class="btn btn-success btn-sm subbut" data-send="false" disabled autocomplete="off">Đã tham gia</button>
+            {% elif a == 'host' %}
+            <button type="button" class="btn btn-success btn-sm subbut" data-send="false" disabled autocomplete="off" style="margin-right:10px;">Bạn là người tổ chức</button>
+            {% elif a == 'owner' %}
+            <button type="button" class="btn btn-warning btn-sm subbut" data-send="true" data-event="{{event.id}}" data-action="refuse" autocomplete="off" data-who="{{request.user.id}}">Từ chối</button>
+            <button type="button" class="btn btn-info btn-sm subbut" data-send="true" data-event="{{event.id}}" data-action="accept" autocomplete="off" data-who="{{request.user.id}}">Chấp nhận</button>
+            {% elif a == 'guess' %}
+            <button type="button" class="btn btn-default btn-sm subbut" data-send="true" data-event="{{event.id}}" data-action="decline" autocomplete="off" data-who="{{request.user.id}}">Hủy tham gia</button>
+            {% endif %}
+            {% if a != 'host' %}
+            {% load event_extras %}
+            {% with z=event|report_render:user %}
+            {% if z == False %}
+                <button type="button" data-toggle="tooltip" title="Chúng tôi sẽ không cho người tổ chức biết ai là người báo cáo sự kiện" class="btn btn-danger btn-sm subbut" style="margin-right:10px;" data-send="true" data-event="{{event.id}}" data-action="report" autocomplete="off"><span style="margin-right:5px;border-right:1px solid #fff;padding-right:5px;">{{event.report}}</span>Báo cáo vi phạm</button>
+            {% else %}
+                <button type="button" class="btn btn-danger btn-sm subbut" style="margin-right:10px;" data-send="false" disabled="disabled" data-event="{{event.id}}" data-action="report" autocomplete="off"><span style="margin-right:5px;border-right:1px solid #fff;padding-right:5px;">{{event.report}}</span>Bạn đã báo cáo vi phạm sự kiện này</button>
+            {% endif %}
+            {% endwith %}
+            {% endif %}
+            {% endwith %}
+            </form>
+        </div>
+    </div>
+    <div class="eve-intro">
+        <div class="eve-img">
+            <img style="width:150px;height:150px;margin-left:5px;" src="{{event.image.url}}">
+        </div>
+        <div class="eve-info">
+            <p><span>Tổ chức bởi</span>
+                {% if event.user.info.profile_pic %}
+                <img style="width:30px;height:30px" src="{{event.user.info.profile_pic.url}}">{% else %}<img style="width:30px;height:30px" src="/static/web/user.jpeg">{% endif %}
+                <span style="margin-left:5px;"><a href="{% url 'pro:profile' %}?id={{event.user.id}}">{{event.user.fullname}}</a></span>
+            </p>
+            <p><span class="fa fa-map-marker"></span><span style="margin-left:3px;">{{event.address}}</span><span style="margin-left:3px;">- {{event.city_unicode}}</span><span style="margin-left:3px;">- {{event.province_unicode}}</span></p>
+            <p>
+            <p><span class="fa fa-calendar-o"></span><span class="hour" style="margin-left:5px;">{{event.time_begin.hour}}</span><span style="margin-left:3px">giờ</span><span class="minute" style="margin-left:3px;">{{event.time_begin.minute}}</span><span style="margin-left:5px;">phút</span><span class="day" style="margin-left:5px;">{{event.time_begin.day}}</span><span style="margin-left:3px">tháng</span><span class="month" style="margin-left:3px;">{{event.time_begin.month}}</span><span style="margin-left:3px;">năm</span><span class="year" style="margin-left:3px">{{event.time_begin.year}}</span></p>
+            <p><span class="fa fa-calendar-check-o"></span><span class="hour_e" style="margin-left:5px;">{{event.time_end.hour}}</span><span style="margin-left:3px">giờ</span><span class="minute_e" style="margin-left:5px;">{{event.time_end.minute}}</span><span style="margin-left:5px;">phút</span><span class="day_e" style="margin-left:5px;">{{event.time_end.day}}</span><span style="margin-left:5px">tháng</span><span class="month_e" style="margin-left:5px;">{{event.time_end.month}}</span><span style="margin-left:5px;">năm</span><span class="year_e" style="margin-left:5px">{{event.time_end.year}}</span></p>
+            <p><span class="ion ion-person-stalker"></span>
+            {% load event_extras %}
+            {% with a=event|quantity %}
+            {% if event.quantity == 0 %}
+            <span style="margin-left:5px;">{{a.len}}/<span class="ion ion-ios-infinite"></span></span>
+            {% else %}
+            <span style="margin-left:5px;">{{a.len}}/{{event.quantity}}</span>
+            {% endif %}
+            {% endwith %}
+            <span></p>
+        </div>
+    </div>
+    <div class="eve-main">
+        <p>{{event.des|linebreaksbr}}</p>
+        <p><span class="fa fa-money"></span><span style="margin-left:3px;">Lệ phí:</span>
+        {% if event.fee == 0 %}
+        <span>Miễn phí.</span>
+        {% else %}
+        <span>Có phí.</span>
+        {% endif %}
+        <p>{{event.fee_des}}</p>
+    </div>
+</div>
+{% endfor %}
+<style>
+.eve-info {
+    float : left;
+    margin-left : 10px;
+    width : -webkit-calc(100% - 160px);
+    width : -moz-calc(100% - 160px);
+    width : calc(100%-160px);
+}
+.eve-cont {
+    background-color : #fff;
+    border : 1px solid #ccc;
+    margin-bottom : 20px;
+    padding : 5px;
+}
+.eve-intro {
+    overflow : auto;
+}
+.eve-img {
+    float : left;
+    width : 150px;
+}
+.eve-main {
+    padding : 5px 10px;
+    word-break : keep-all;
+    word-wrap :break-word;
+}
+</style>

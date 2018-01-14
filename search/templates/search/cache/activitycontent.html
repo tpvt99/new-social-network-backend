@@ -1,0 +1,49 @@
+<div class="plan_cont" >
+    <div class="p_image" data-plan="{{ plan.id }}" data-load="{% url 'search:image' plan.id %}" data-isload="false">
+    </div>
+    <div class="p_cont">
+        <div class="pc_head">
+            {{ plan.name }}
+        </div>
+        <div class="pc_des">
+            {{ plan.des }}
+        </div>
+        <div class="pc_time">
+            {{ plan.time|date:'d-m-Y' }}
+            {% if plan.time_hour and plan.time_minute %}
+            vào lúc {{ plan.time|date:'H:i' }} phút
+            {% elif plan.time_hour %}
+            vào lúc {{ plan.time|date:'H' }}h
+            {% endif %}
+
+        </div>
+        <div class="pc_city">
+            {% if plan.address %}
+            {{ plan.address }}
+            {% endif %}
+            <a>{{ plan.city.name_unicode }}</a>
+        </div>
+        <div class="pc_who">
+            <div class="pc_who_img">
+                <img src="{{ plan.user.info.profile_pic.url }}" class="pc_who_imgx">
+            </div>
+            <div class="pc_who_name">
+                <a href="{% url 'pro:profile' plan.user.id %}">{{ plan.user.fullname }}</a>
+            </div>
+        </div>
+    </div>
+    <div class="p_enjoy">
+        {% if sent %}
+            {% if join %}
+                <a data-plan="{{ plan.id }}" class="pea_xx"><span class="fa fa-check"></span> <span>Đã được chấp thuận<span></a>
+            {% else %}
+                <a data-plan="{{ plan.id }}" class="pea_x"><span class="fa fa-send-o"></span> <span>Đã gửi lời mời<span></a>
+            {% endif %}
+        {% else %}
+        <a data-plan="{{ plan.id }}" class="p_e_a"><span class="fa fa-envelope-o"></span> <span>Tham gia<span></a>
+        {% endif %}
+    </div>
+</div>
+
+{% load staticfiles %}
+<script src="{% static 'search/loadimage.js' %}" type="text/javascript" async="async"></script>

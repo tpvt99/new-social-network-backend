@@ -1,0 +1,78 @@
+<div style="padding:10px;">
+    <form method="post" action="/message/ajax_create/">
+        {% csrf_token %}
+        <input type="text" name="user" id="input-user" placeholder="Tên người nhận">
+        <div class="dropdown">
+            <div class="dropdown-menu fr-div" style="display:none;">
+            </div>
+        </div>
+        <div class="ac-frlist"></div>
+        <textarea type="text" name="input-mess" id="input-mess" rows="5"></textarea>
+        <button type="submit" id="input-sub">Gửi tin nhắn</button>
+    </form>
+</div>
+<style>
+#input-user {
+    width : 500px;
+    border : 1px solid #ddd;
+    padding : 5px 10px;
+    border-radius : 3px;
+    background-color : #fff;
+    display : block;
+    margin-bottom : 20px;
+}
+#input-mess {
+    resize : none;
+    width : 500px;
+    border : 1px solid #ddd;
+    padding : 5px 10px;
+    border-radius : 3px;
+    background-color : #fff;
+    display : block;
+    margin-bottom : 20px;
+}
+#input-sub {
+    width : 150px;
+    background-color : #365679;
+    color : #fff;
+    padding : 3px 6px;
+    border : 1px solid #ccc;
+    border-radius : 3px;
+}
+</style>
+<script>
+(function() {
+    function AjaxFriend(div, key) {
+        $.ajax({
+            method : 'GET',
+            data : {'key':key},
+            url :'/act/ajax/friend/',
+            success : function(data) {
+                if(data.trim() !== '') {
+                    $(div).empty().append(data).show();
+                } else {
+                    $(div).empty().hide();
+                }
+            }
+        });
+    }
+    t = document.getElementById('input-user');
+    z = document.getElementsByClassName('fr-div')[0];
+    t.addEventListener('keyup', function() {
+        AjaxFriend(z,this.value);
+    });
+    $('.fr-div').on('click', '.fr-c', function(e) {
+        e.stopPropagation();
+        document.getElementsByName("input-fr").forEach(function(e) {
+            e.remove();
+        });
+
+        $('.ac-frlist').empty().append($(this).css({'border':'none','margin':'5px','padding':'2px 4px','border':'1px solid #eee'}));
+        $('#input-user').after($(['<input type="hidden" name="input-fr" value="',$(this)[0].dataset.f,'">'].join('')));
+        $('.fr-div').hide();
+    });
+    $(document).click(function() {
+        $('.fr-div').hide();
+    });
+})();
+</script>

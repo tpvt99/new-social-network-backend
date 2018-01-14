@@ -1,0 +1,316 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<form method="post" action="/contest/create/" class="scho-form" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="timezone" value="">
+<div class="main">
+    <div class="scho-img">
+        <label class="img-la"><span style="font-weight:normal">Ảnh chủ đề cuộc thi</span>
+            <input type="file" name="image" accept="image/*" style="display:none;" class="img-in">
+        </label>
+        <p class="err-img"></p>
+    </div>
+    <div class="scho-head">
+        <p class="head-p">Chủ đề cuộc thi</p>
+        <input type="text" name="head" placeholder="Chủ đề cuộc thi" class="input">
+        <p class="err-head"></p>
+    </div>
+    <div class="scho-des">
+        <p class="head-p des-p">Nội dung cuộc thi</p>
+        <textarea name="des" placeholder="Nội dung cuộc thi" class="textarea" rows="20" autocomplete="off" spellcheck="false"></textarea>
+        <p class="err-main"></p>
+    </div>
+    <div class="schol-type">
+        <select name="type">
+            {% include 'contest/contest_type.html' %}
+        </select>
+        <p class="err-type"></p>
+    </div>
+    <div class="scho-prov">
+        <p class="head-p place-p">Nơi tổ chức cuộc thi</p>
+        <select name="province">
+            {% include 'activity/province.html' %}
+        </select>
+        <input type="hidden" name="province_unicode" value="">
+        <p class="err-place"></p>
+    </div>
+    <div class="scho-age">
+        <p class="head-p age-p">Độ tuổi phù hợp tham gia cuộc thi</p>
+        <p>
+        <select name="age_begin">
+            <option value="">Tuổi bắt đầu</option>
+        </select>
+        <select name="age_end">
+            <option value="">Tuổi kết thúc</option>
+        </select>
+        </p>
+        <p class="err-age"></p>
+    </div>
+    <div class="c_time">
+        <p class="head-p time-p">Thời gian</p>
+        <p>
+        <span id="c_ti1">
+            <select name="year" class="c_ti_se">
+                <option value="">Năm</option>
+            </select>
+        </span >
+        <span id="c_ti2" >
+            <select name="month" class="c_ti_se">
+                <option value="">Tháng</option>
+            </select>
+        </span >
+        <span id="c_ti3" >
+            <select name="day" class="c_ti_se">
+                <option value="">Ngày</option>
+            </select>
+        </span >
+        <span id="c_ti4" >
+            <select name="hour" class="c_ti_se">
+                <option value="">Giờ</option>
+            </select>
+        </span >
+        <span id="c_ti5" >
+            <select name="minute" class="c_ti_se">
+                <option value="">Phút</option>
+            </select>
+        </span >
+        <p class="time-err"></p>
+    </div>
+    <div class="scho-privacy">
+        <p class="head-p pri-p">Quyến riêng tư</p>
+        <select name="privacy">
+            <option value="public">Công khai</option>
+            <option value="private">Riêng tư</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:100%;">Tạo cuộc thi</button>
+</div>
+</form>
+<style>
+.main {
+    margin : 0 auto;
+    background-color : #fff;
+    width : 500px;
+    padding : 5px 10px;
+    margin-bottom : 50px;
+}
+.head-p {
+    padding : 6px 10px;
+    display : inline-block;
+    background-color : red;
+    color : #fff;
+    font-size : 16px;
+    border-radius : 3px;
+}
+.des-p {
+    background-color : #1aa3ff;
+}
+.place-p {
+    background-color : #79ff4d;
+    color : #333;
+}
+.age-p {
+    background-color : #8585ad;;
+}
+.input {
+    width : 100%;
+    padding : 5px 6px;
+    background-color : #fff;
+    border : 1px solid #ccc;
+    border-radius : 5px;
+}
+.img-la {
+    padding : 5px 10px;
+    background-color : #b3d9ff;
+    cursor : pointer;
+    border-radius : 3px;
+}
+.scho-des {
+    margin-top : 20px;
+}
+.scho-prov {
+    margin-top : 20px;
+    margin-bottom : 20px;
+}
+.scho-img {
+    margin-bottom : 20px;
+}
+.scho-age {
+    margin-bottom : 20px;
+}
+.pri-p {
+    background-color: #ffad33;
+}
+.c_img_div {
+    position : relative;
+    width:100px;
+    border : 1px solid #ccc;
+}
+.c_img_div:hover {
+    opacity : 0.5;
+}
+.ld_cl {
+    position : absolute;
+    top : 10px;
+    right : 10px;
+    font-size : 20px;
+    cursor : pointer;
+    font-weight : 700;
+    color : #fff;
+}
+.textarea {
+    resize : none;
+    width : 100%;
+    padding : 5px 10px;
+    background-color : #fff;
+    border : 1px solid #ccc;
+    border-radius : 5px;
+}
+select[name="age_begin"], select[name="age_end"] {
+    width : 130px;
+    background-color : #fff;
+    border : 1px solid #aaa;
+    padding : 3px 6px;
+}
+select[name="type"],select[name="province"],select[name="privacy"] {
+    background-color : #fff;
+    border : 1px solid #aaa;
+    border-radius : 3px;
+    padding : 5px 10px;
+}
+.c_ti_se {
+    background-color : #fff;
+    border : 1px solid #aaa;
+    border-radius : 3px;
+    padding : 5px 10px;
+    min-width : 80px;
+}
+.schol-type {
+    margin-top : 10px;
+}
+.err-img,.err-head,.err-main,.err-type,.err-age,.err-place,.time-err {
+    display :none;
+    color : #a94442;
+}
+</style>
+<script>
+$('.textarea').each(function() {
+    this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+}).on('input', function() {
+    this.style.height = 'auto';
+    this.style.height = (this.scrollHeight)+'px';
+});
+function readURL(input) {
+    var $this = input;
+    input = input.get(0);
+    var pa = $this.parents('.scho-img');
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var div = $( ['<div class="c_img_div"><img src="',e.target.result,'" /></div>'].join(''));
+            div.find('img').css({'width':'100px','height':'100px'});
+            div.append( $("<span class='ld_cl'>&times;</span>").on('click', function() {
+                $this.val('');
+                pa.find('.c_img_div').remove();
+            })
+            );
+            pa.find('.c_img_div').remove();
+            pa.append(div);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$('.img-in').on('change', function() {
+    readURL($(this));
+});
+(function() {
+    var a = $('select[name="age_begin"]');
+    for(var i =6;i<=100;i++) {
+        a.append(['<option value="',i,'">',i,'</option>'].join(''));
+    }
+    var b = $('select[name="age_end"]');
+    a.on('change', function() {
+        if($(this).val()) {
+            b.empty();
+            for(var i = parseInt($(this).val());i<=100;i++) {
+        b.append(['<option value="',i,'">',i,'</option>'].join(''));
+            }
+        }
+    });
+})();
+$('.scho-form').on('submit', function() {
+    var send = true;
+    var $this = $(this);
+    if($('.input').val().trim() === '') {
+        $('.err-head').html('Xin hãy điền vào chủ đề cuôc thi').show();
+        send = false;
+    }
+    else {
+        $('.err-head').html('').hide();
+    }
+    if($('.textarea').val().trim() === '') {
+        $('.err-main').html('Xin hãy điền vào nội dung cuộc thi').show();
+        send = false;
+    }
+    else {
+        $('.err-main').html('').hide();
+    }
+    if($('select[name="type"]').val() === '') {
+        $('.err-type').html('Xin hãy chọn thễ loại cuộc thi').show();
+        send = false;
+    }
+    else {
+        $('.err-type').html('').hide();
+    }
+    if($('select[name="province"]').val() === '') {
+        $('.err-place').html('Xin hãy chọn nơi tổ chức cuộc thi').show();
+        send = false;
+    }
+    else {
+        $('.err-place').html('').hide();
+    }
+    if($('select[name="age_begin"]').val() === '') {
+        $('.err-age').html('Xin hãy chọn độ tuổi phù hợp tham gia cuộc thi').show();
+        send = false;
+    } else {
+        $('.err-age').html('').hide();
+    }
+    if($('.img-in').val() && $('.img-in')[0].name.length>0) {
+        if($('.img-in')[0].files[0].type.split('/')[0] !== 'image') {
+            $('.err-img').html('Xin hãy tải đúng định dạng file ảnh').show();
+            send = false;
+        } else {
+            $('.err-img').html('').hide();
+        }
+    } else {
+        $('.err-img').html('Xin hãy tải ảnh chủ đề cuộc thi').show();
+        send = false;
+    }
+    if($('select[name="year"]').val() && $('select[name="month"]').val() && $('select[name="day"]').val() && $('select[name="hour"]').val() && $('select[name="minute"]').val()) {
+        $('.time-err').html('').hide();
+    } else {
+        send = false;
+        $('.time-err').html('Xin hãy chọn thời gian cho cuộc thi').show();
+    }
+    return send;
+});
+function getContext(eclass) {
+    var e = document.getElementsByName(eclass)[0];
+    if(e.selectedIndex == -1) return null;
+    return e.options[e.selectedIndex].text;
+}
+$('select[name="province"]').on('change', function() {
+    $('input[name="province_unicode"]')[0].value = getContext('province');
+});
+(function() {
+    $('input[name="image"]').val('');
+    $('input[name="timezone"]')[0].value = -new Date().getTimezoneOffset()/60;
+})();
+</script>
+<script type="text/javascript" src="/static/contest/time.min.js"></script>
+{% endblock %}

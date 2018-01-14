@@ -1,0 +1,54 @@
+<div class="right-mess-div">
+    {% load message_extras %}
+    {% with fr=request.user.friend_friend_user.all %}
+        {% for i in fr %}
+        <div class="div-mess-each">
+        {% with z=request.user|message_user:i.friend %}
+            {% if i.friend.info.profile_pic %}
+            <img class="le-mess-u-img le-mess-b" src="{{i.friend.info.profile_pic.url}}" data-mess="{{i.friend.id}}" data-emberms="{{z}}" title="{{i.friend.fullname}}" data-toggle="tooltip">
+            {% else %}
+            <img class="le-mess-u-img le-mess-b" src="/static/web/user.jpeg" data-mess="{{i.friend.id}}" data-emberms="{{z}}" title="{{i.friend.fullname}}" data-toggle="tooltip">
+            {% endif %}
+        {% endwith %}
+        </div>
+        {% endfor %}
+    {% endwith %}
+</div>
+<script>
+$(document).on('click', '.le-mess-b', function() {
+    var $this = $(this);
+    var e = $this.data('emberms');
+    var x = document.querySelector("div.div-chat[data-emchat='"+e+"']");
+    if(x !== null) {
+        return;
+    }
+    $.ajax({
+        method : 'GET',
+        url : '/message/chatboxajax/',
+        data : {'id':$this.data('mess')},
+        success : function(data) {
+            $('.nav-bottom-chat').append(data);
+            x = document.querySelector("div.div-chat[data-emchat='"+e+"']");
+            $(x).find('.chat-body').empty();
+            PollRequest('first-time',$(x));
+            var z=setInterval(function() {
+                PollRequest('second',$(x))
+            }, 10000);
+            $(x).find('.chat-close')[0].dataset.ti = z;
+        }
+    });
+    function PollRequest(a,x) {
+        $.ajax({
+            method : 'GET',
+            url :'/message/ajax/getmess/',
+            data:{'type':a,'user2_id':$this.data('mess')},
+            success:function(data) {
+                if(data!== 'error') {
+                    x.find('.chat-body').append(data);
+                    x.find('.chat-body')[0].scrollTop = x.find('.chat-body')[0].scrollHeight;
+                }
+            }
+        });
+    }
+});
+</script>

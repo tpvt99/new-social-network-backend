@@ -1,0 +1,49 @@
+{% extends 'web/standardpage.html' %}
+{% block webpage %}
+{% endblock %}
+
+{% block nav-search-bar %}
+{% include 'search/nav-search-bar.html' %}
+{% endblock %}
+
+{% block nav-search-left %}
+{% include 'search/nav-search-left.html' %}
+{% endblock %}
+
+{% block nav-search-middle %}
+<div class="search-option">
+    {% include 'search/middle_scholarship.html' %}
+</div>
+<div class="search-result">
+    {% include 'scholarship/search_content.html' %}
+</div>
+<style>
+.search-option {
+    width : 100%;
+    margin-left : 10px;
+    margin-top : 10px;
+}
+.search-result {
+    width : 100%;
+    margin-top : 10px;
+}
+</style>
+<script>
+$('input[name="target"]').on('change', function() {
+    var obj = new Object();
+    obj.target = $(this).val();
+    obj.timezone = -new Date().getTimezoneOffset()/60;
+    var csrftoken = getCookie('csrftoken');
+    $.ajaxSetup({beforeSend: function(xhr, settings) {if (!csrfSafeMethod(settings.type) && !this.crossDomain) {xhr.setRequestHeader('X-CSRFToken', csrftoken);}}
+    });
+    $.ajax({
+        method : 'POST',
+        url : '/scholarship/content/',
+        data : {'data':JSON.stringify(obj)},
+        success : function(data) {
+            $('.search-result').empty().append(data);
+        }
+    });
+});
+</script>
+{% endblock %}

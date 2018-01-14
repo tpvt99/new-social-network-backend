@@ -1,0 +1,27 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<div style="width:500px">
+    <p class="pp">Mọi thắc mắc về website hoặc góp ý những ý tưởng hay cho trang này xin vui lòng liên hệ theo email <a href="#">contact@lifelead.net</a> hoặc <a href="#">mail.lifelead@gmail.com</a> nếu không gửi mail được cho email trên. Chúng tôi sẽ luôn luôn lắng nghe và phản hồi lại trong thời gian nhanh nhất<br/>
+    <a href="{% url 'web:contact' %}?ref=a">Click nếu bạn muốn hợp tác cùng mình</a></p>
+    {% if request.GET.ref == 'a' %}
+    <p class="pp">Chào các bạn đến với trang liên hệ. Hi vọng khi các bạn ghé trang web mình, các bạn cũng có hứng thú 1 chút với nó, mình nghĩ với tính năng như thế này thì vẫn rất còn hạn chế tuy nhiên mình sẽ cố gắng hoàn thiện tiếp. Lí do mình viết web này là xuất phát từ bản thân mình. Từ nhỏ đến giờ, mình luôn là 1 người rụt rè, nhút nhát, ít giao tiếp, ít tham gia hoạt động xã hội. Cho nên mình luôn muốn tìm kiếm 1 website nào đó có thể giúp mình lấy lại được những kĩ năng xã hội cần thiết và có thể giao lưu kết bạn thực tế nhiều hơn. Mục đích website này sẽ tập trung vào phát triển con người nhiều hơn so với kết nối bạn bè như các mạng xã hội khác hiện nay.<br />
+    Website này chỉ viết bởi 1 mình mình cho nên mình thực sự cần sự trợ giúp từ các bạn. Bạn nào biết về HTML/CSS/JS và Python thì xin các bạn liên hệ với mình. Mọi bạn sống tại thành phố Hồ Chí Minh luôn được chào đón.
+    </p>
+    {% endif %}
+</div>
+<div>
+    <p class="pp">Cảm ơn <a href="#">Nguyễn Đình Tú</a> sinh viên khóa K14 - Khoa Điện Điện tử trường Đại học Bách Khoa Thành phố Hồ Chí Minh đã đóng góp và phát triền ý tưởng plustag</p>
+</div>
+<style>
+.pp {
+    background-color : #fff;
+    padding : 10px;
+    border : 1px solid #ccc;
+    margin-bottom : 10px;
+}
+</style>
+{% endblock %}

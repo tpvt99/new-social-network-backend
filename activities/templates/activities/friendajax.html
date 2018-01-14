@@ -1,0 +1,12 @@
+{% if friends %}
+{% for friend in friends %}
+<div class="fr-c" data-f="{{friend.friend.id}}">
+    {% if friend.friend.info.profile_pic %}
+    <img style="width:30px;height:30px;" src="{{friend.friend.info.profile_pic.url}}">
+    {% else %}
+    <img style="width:30px;height:30x;" src="/static/web/user.jpeg">
+    {% endif %}
+    <span style="margin-left:3px;font-size:13px;">{{friend.friend.fullname}}</span>
+</div>
+{% endfor %}
+{% endif %}

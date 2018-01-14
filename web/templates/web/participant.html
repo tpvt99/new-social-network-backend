@@ -1,0 +1,37 @@
+<div class="w_p_img">
+    {% if mf.image %}
+        <img class="w_p_img1" src="{{ mf.image.url }}">
+    {% else %}
+        {% if participant == request.user %}
+            <div class="w_p_div" title="Thêm ảnh">
+                <form method="post" enctype="multipart/form-data" action="#" class="w_p_form" data-act="{{ act.id }}">
+                    {% csrf_token %}
+                    <div class="w_p_div1">
+                        {% load web_extras %}
+                        <label for="{{ 'w_p_pp'|addstr:act.id|addstr:participant.id }}" class="wpdivl"><i class="fa fa-plus-square"></i></label>
+                        <input type="file" class="wpdivi" name="wpdivi"id="{{ 'w_p_pp'|addstr:act.id|addstr:participant.id }}" accept="image/*" style="display:none;"/>
+                    </div>
+                </form>
+             </div>
+        {% else %}
+        {% load staticfiles %}
+            <img class="w_p_img1" src="{% static 'web/user.jpeg' %}">
+        {% endif %}
+    {% endif %}
+</div>
+<div class="w_p_name">
+    <a class="w_p_name_l" href="{% url 'pro:profile' %}id=?{{participant.id}}"> {{ participant.fullname }}</a>
+</div>
+<div class="w_p_rank">
+    {% if act.rank %}
+        <span class="w_vote">{{ percent }}</span> 
+        {% if is_friend %}
+            {% if been_vote %}
+            <a class="w_p_voted w_p_vote" href="javascript:void(0);" data-x="{{ act.id }}" data-y="{{ participant.id }}" title="{{ act.rank_des }}"><i class="{{ act.rank_icon_name }}"></i></a>
+            {% else %}
+            <a class="w_p_voting w_p_vote" href="javascript:void(0);" data-x="{{ act.id }}" data-y="{{ participant.id }}" title="{{ act.rank_des }}"><i class="{{ act.rank_icon_name }}"></i></a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+</div>
+

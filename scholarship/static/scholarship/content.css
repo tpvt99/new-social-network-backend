@@ -1,0 +1,51 @@
+.scholar {
+    margin : 5px 10px;
+    display : block;
+    box-sizing : border-box;
+    background-color : white;
+    border-width : 1px;
+    border-style : solid;
+    border-color : #e1e1e1;
+    border-radius : 3px;
+    padding : 5px 10px;
+    margin-bottom : 15px;
+}
+.scholar_up_img {
+    width : 35px;
+    height : 35px;
+}
+.scholar_target, .scholar_prize, .scholar_file, .scholar_time {
+    border-top : 1px solid #e1e1e1;
+    padding-top : 10px;
+    padding-bottom : 10px;
+}
+.scho_ren_t {
+    word-wrap : break-word;
+    word-break : keep-all;
+}
+.sch_a {
+    font-size : 15px;
+    color : #0f1342;
+}
+.sch_b, .sch_c, .sch_d, .sch_e {
+    font-size : 15px;
+    color : #0f1342;
+    margin-left: 9px;
+}
+.sch_c {
+    color : #ff8080;
+} 
+.sch_d {
+    color : #00e6e6;
+}
+.sch_e {
+    color : #ac39ac;
+}
+.sch_ediv {
+    margin: 5px 10px;
+}
+.sch_esp {
+    display : inline-block;
+    width : 150px;
+    text-align : center;
+}

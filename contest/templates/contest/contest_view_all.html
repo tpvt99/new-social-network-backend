@@ -1,0 +1,77 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<div id="nav-web-left" style="float:left;width:200px;">
+    {% include 'contest/nav-contest-search-left.html' %}
+</div>
+<div id="nav-web-middle" style="float:left;width:900px;margin-left:20px;">
+    {% load activity_extras %}
+    <div class="organize">
+        <p class="or-p">Cuộc thi bạn tổ chức</p>
+        {% for i in organize %}
+        <div class="or-cont">
+            <img src="{{i.image.url}}" class="or-img">
+            <div style="flex:1;-webkit-flex:1;margin-left:10px;">
+                {% with z=i.head|addslash %}
+                <p style="margin-left:10px;"><a href="{% url 'contest:contest' i.id z %}">{{i.head}}</a></p>
+                {% endwith %}
+                <p style="margin-left:10px;"><span class="ion ion-location" style="margin-right:5px;font-size:16px;"></span><span class="or-s">{{i.province_unicode}}</span></p>
+                <p style="margin-left:10px;"><span class="fa fa-calendar-check-o"></span><span class="hour" style="margin-left:3px;">{{i.time_begin.hour}}</span><span style="margin-left:3px;margin-right:3px;">giờ</span><span class="minute">{{i.time_begin.minute}}</span><span style="margin-left:3px">phút</span> - <span class="day">{{i.time_begin.day}}</span><span style="margin-left:3px;margin-right:3px;">tháng</span><span class="month">{{i.time_begin.month}}</span><span style="margin-left:3px;margin-right:3px;">năm</span><span class="year">{{i.time_begin.year}}</span></p>
+                <p style="margin-left:10px;">
+                {% with a=i.contest_contestfollow_contest.all|length %}
+                <span class="ion ion-person-stalker" style="margin-right:5px;"></span><span class="se-j">{{a}}</span><span style="margin-left:5px;">người tham gia</span>
+                {% endwith %}
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="organize">
+        <p class="or-p">Cuộc thi bạn quan tâm</p>
+        {% for i in join %}
+        <div class="or-cont">
+            <img src="{{i.image.url}}" class="or-img">
+            <div style="flex:1;-webkit-flex:1;margin-left:10px;">
+                {% with z=i.head|addslash %}
+                <p style="margin-left:10px;"><a href="{% url 'contest:contest' i.id z %}">{{i.head}}</a></p>
+                {% endwith %}
+                <p style="margin-left:10px;"><span class="ion ion-location" style="margin-right:5px;font-size:16px;"></span><span class="or-s">{{i.province_unicode}}</span></p>
+                <p style="margin-left:10px;"><span class="fa fa-calendar-check-o"></span><span class="hour" style="margin-left:3px;">{{i.time_begin.hour}}</span><span style="margin-left:3px;margin-right:3px;">giờ</span><span class="minute">{{i.time_begin.minute}}</span><span style="margin-left:3px">phút</span> - <span class="day">{{i.time_begin.day}}</span><span style="margin-left:3px;margin-right:3px;">tháng</span><span class="month">{{i.time_begin.month}}</span><span style="margin-left:3px;margin-right:3px;">năm</span><span class="year">{{i.time_begin.year}}</span></p>
+                <p style="margin-left:10px;">
+                {% with a=i.contest_contestfollow_contest.all|length %}
+                <span class="ion ion-person-stalker" style="margin-right:5px;"></span><span class="se-j">{{a}}</span><span style="margin-left:5px;">người tham gia</span>
+                {% endwith %}
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<style>
+.organize {
+    margin-left : 20px;
+    background-color : #fff;
+    padding : 10px;
+    margin-top : 20px;
+    border : 1px solid #ccc;
+}
+.or-cont {
+    display : -webkit-flex;
+    display : flex;
+    flex-flow : row, nowrap;
+    -webkit-justify-content : flex-start;
+    justify-content : flex-start;
+    margin : 10px 0px;
+}
+.or-p {
+    font-size : 16px;
+}
+.or-img {
+    width : 100px;
+    height : 100px;
+}
+</style>
+{% endblock %}

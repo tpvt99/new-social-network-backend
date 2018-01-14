@@ -1,0 +1,143 @@
+<div>
+    <p class="tr0p">Tạo phẩm chất tốt cho bạn bè</p>
+    <ul class="tr1p">
+        <li>Con người luôn muốn mình được ghi nhận khi mình thực hiện 1 việc tốt dù đó chỉ là nhỏ nhất.</li>
+        <li>Khuyến khích bạn bè sẽ làm họ cảm thấy vui vẻ, hạnh phúc, tràn đầy năng lượng, sức sống.</li>
+    </ul>
+    <form method="post" enctype="multipart/form-data" class="tr-form" action="/trait/create/">
+        {% csrf_token %}
+        <select name="trait_type">
+            <option value="">Phẩm chất</option>
+            <option value="accessible">Ôn hòa</option>
+            <option value="fun">Vui tính</option>
+            <option value="kind">Tốt bụng</option>
+            <option value="active">Năng động</option>
+            <option value="benevolent">Nhân từ</option>
+            <option value="calm">Điềm tĩnh</option>
+            <option value="caring">Quan tâm</option>
+            <option value="compassionate">Lòng trắc ẩn</option>
+            <option value="conciliatory">Hòa giải</option>
+            <option value="decisive">Quyết đoán</option>
+            <option value="fair">Công bằng</option>
+            <option value="forgiving">Khoan dung</option>
+            <option value="humorous">Hài hước</option>
+            <option value="optimistic">Lạc quan</option>
+            <option value="painstaking">Siêng năng</option>
+            <option value="patient">Kiên nhẫn</option>
+        </select>
+        <p class="tr2p-hint">Nếu bạn không thấy 1 phẩm chất cần thiết để trao tặng trong danh sách, xin <a href="{% url 'web:contact' %}">liên hệ</a> với chúng tôi. Chúng tôi sẽ cố gắng cập nhật nhanh nhất có thể.</p>
+        <div class="ac-friend-t">
+            <input type="text" class="ac-frin-t ain" autocomplete="false" value="" placeholder="Tên bạn bè">
+            <div style="display:none;" class="hiddenin-t">
+            </div>
+            <div class="dropdown">
+                <div class="dropdown-menu fr-div-t" style="display:none;">
+                </div>
+            </div>
+            <div class="ac-frlist-t" style="margin-left:20px;">
+            </div>
+        </div>
+        <textarea name="trait-des" class="trait-des" rows="4" placeholder="Lí do bạn muống tặng phẩm chất cho người này?" name="trait-des"></textarea>
+        <p style="font-size:13px;margin:2px 10px;">Chúng tôi chỉ cho phép tạo phẩm chất khi có ảnh chứng minh người này xứng đáng nhận được phẩm chất đó</p>
+        <label style="font-weight:400;display:block;margin:3px 10px;">Ảnh người bạn tặng phẩm chất</span>
+            <input type="file" name="file" accept="image/*"></label>
+        <button type="submit" class="btn btn-primary" style="width:100px;margin:10px 20px;">Tạo</button>
+    </form>
+</div>
+<style>
+.tr0p {
+    font-size : 14px;
+    text-align : center;
+    margin-top : 10px;
+}
+.tr1p {
+    font-size : 14px;
+    padding : 10px 20px;
+}
+.tr2p-hint {
+    font-size : 13px;
+    padding : 10px 20px;
+}
+select[name="trait_type"] {
+    display : block;
+    background-color : #fff;
+    border : 1px solid #ccc;
+    border-radius : 5px;
+    margin : 0px 20px;
+    padding : 5px;
+}
+.trait-des {
+    border : 1px solid #ccc;
+    border-radius : 5px;
+    display : block;
+    resize : none;
+    width : 80%;
+    margin : 20px;
+    padding : 5px 10px;
+}
+.ac-frin-t {
+    padding : 5px 10px;
+    width : 200px;
+    border : 1px solid #ccc;
+    border-radius : 5px;
+    margin : 5px 20px;
+}
+</style>
+<script>
+$('.tr-form').on('submit', function() {
+    var $this=$(this);
+    console.log($this.find('.trait-des').val());
+    if($this.find('.trait-des').val().trim() === '' || $this.find('.hiddenin-t').find('input[name="hiddenfr-t"]').val() === undefined || $this.find('select[name="trait_type"]').val().trim() === '') {
+        alert('Xin điền hết 3 mục trên');
+    }
+});
+var re = [];
+function AjaxFriend(x, key, except) {
+    var t = $.ajax({
+            method : 'GET',
+            data: {'key':key, 'except':JSON.stringify(except)},
+            url : '/act/ajax/friend/',
+            success : function(data) {
+                if(data.trim() !== ''){
+                    x.empty().append(data).show();
+                }else {
+                    x.empty().hide();
+                }
+                re = [];
+            }
+        });
+    re.push(t);
+}
+$('.ac-frin-t').on('keyup', function() {
+    var $this = $(this);
+    var key = $this.val();
+    var x = $this.parents('.ac-friend-t').find('.fr-div-t');
+    $this.attr('value',key);
+    if (key) {
+        for(var i =0;i<re.length;i++) {
+            re[i].abort();
+        }
+        except = []
+        $('.hiddenin-t').find('input[type="hidden"]').each(function() {
+            except.push($(this).val());
+        });
+        x.empty().append("<p style='text-align:center;'><span class='fa fa-circle-o-notch fa-spin fa-fw'></span></p>").show();
+        AjaxFriend(x, key, except);
+    } else {
+        for(var i =0;i<re.length;i++) {
+            re[i].abort();
+        }
+        x.empty().hide();
+        re = [];
+    }
+});
+$('.fr-div-t').on('click', '.fr-c', function(e) {
+    e.stopPropagation();
+    $('.ac-frlist-t').empty().append($(this).css({'border':'none','display':'inline-block','margin':'5px','padding':'2px 4px','border':'1px solid #e1e1e1'}));
+    if(!$('.fr-div-t').find('.fr-c')[0]) $('.fr-div-t').hide();
+    $('.hiddenin-t').empty().append($(['<input type="hidden" name="hiddenfr-t" value="',$(this)[0].dataset.f,'">'].join('')));
+});
+$(document).click(function() {
+    $('.fr-div-t').hide();
+});
+</script>

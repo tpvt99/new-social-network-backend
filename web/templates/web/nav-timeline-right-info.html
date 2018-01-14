@@ -1,0 +1,47 @@
+{% spaceless %}
+{% load friend_extras %}
+<div>
+    <div class="div-right-a">
+    </div>
+    <div class="div-right-a div-right-aa">
+        <div>
+            <p>Khích lệ bạn bè phát triển</p>
+            <p><a href="javascript:void(0);" class="ri-g-b">Tặng bạn bè phẩm chất tốt</a></p>
+        </div>
+    </div>
+    <div class="div-right-a div-right-ab">
+        <div>
+            <p><a href="{% url 'group:groups' %}">Tạo và tham gia nhóm</a></p>
+        </div>
+    </div>
+    <div class="div-right-contact">
+        <span>
+            <span>Lifelead</span>
+            <span>&#169;</span>
+            <span>2017</span>
+        </span>
+        <span style="margin-left:10px;">
+            <a href="{% url 'web:contact' %}">Liên hệ</a>
+        </span>
+    </div>
+</div>
+{% endspaceless %}
+<script>
+function AddTrait() {
+    $('.modal').find('.modal-content').empty().append('<p style="padding:10px 20px;text-align:center;"><span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span><p>');
+    $('.modal').modal({
+        keyborad : false,
+        show : true,
+    });
+    $.ajax({
+        method:'GET',
+        url:'/trait/add/',
+        success:function(data) {
+            $('.modal').find('.modal-content').empty().append(data);
+        }
+    });
+}
+$('.ri-g-b').on('click', function() {
+    AddTrait();
+});
+</script>

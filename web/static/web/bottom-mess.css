@@ -1,0 +1,13 @@
+.le-mess-u-img {
+    width : 30px;
+    height : 30px;
+    border-radius : 50%;
+    margin : 0px 3px;
+    cursor : pointer;
+}
+.right-mess-div {
+    flex-flow : row nowrap;
+    justify-content : flex-end;
+    align-items : center;
+    height : 30px;
+}

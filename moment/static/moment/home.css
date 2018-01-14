@@ -1,0 +1,38 @@
+.global-main form{
+    width : 500px;
+    margin : 10px auto;
+    position : relative;
+}
+.global-main form input[type="text"] {
+    width : 100%;
+    border-radius : 100px;
+    background-color : #3889bd;
+    color : #fff;
+    min-height : 30px;
+}
+.global-main form div{
+    position : absolute;
+    right : 10px;
+    top : 6px;
+    color : #fff;
+}
+
+input[type="file"] {
+    display : none;
+}
+input[type="text"] {
+    width : 300px;
+    border : 1px solid #aaa;
+    padding : 5px 10px;
+    margin-left : 5px;
+    border-radius : 5px;
+    padding-right : 50px;
+}
+.btn-submit {
+    color : #fff;
+    background-color : transparent;
+    border : none;
+    margin-left : 10px;
+}
+.global-image {
+}

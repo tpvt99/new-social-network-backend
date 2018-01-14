@@ -1,0 +1,54 @@
+<form method="post" action="/group/edit/" enctype="multipart/form-data" class="picf">
+    {% csrf_token %}
+    <input type="hidden" name="group" value="{{group.id}}">
+    <input type="hidden" name="which" value="background">
+    <p>Thay đổi ảnh đại diện của nhóm</p>
+    <input type="file" accept="image/*" name="image" class="prp">
+    <div class="pf-image"></div>
+    <button type="submit" class="btn btn-sm btn-primary" style="margin-top:20px;width:100px;">Cập nhật</button>
+</form>
+<style>
+.picf {
+    padding : 20px;
+}
+.c_img_div {
+    position : relative;
+}
+.cimg {
+    z-index : -1;
+}
+.c_img_div:hover {
+    opacity : 0.4;
+}
+.ld_cl {
+    z-index : 10;
+    position : absolute;
+    font-weight : bold;
+    color : #111;
+    top : 5px;
+    right : 5px;
+}
+</style>
+<script>
+$('.prp').on('change', function() {
+    input = $(this);
+    var $this = input;
+    input = input.get(0);
+    var pa = $('.pf-image');
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var div = $( ['<div class="c_img_div"><img src="',e.target.result,'" class="cimg" /></div>'].join(''));
+            div.find('img').css({'width':'100px','height':'100px'});
+            div.append( $("<span class='ld_cl'>&times;</span>").on('click', function() {
+                $this.val('');
+                pa.find('.c_img_div').remove();
+            })
+            );
+            pa.find('.c_img_div').remove();
+            pa.append(div);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+});
+</script>

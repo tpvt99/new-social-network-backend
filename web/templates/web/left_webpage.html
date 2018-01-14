@@ -1,0 +1,81 @@
+{% spaceless %}
+<div class="left-div">
+    <div class="left-div-child">
+        <p class="p-main">Dòng thời gian</p>
+        <p class="p-child p-active t-friend">
+            <span class="ion-person-stalker"></span>
+            <a href="{% url 'web:webpage' %}?ref=friend">Bạn bè</a>
+        </p>
+        <p class="p-child t-work">
+            <span class="ion-briefcase"></span>
+            <a href="{% url 'web:webpage' %}?ref=work">Công việc</a>
+        </p>
+        <p class="p-child t-entertainment">
+            <span class="ion-aperture"></span>
+            <a href="{% url 'web:webpage' %}?ref=entertainment">Giải trí</a>
+        </p>
+    </div>
+    <div class="left-div-child">
+        <p class="p-main">Nhóm</p>
+        {% for i in group %}
+        <p class="p-child flex-grid l-group">
+        {% if i.group_groupinfo_group.image %}
+        <span><img src="{{i.group_groupinfo_group.image.url}}"></span>
+        {% else %}
+        <span><img src="/static/group/group.jpg"></span>
+        {% endif %}
+        <a href="{% url 'group:group' i.id %}" class="a-text"><span>{{i.name}}</span></a>
+        </p>
+        {% endfor %}
+        <p class="p-child">
+            <span class="ion-android-add-circle"></span>
+            <a href="{% url 'group:groups' %}">Tạo nhóm</a>
+        </p>
+    </div>
+    
+    <div class="left-div-child">
+        <p class="p-main">Khám phá</p>
+        <p class="p-child">
+            <span class="ion-ios-color-filter-outline"></span>
+            <a href="{% url 'activity:activityall' %}">Hoạt động</a>
+        </p>
+        <p class="p-child">
+            <span class="ion-star"></span>
+            <a href="{% url 'event:eventall' %}">Sự kiện</a>
+        </p>
+        <p class="p-child">
+            <span class="ion-fireball"></span>
+            <a href="{% url 'contest:contestall' %}">Cuộc thi</a>
+        </p>
+    </div>
+    <div class="left-div-child">
+        <p class="p-main">Phát triển bản thân</p>
+        <p class="p-child ri-g-b">
+            <span class="fa fa-sun-o left-icon"></span>
+            <a href="javascript:void(0);">Phẩm chất</a>
+        </p>
+    </div>
+    <div class="left-div-child">
+        <p class="p-child"><a href="{% url 'web:contact' %}">Liên hệ/Góp ý</a></p>
+    </div>
+</div>
+{% endspaceless %}
+<script>
+function AddTrait() {
+    $('.modal').find('.modal-content').empty().append('<p style="padding:10px 20px;text-align:center;"><span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span><p>');
+    $('.modal').modal({
+        keyborad : false,
+        show : true,
+    });
+    $.ajax({
+        method:'GET',
+        url:'/trait/add/',
+        success:function(data) {
+            $('.modal').find('.modal-content').empty().append(data);
+        }
+    });
+}
+$('.ri-g-b').on('click', function() {
+    AddTrait();
+});
+</script>

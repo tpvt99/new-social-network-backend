@@ -1,0 +1,37 @@
+<link rel="stylesheet" type="text/css" href="/static/scholarship/content.css">
+{% for scholarship in scholarships %}
+<div class="scholar">
+    {% if scholarship.user %}
+    <div class="scholar_up">
+        <p>{{ forloop.counter }}. 
+        <span class="sch_a">Học bổng được trao bởi</span> 
+        <img class="scholar_up_img" src="{{ scholarship.user.info.profile_pic.url }}">
+        <span> <a href="{% url 'pro:profile' %}?id={{scholarship.user.id}}">{{ scholarship.user.fullname }}</a></p>
+    </div>
+    {% endif %}
+    <div class="scholar_target">
+        <span class="sch_b">* Đối tượng và chính sách ưu tiên</span>
+        <div class="scho_ren_t">{{ scholarship.target_des }}</div>
+    </div>
+    <div class="scholar_prize">
+        <p class="sch_c">* Giá trị học bổng</p>
+        <div class="scho_ren_t">{{ scholarship.prize }}</div>
+    </div>
+    <div class="scholar_file">
+        <p class="sch_d">* Hồ sơ học bổng</p>
+        <div class="scho_ren_t">{{ scholarship.content|linebreaksbr|urlize }}</div>
+    </div>
+    <div class="scholar_time">
+        <p class="sch_e">* Thời gian</p>
+        <div class="sch_ediv">
+            <p>
+            <span class="sch_esp">Thời gian nộp hồ sơ</span>
+            <span class="hour" style="margin-left:5px;">{{scholarship.time_begin.hour}}</span><span style="margin-left:3px">giờ</span><span class="minute" style="margin-left:3px;">{{scholarship.time_begin.minute}}</span><span style="margin-left:5px;">phút</span><span class="day" style="margin-left:5px;">{{scholarship.time_begin.day}}</span><span style="margin-left:3px">tháng</span><span class="month" style="margin-left:3px;">{{scholarship.time_begin.month}}</span><span style="margin-left:3px;">năm</span><span class="year" style="margin-left:3px">{{scholarship.time_begin.year}}</span></p>
+
+            <p>
+            <span class="sch_esp">Thời hạn kết thúc</span>
+            <span class="hour_e" style="margin-left:5px;">{{scholarship.time_end.hour}}</span><span style="margin-left:3px">giờ</span><span class="minute_e" style="margin-left:5px;">{{scholarship.time_end.minute}}</span><span style="margin-left:5px;">phút</span><span class="day_e" style="margin-left:5px;">{{scholarship.time_end.day}}</span><span style="margin-left:5px">tháng</span><span class="month_e" style="margin-left:5px;">{{scholarship.time_end.month}}</span><span style="margin-left:5px;">năm</span><span class="year_e" style="margin-left:5px">{{scholarship.time_end.year}}</span></p>
+        </div>
+    </div>
+</div>
+{% endfor %}

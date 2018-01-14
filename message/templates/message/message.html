@@ -1,0 +1,54 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<div class="user_message">
+    <div>
+        <p>
+        <span class="mess-create"><a href="#">Soạn tin nhắn</a></span>
+        </p>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" rol="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<style>
+.user_message {
+    width : 300px;
+    position : fixed;
+    top : 50px;
+    left : 30px;
+    bottom : 0px;
+    height : 100%;
+    border : 1px solid #eee;
+}
+</style>
+<script>
+(function() {
+    
+    t = document.getElementsByClassName('mess-create')[0];
+    t.addEventListener('click', function() {
+        Mess();
+    });
+    function Mess() {
+        $('.modal').find('.modal-content').empty().append('<p style="padding: 10px 20px;text-align:center;"><span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span></p>');
+        $('.modal').modal({
+            keyborad : false,
+            show : true,
+        });
+        $.ajax({
+            method : 'GET',
+            url : '/message/ajax_create/',
+            success : function(data) {
+                $('.modal').find('.modal-content').empty().append(data);
+            }
+        });
+    }
+})();
+</script>
+{% endblock %}

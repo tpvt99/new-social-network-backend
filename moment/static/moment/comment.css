@@ -1,0 +1,12 @@
+.moment-co-index {
+    display : inline-flex;
+    padding: 10px 10px;
+    width : 100%;
+}
+.sh-text {
+    word-wrap : break-word;
+    word-break : keep-all;
+}
+.flex-item1 {
+    min-width : 0;
+}

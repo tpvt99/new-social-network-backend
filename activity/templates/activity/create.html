@@ -1,0 +1,51 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<div class="middle1">
+    <h4>Chọn thể loại hoạt động bạn muốn tạo</h4>
+</div>
+<div class="middle2">
+    <div class="m1 sp1">
+        {% load staticfiles %}
+        <img src="{% static 'activity/create/sport.jpeg' %}" class="m_img">
+            <p id="sp1">Thể thao</p>
+    </div>
+    <div class="m1 es1">
+        <img src="{% static 'activity/create/esport.jpeg' %}" class="m_img">
+        <p id="es1">Esport</p>
+    </div>
+    <div class="m1 vl1">
+        <img src="{% static 'activity/create/volunteer.jpeg' %}" class="m_img">
+        <p id="vl1">Tình nguyện</p>
+    </div>
+    <div class="m1 bp1">
+        <img src="{% static 'activity/create/backpacking.jpg' %}" class="m_img">
+        <p id="bp1">Đi phượt</p>
+    </div>
+    <div class="m1 ca1">
+        <img src="{% static 'activity/create/camping.jpeg' %}" class="m_img">
+        <p id="ca1">Cắm trại</p>
+    </div>
+    <div class="m1 si1">
+        <img src="{% static 'activity/create/sing.jpg' %}" class="m_img">
+        <p id="si1">Ca hát</p>
+    </div>
+    <div class="m1 en1">
+        <img src="{% static 'activity/create/entertainment.jpeg' %}" class="m_img">
+        <p id="en1">Vui chơi giả trí</p>
+    </div>
+    <div class="m1 cl1">
+        <img src="{% static 'activity/create/club.jpeg' %}" class="m_img">
+        <p id="cl1">Câu lạc bộ</p>
+    </div>
+    <div class="m1 ex1">
+        <img src="{% static 'activity/create/exchange.jpeg' %}" class="m_img">
+        <p id="ex1">Giao lưu học hỏi</p>
+    </div>
+</div>
+<link rel="stylesheet" type="text/css" href="/static/activity/create.css" />
+<script src="/static/activity/create.js" async="true"></script>
+{% endblock %}

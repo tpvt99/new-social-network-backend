@@ -1,0 +1,84 @@
+{% extends 'web/standardpagenew.html' %}
+
+{% block main-html %}
+{% spaceless %}
+<div class="global-timeline clearfix">
+    <div class="left-timeline">
+        <div class="sticky-div">
+            {% include 'web/nav-timeline-left.html' %}
+        </div>
+    </div>
+    <div class="middle-timeline">
+        <div>
+            {% include 'web/nav-timeline-middle.html' %}
+        </div>
+    </div>
+    <div class="right-info">
+        <div>
+            {% include 'web/nav-timeline-right-info.html' %}
+        </div>
+    </div>
+    <div class="right-message">
+        <div class="right-mess">
+            {% include 'web/right-mess.html' %}
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+{% endspaceless %}
+<script>
+/*$(document).ready(function() {
+    $('.sticky-div').stick_in_parent(
+        {'offset_top':'50',
+        'parent':'.global-timeline'}
+    );
+    $('.sticky-div').on('sticky_kit:bottom' ,function(e) {
+        $(this).parent().css('position','static');
+    }).on('sticky_kit:unbottom', function(e) {
+        $(this).parent().css('position','relative');
+    });
+});*/
+$('.head-vi-active').removeClass('head-vi-active');
+$('a[data-a="2"]').addClass('head-vi-active');
+(function() {
+    var ref = getParameterByName('ref');
+    if (ref === 'friend' || ref === '') {
+        $('p.p-child').removeClass('p-active');
+        $('p.t-friend').addClass('p-active');
+    } else if(ref === 'work') {
+        $('p.p-child').removeClass('p-active');
+        $('p.t-work').addClass('p-active');
+    } else if(ref === 'entertainment') {
+        $('p.p-child').removeClass('p-active');
+        $('p.t-entertainment').addClass('p-active');
+    }
+}());
+</script>
+
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="/static/web/nav-webpagenew.css">
+<link rel="stylesheet" type="text/css" href="/static/web/nav-timeline-left.css">
+<link rel="stylesheet" type="text/css" href="/static/status/statusnew.css">
+<link rel="stylesheet" type="text/css" href="/static/web/actpostnew.css">
+<link rel="stylesheet" type="text/css" href="/static/web/nav-timeline-right-info.css">
+<link rel="stylesheet" type="text/css" href="/static/web/right-mess.css">
+<link rel="stylesheet" type="text/css" href="/static/message/mess-chat-ajax.css">
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/static/status/status_votenew.js"></script>
+<script type="text/javascript" src="/static/status/status_commentnew.js"></script>
+<script type="text/javascript" src="/static/web/actpost_privacy.js"></script>
+<script type="text/javascript" src="/static/web/actpost_image.js"></script>
+<script type="text/javascript" src="/static/web/actpost_submit.js"></script>
+<script type="text/javascript" src="/static/web/actpost_friend.js"></script>
+<script type="text/javascript" src="/static/message/handle_mess.js"></script>
+{% endblock %}

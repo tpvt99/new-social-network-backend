@@ -1,0 +1,135 @@
+{% if user %}
+<p class="s-head">Người dùng</p>
+{% for i in user %}
+<a class="s-head-div" href="{% url 'pro:profile' %}?id={{i.id}}">
+    <div class="s-image">
+        {% if i.info.profile_pic %}
+        <img class="s-image-child" src="{{i.info.profile_pic.url}}">
+        {% else %}
+        <img class="s-image-child" src="/static/web/user.jpeg">
+        {% endif %}
+    </div>
+    <div class="s-info" >
+        <p class="s-info-user-name se-de1">{{i.fullname}}</p>
+        {% if i.user_liveplace_user.all %}
+            {% with z=i.user_liveplace_user.all|first %}
+            {% if z.privacy == 'public' %}
+            <p class="s-info-user-place se-de2"><span>Sống tại</span><span style="margin-left:3px;">{{z.place}}</span></p>
+            {% endif %}
+            {% endwith %}
+        {% else %}
+            {% with z=i.user_bornplace_user.all|first %}
+            {% if z.privacy == 'public' %}
+            <p class="s-info-user-place se-de2"><span>Sinh tại</span><span style="margin-left:3px;">{{z.place}}</span></p>
+            {% endif %}
+            {% endwith %}
+        {% endif %}
+    </div>
+</a>
+{% endfor %}
+{% endif %}
+{% if activity %}
+<p class="s-head">Hoạt động</p>
+{% for i in activity %}
+{% load activity_extras %}
+{% with z=i.head|addslash %}
+<a class="s-head-div" href="{% url 'activity:activity' i.id z %}">
+{% endwith %}
+    <div class="s-image">
+        <img class="s-image-child" src="{{i.image.url}}">
+    </div>
+    <div class="s-info">
+        <p class="s-info-act-head se-de1">{{i.head}}</p>
+        <p class="s-info-act-place se-de2"><span><span>Tổ chức tại</span><span style="margin-left:3px;">{{i.address}},</span><span style="margin-left:3px;">{{i.city}},</span><span style="margin-left:3px;">{{i.province_unicode}}</span></span></p>
+        <p class="s-info-i-place se-de2"><span>Vào ngày</span><span class="day" style="margin-left:3px;">{{i.time_begin.day}}</span><span style="margin-left:3px;">tháng</span><span class="month" style="margin-left:3px;">{{i.time_begin.month}}</span><span style="margin-left:3px;">năm</span><span class="year" style="margin-left:3px;">{{i.time_begin.year}}</span><span style="margin-left:3px;">lúc</span><span class="hour" style="margin-left:3px;">{{i.time_begin.hour}}</span><span style="margin-left:3px;">giờ</span><span class="minute" style="margin-left:3px;">{{i.time_begin.minute}}</span><span style="margin-left:3px">phút</span></p>
+    </div>
+</a>
+{% endfor %}
+{% endif %}
+{% if event %}
+<p class="s-head">Sự kiện</p>
+{% for i in event %}
+{% with z=i.head|addslash %}
+<a class="s-head-div" href="{% url 'event:event' i.id z %}">
+{% endwith %}
+    <div class="s-image">
+        <img class="s-image-child" src="{{i.image.url}}">
+    </div>
+    <div class="s-info">
+        <p class="s-info-event-head se-de1">{{i.head}}</p>
+        <p class="s-info-event-place se-de2"><span><span>Tổ chức tại</span><span style="margin-left:3px;">{{i.address}},</span><span style="margin-left:3px;">{{i.city}},</span><span style="margin-left:3px;">{{i.province_unicode}}</span></span></p>
+        <p class="s-info-i-place se-de2"><span>Vào ngày</span><span class="day" style="margin-left:3px;">{{i.time_begin.day}}</span><span style="margin-left:3px;">tháng</span><span class="month" style="margin-left:3px;">{{i.time_begin.month}}</span><span style="margin-left:3px;">năm</span><span class="year" style="margin-left:3px;">{{i.time_begin.year}}</span><span style="margin-left:3px;">lúc</span><span class="hour" style="margin-left:3px;">{{i.time_begin.hour}}</span><span style="margin-left:3px;">giờ</span><span class="minute" style="margin-left:3px;">{{i.time_begin.minute}}</span><span style="margin-left:3px">phút</span></p>
+    </div>
+</a>
+{% endfor %}
+{% endif %}
+<p class="se-more"><span>Tìm kiếm thêm cho kết quả</span><span style="margin-left:3px;color:#337ab7">{{key}}</span></p>
+<style>
+.s-head {
+    padding : 5px 10px;
+    font-weight : 600;
+    font-size : 13px;
+    color : #777;
+    margin : 0px;
+}
+.s-head-div {
+    cursor : pointer;
+    overflow : auto;
+    display : block;
+    color : #333;
+}
+.s-head-div:hover {
+    background-color : #1daaff;
+}
+.s-image {
+    width : 60px;
+    height : 60px;
+    padding : 5px;
+    float : left;
+}
+.s-info {
+    padding : 5px;
+    float : left;
+    height : 60px;
+    width : calc(100%-60px);
+    width : calc(100% - 60px);
+    width : -webkit-calc(100%-60px);
+    width : -moz-calc(100%-60px);
+}
+.s-image-child {
+    width : 50px;
+    height : 50px;
+    border : 1px solid #ccc;
+    border-radius : 3px;
+}
+.se-de1, .se-de2 {
+    margin : 0;
+}
+.se-de2 {
+    font-size : 11px;
+    overflow : hidden;
+    text-overflow : ellipsis;
+    white-space : nowrap;
+    word-wrap : break-word;
+}
+.se-de1 {
+    overflow : hidden;
+    text-overflow : ellipsis;
+    white-space : nowrap;
+    word-wrap : break-word;
+}
+.se-more {
+    text-align : center;
+    cursor : pointer;
+    border-top : 1px solid #ccc;
+    margin : 0;
+    padding-top : 10px;
+    padding-bottom: 10px;
+}
+.se-more:hover {
+    background-color : #1daaff;
+}
+</style>
+<script>
+function RenDay(a, tz) {a.each(function() {var hour=$(this).find('.hour');var day=$(this).find('.day');var month=$(this).find('.month');var year=$(this).find('.year');var t = new Date(Date.UTC(parseInt(year.text()),parseInt(month.text())-1,parseInt(day.text()),parseInt(hour.text())));t.setHours(t.getHours()+tz);hour.text(t.getUTCHours());day.text(t.getUTCDate());month.text(t.getUTCMonth()+1);year.text(t.getUTCFullYear());});}(function() {var tz = -new Date().getTimezoneOffset()/60;RenDay($('.se-de2'),tz)})();
+</script>

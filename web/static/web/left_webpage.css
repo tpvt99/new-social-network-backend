@@ -1,0 +1,77 @@
+.left-div-child {
+    margin : 20px 0px;
+    margin-bottom : 0px;
+    padding-bottom : 20px;
+    border-bottom : 1px solid #ddd;
+    color : #666;
+}
+.left-div-child:first-of-type {
+    margin-top : 0px;
+}
+.left-div-child:last-of-type {
+    border-bottom : none;
+}
+.left-div-child p{
+    margin : 10px;
+}
+.left-div-child p:last-of-type {
+    margin-bottom : 0px;
+}
+.left-div {
+    padding : 0 5%;
+}
+.p-main {
+    color : #2980b9;
+    text-transform : uppercase;
+    font-size : 13px;
+}
+.p-child span {
+    width : 30px;
+    font-size : 15px;
+    display : inline-block;
+    text-align : center;
+}
+.p-child a:link,
+.p-child a:visited {
+    text-decoration : none;
+    color : #666;
+    font-size : 13px;
+    margin-left : 5px;
+}
+.p-child a:hover,
+.p-child a:active {
+    color : #e74c3c;
+}
+.p-active {
+    color : #2ecc71;
+    background-color : #ddd;
+    padding : 5px 0px;
+}
+.p-active a:link,
+.p-active a:visited{
+    color : #2ecc71;
+}
+.p-child img {
+    width : 20px;
+    height : 20px;
+    background-color : #555;
+    border-radius : 50%;
+}
+.p-child a.a-text {
+    text-overflow : ellipsis;
+    overflow : hidden;
+    white-space : nowrap;
+    max-width : 120px;
+    word-wrap : break-word;
+    display : inline-block;
+}
+a.a-text span {
+    white-space : nowrap;
+    word-wrap : break-word;
+    font-size : 13px;
+    width : inherit;
+    display : inline;
+}
+.l-group {
+    align-items : center;
+}

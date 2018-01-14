@@ -1,0 +1,8 @@
+<div class="who-comm">{% if comment.is_anonymous %}<p style="color:#fff;background-color:#32373a;display:inline-block;padding:3px 3px;">Ẩn danh</p><p class="w-c-i">{{comment.des}}</p>{% else %}<p>
+    <a href="{% url 'pro:profile' %}?id={{comment.user.id}}">
+        {% if comment.user.info.profile_pic %}
+        <img src="{{ comment.user.info.profile_pic.url }}" style="width:20px;height:20px;display:inline-block">
+        {% else %}
+        <img src="/static/web/user.jpeg" style="width:20px;height:20px;display:inline-block">
+        {% endif %}
+        <span style="margin-left:5px;">{{comment.user.fullname}}</span></a></p><p class="w-c-i">{{comment.des}}</p>{% endif %}</div>

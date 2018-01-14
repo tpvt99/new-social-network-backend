@@ -1,0 +1,188 @@
+<form method="post" class="s-form" action="/activity/search/">
+    {% csrf_token %}
+    <input type="hidden" name="type" value="{{request.GET.type}}">
+    <input type="hidden" name="timezone" value="">
+<div class="m_op1">
+    <div class="m_op_a">
+        <span class="fa fa-search m_op_a_l"></span>
+        <input type="search" name="m_op_head" class="m_op_head" id="m_op_head" autocomplete="off" placeholder="Tên chủ đề..." style="width:200px;">
+    </div>
+</div>
+<div class="m_op_h">
+    <div class="m_op_b">
+        {% with a=request.GET.type %}
+        {% if a == 'sport' %}
+        <select name="m_op_which">
+            {% include 'activity/sport_type.html' %}
+        </select>
+        {% elif a == 'esport' %}
+        <select name="m_op_which">
+            {% include 'activity/esport_type.html' %}
+        </select>
+        {% elif a == 'sing' %}
+        <select name="m_op_which">
+            {% include 'activity/song_type.html' %}
+        </select>
+        {% endif %}
+        {% endwith %}
+    </div>
+</div>
+<div class="m_op2">
+    <div class="m_op_c">
+        <select name="m_op_place">
+            {% include 'activity/province.html' %}
+        </select>
+    </div>
+</div>
+<div class="m_op" style="margin-top:10px;">
+        {% if request.GET.type == 'backpacking' %}
+        <p class="m_hh"><span class="ion ion-ios-time-outline"></span> Thời gian bạn muốn bắt đầu:</p>
+        {% else %}
+        <p class="m_hh"><span class="ion ion-ios-time-outline"></span> Thời gian tham gia</p>
+        {% endif %}
+        <label class="m_op_ral"><input type="radio" name="time" value="all" class="m_op_ra" checked><span class="m_op_rax">Tất cả</span></label>
+        <label class="m_op_ral"><input type="radio" name="time" value="today" class="m_op_ra"><span class="m_op_rax">Hôm nay</span></label>
+        <label class="m_op_ral"><input type="radio" name="time" value="tomorrow" class="m_op_ra"><span class="m_op_rax">Ngày mai</span></label>
+        <label class="m_op_ral"><input type="radio" name="time" value="nextday" class="m_op_ra"><span class="m_op_rax">Ngày mốt</span></label>
+        <label class="m_op_ral"><input type="radio" name="time" value="week" class="m_op_ra"><span class="m_op_rax">Trong tuần này</span></label>
+        <label class="m_op_ral"><input type="radio" name="time" value="nextweek" class="m_op_ra"><span class="m_op_rax">Trong tuần sau</span></label>
+</div>
+{% if request.GET.type == 'backpacking' %}
+<div class="m_op3" style="margin-top:10px;">
+    <div class="m_op_d">
+        <p class="m_hh"><span class="ion ion-ios-timer-outline"></span> Thời gian kéo dài của chuyến đi:</p>
+    </div>
+    <div class="m_op_e">
+        <label class="m_op_ral"><input type="radio" name="last" value="" class="m_op_ra" checked><span class="m_op_rax">Tất cả</span></label>
+        <label class="m_op_ral"><input type="radio" name="last" value="a" class="m_op_ra"><span class="m_op_rax">&lt; 3 ngày</span></label>
+        <label class="m_op_ral"><input type="radio" name="last" value="b" class="m_op_ra"><span class="m_op_rax">Từ 3 đến 7 ngày</span></label>
+        <label class="m_op_ral"><input type="radio" name="last" value="c" class="m_op_ra"><span class="m_op_rax">&gt; 7 ngày</span></label>
+    </div>
+</div>
+{% endif %}
+<div class="m_op">
+        <p class="m_hh"><span class="ion ion-ios-people"></span> Số lượng</p>
+        <label class="m_op_ral"><input type="radio" name="quantity" value="unlimited" class="m_op_ra" checked><span class="m_op_rax">Không giới hạn</span></label>
+        <label class="m_op_ral"><input type="radio" name="quantity" value="limited" class="m_op_ra" ><span class="m_op_rax">Giới hạn</span></label>
+</div>
+<div class="m_op">
+        <p class="m_hh"><span class="fa fa-money"></span> Chi phí tham gia: </p>
+        <label class="m_op_ral"><input type="radio" name="fee" value="free" class="m_op_ra" checked><span class="m_op_rax">Miễn phí</span></label>
+        <label class="m_op_ral"><input type="radio" name="fee" value="nofree" class="m_op_ra"><span class="m_op_rax">Có phí</span></label>
+</div>
+<div class="m_op">
+        <p class="m_hh"><span class="ion ion-android-people"></span> Giới tính</p>
+        <label class="m_op_ral"><input type="radio" name="sex" value="both" class="m_op_ra" checked><span class="m_op_rax">Tất cả</span></label>
+        <label class="m_op_ral"><input type="radio" name="sex" value="male" class="m_op_ra"><span class="m_op_rax">Nam</span></label>
+        <label class="m_op_ral"><input type="radio" name="sex" value="female" class="m_op_ra"><span class="m_op_rax">Nữ</span></label>
+</div>
+<div class="m_op">
+        <p class="m_hh"><span class="ion ion-ios-infinite"></span> Độ tuổi</p>
+        <label class="m_op_ral"><input type="radio" name="age" value="all" class="m_op_ra5" checked><span class="m_op_rax">Tất cả</span></label>
+        {% if request.GET.type != 'backpacking' %}
+        <label class="m_op_ral" title="5-10 years old"><input type="radio" name="age" value="kid" class="m_op_ra"><span class="m_op_rax">Trẻ em</span></label>
+        {% endif %}
+        <label class="m_op_ral" title="10-20 years old"><input type="radio" name="age" value="teen" class="m_op_ra"><span class="m_op_rax">Teen</span></label>
+        <label class="m_op_ral" title="20-25 years old"><input type="radio" name="age" value="young" class="m_op_ra"><span class="m_op_rax">Thanh niên</span></label>
+        <label class="m_op_ral" title="25-40 years old"><input type="radio" name="age" value="aldult" class="m_op_ra"><span class="m_op_rax">Trưởng thành</span></label>
+        <label class="m_op_ral" title="40-55 years old"><input type="radio" name="age" value="aged" class="m_op_ra"><span class="m_op_rax">Trung niên</span></label>
+</div>
+</form>
+<style>
+.m_op {
+    padding-left:10px;
+}
+.m_op_a {
+    position : relative;
+    display : block;
+}
+.m_op_b {
+    position : relative;
+    display : block;
+    margin-bottom : 10px;
+}
+select[name="m_op_which"],select[name="m_op_place"] {
+    margin-top : 3px;
+    display : block;
+    border-width : 1px;
+    border-style : solid;
+    border-radius : 5px;
+    border-color : #ccc;
+    background-color : #fff;
+    width : 200px;
+    padding : 5px;
+    color : #333;
+}
+.m_op_a_l {
+    position : absolute;
+    left : 11px;
+    top : 7px;
+    color : #aaa;
+}
+.m_op_l {
+    display : inline-block;
+    width : 100px;
+    text-align : center;
+}
+.m_op_l1 {
+    display : inline-block;
+    width : 100px;
+    text-align : center;
+    margin-top : 10px;
+}
+.m_op_head {
+    border-width : 1px;
+    border-radius : 5px;
+    border-color : #ccc;
+    border-style : solid;
+    width : 180px;
+    padding : 3px;
+    padding-left : 25px;
+    display : inline-block;
+    color : #333;
+}
+.m_op_head:focus{
+    border-color : #aaa;
+}
+.m_op2 {
+    margin-top : 10px;
+}
+.m_op_c {
+    margin-top : 10px;
+    position : relative;
+}
+label {
+    font-weight : normal;
+}
+.m_op_place:focus {
+    width : 230px;
+    border-color : #79ff4d;
+}
+.m_hh {
+    color : #777;
+    font-size : 15px;
+}
+.m_op_ra::-moz-selection {
+    color : rgba(0,0,0,0.9);
+    background-color : rgba(100,100,100,0.4);
+}
+.m_op_ra {
+    vertical-align : bottom;
+    width : 13px;
+    height : 13px;
+    padding : 0;
+    margin : 0;
+    position : relative;
+    top : -1px;
+    *overflow : hidden;
+}
+.m_op_ral {
+    display : block;
+    margin-top : 5px;
+    padding-left : 15px;
+    text-indent : -15px;
+}
+.m_op_rax {
+    padding-left : 5px;
+}
+</style>

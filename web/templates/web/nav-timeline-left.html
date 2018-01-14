@@ -1,0 +1,32 @@
+<div class="tl-main">
+    <a class="tl-div-a flex-grid tl-div" href="{% url 'web:webpage' %}">
+        <span class="ion-ios-infinite"></span>
+        <span>Dòng thời gian</span>
+    </a>
+    <a class="tl-div-b flex-grid tl-div" href="{% url 'web:webpage' %}?ref=friend">
+        <span class="ion-person-stalker"></span>
+        <span>Bạn bè</span>
+    </a>
+    <a class="tl-div-b flex-grid tl-div" href="{% url 'web:webpage' %}?ref=work">
+        <span class="ion-briefcase"></span>
+        <span>Công việc</span>
+    </a>
+    <a class="tl-div-b flex-grid tl-div" href="{% url 'web:webpage' %}?ref=entertainment">
+        <span class="ion-aperture"></span>
+        <span>Giải trí</span>
+    </a>
+    <a class="tl-div-a flex-grid tl-div" href="{% url 'group:groups' %}">
+        <span class="ion-ios-people-outline"></span>
+        <span>Nhóm</span>
+    </a>
+    {% for i in group %}
+    <a class="tl-div-b flex-grid tl-div" href="{% url 'group:group' i.id %}">
+        {% if i.group_groupinfo_group.image %}
+        <span><img src="{{i.group_groupinfo_group.image.url}}"></span>
+        {% else %}
+        <span><img src="/static/group/group.jpg"></span>
+        {% endif %}
+        <span class="a-text">{{i.name}}</span>
+    </a>
+    {% endfor %}
+</div>

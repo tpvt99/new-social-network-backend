@@ -1,0 +1,111 @@
+<div class="f-div" style="display:flex;">
+    <form class="f-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{value}}">
+        <textarea name="cont_des" autocomplete="off" spellcheck="false" class="cont_des" rows="8" placeholder="Viết bài"></textarea>
+        <label class="label-img"><span class="fa fa-image"></span>
+            <input class="img-in" type="file" name="image" accept="image/*" style="display:none;">
+        </label>
+        <button type="submit" class="btn btn-primary btns">Đăng bài viết</button>
+    </form>
+    <div class="img-submit">
+    </div>
+</div>
+<style>
+.f-form {
+    display : inline-block;
+    margin-left : 20px;
+    width : 500px;
+    position : relative;
+    border : 1px solid #aaa;
+    background-color : #fff;
+    height : 100%;
+}
+.img-submit {
+    display : inline-block;
+    width : 300px;
+    margin-left : 30px;
+}
+.cont_des {
+    width : 100%;
+    resize : none;
+    background-color : #fff;
+    border:none;
+    padding : 5px 10px;
+    padding-right : 20px;
+}
+.c_img_div {
+    position : relative;
+}
+.ld_cl {
+    position : absolute;
+    font-size : 20px;
+    font-weight : 600;
+    right : 80px;
+    top : 0px;
+    cursor : pointer;
+}
+.btns {
+    width : 100%;
+}
+.label-img {
+    position : absolute;
+    top : 10px;
+    right : 10px;
+}
+</style>
+<script>
+$('.cont_des').each(function() {
+    this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+}).on('input', function() {
+    this.style.height = 'auto';
+    this.style.height = (this.scrollHeight)+'px';
+});
+function readURL(input) {
+    var $this = input;
+    input = input.get(0);
+    var pa = $('.img-submit');
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var div = $( ['<div class="c_img_div"><img src="',e.target.result,'" /></div>'].join(''));
+            div.find('img').css({'width':'200px','height':'200px'});
+            div.append( $("<span class='ld_cl'>&times;</span>").on('click', function() {
+                $this.val('');
+                pa.find('.c_img_div').remove();
+            })
+            );
+            pa.find('.c_img_div').remove();
+            pa.append(div);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$('.img-in').on('change', function() {
+    readURL($(this));
+});
+$('.f-form').on('submit', function(e) {
+    e.preventDefault();
+    var form = new FormData($(this)[0]);
+    if(form.get('cont_des').trim() === '') {
+        return false;
+    }
+    var csrftoken = getCookie('csrftoken');$.ajaxSetup({beforeSend: function(xhr, settings) {if (!csrfSafeMethod(settings.type) && !this.crossDomain) {xhr.setRequestHeader('X-CSRFToken', csrftoken);}}});
+    $.ajax({
+        method : 'POST',
+        url: '/contest/contestpost/',
+        processData: false,
+        contentType : false,
+        data : form,
+        success : function(data) {
+            if(data !== 'error') {
+                $('.posts').prepend(data);
+                $('.cont_des').val('');
+                $('.img-in').val('');
+                $('.c_img_div').remove();
+            }
+        },
+    });
+});
+</script>

@@ -1,0 +1,46 @@
+{% for image in images %}
+<div class="moment-item grid-item">
+    <div class="moment-head flex-grid">
+        {% if image.user.info.profile_pic %}
+        <img src="{{image.user.info.profile_pic.url}}" class="moment-user-img">
+        {% else %}
+        <img src="/static/web/user.jpeg" class="moment-user-img">
+        {% endif %}
+        <div style="margin-left:10px;">
+            <p class="moment-user-name">{{image.user.fullname}}</p>
+            {% load web_extras %}
+            {% with z=image.time_create|deltatime %}
+            <p class="moment-time" data-time="{{z}}"></p>
+            {% endwith %}
+        </div>
+    </div>
+    <p class="moment-text">{{image.text}}</p>
+    <img src="{{image.image.url}}" class="moment-img">
+    <div class="moment-comment">
+        <form method="post" action="/moment/comment/">
+            {% csrf_token %}
+            <div class="moment-comment-text flex-grid">
+                <div style="padding:0px 10px;">
+                    {% if request.user.info.profile_pic %}
+                    <img src="{{request.user.info.profile_pic.url}}" class="moment-user-img">
+                    {% else %}
+                    <img src="/static/web/user.jpeg" class="moment-user-img">
+                    {% endif %}
+                </div>
+                <div class="comment-text">
+                    <div class="comment-placeholder">
+                        <span>Nhập bình luận</span>
+                    </div>
+                    <div role="textbox" class="comment-editable" contenteditable="true">
+                        <div class="comment-inner">
+                            <span class="data-top-text">
+                                <br data-text="true"/>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endfor %}

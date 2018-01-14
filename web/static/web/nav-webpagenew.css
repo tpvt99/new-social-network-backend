@@ -1,0 +1,80 @@
+/* adjust for fit in timeline webpage */
+#global-head {
+}
+#global-head > div {
+    background-color : #fff;
+    color : #3889db;
+}
+html {
+    background-color : #fff;
+}
+body {
+    font-family : "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color : #fff;
+}
+.head-vi a:link,
+.head-vi a:visited {
+    color : #3889db;
+}
+.mhspan {
+    color : #3889db;
+}
+.caret {
+    color : #3889bd;
+}
+.global-timeline {
+    position : relative;
+    margin : 0 auto;
+}
+.left-timeline {
+    float : left;
+    width : 150px;
+    background-color : #2c3e50;
+    z-index : 100;
+    position : fixed;
+    top : 50px;
+    left : 0;
+    min-height : 100vh;
+}
+.left-timeline > div{
+}
+.middle-timeline {
+    float : left;
+    width : calc(100% - 550px);
+    width : -webkit-calc(100% - 550px);
+    width : -moz-calc(100% - 550px);
+    margin-left : 150px;
+}
+.right-message {
+    position : fixed;
+    top : 50px;
+    right : 0;
+    bottom : 0;
+    width : 70px;
+    z-index : 100;
+    background-color : #ececec;
+}
+.right-info {
+    float : left;
+    width : 330px;
+    position : fixed;
+    top : 50px;
+    bottom : 0;
+    right : 70px;
+}
+.right-info > div {
+    width : 250px;
+    margin : 0 auto;
+}
+.nav-bottom-chat {
+    bottom : 0;
+    right : 80px;
+    position : fixed;
+    display : -webkit-flex;
+    display : flex;
+    flex-flow : row nowrap;
+    z-index : 20;
+    float : left;
+    align-items : flex-end;
+    height : 0;
+}

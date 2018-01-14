@@ -1,0 +1,190 @@
+<link rel="stylesheet" type="text/css" href="/static/search/left-search.css">
+<div id="left_nav">
+    <a class="l_item" href="{% url 'activity:activityall' %}">
+        <span class="l_item_head">Hoạt động</span>
+        {% load activity_extras %}
+        {% with t=request.user|total_activity:'all' %}
+        <span class="not-num num-special">{{t.quantity}}</span>
+        {% endwith %}
+    </a>
+    {% with t=request.user|total_activity:'sport' %}
+        <a class="l_item" href="{% url 'search:search' 'activity' %}?type=sport"><i class="fa fa-soccer-ball-o"></i>
+            <span class="l_item_head l_item_head2">Thể thao</span>
+            <span class="not-num">{{t.quantity}}</span>
+        </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'esport' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=esport"><i class="fa fa-gamepad"></i>
+        <span class="l_item_head l_item_head2">Esport</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'volunteer' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=volunteer"><i class="fa fa-heart"></i>
+        <span class="l_item_head l_item_head2">Từ thiện/Tình nguyện</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'clb' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=clb"><i class="fa fa-handshake-o"></i>
+        <span class="l_item_head l_item_head2">Clb/Đội nhóm</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'entertainment' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=entertainment"><i class="ion ion-android-share-alt"></i>
+        <span class="l_item_head l_item_head2">Vui chơi giải trí</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'exchange' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=exchange"><i class="fa fa-rss"></i>
+        <span class="l_item_head l_item_head2">Giao lưu học hỏi</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'backpacking' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=backpacking"><i class="fa fa-motorcycle"></i>
+        <span class="l_item_head l_item_head2">Đi phượt</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'sing' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=sing"><i class="ion ion-mic-b"></i>
+        <span class="l_item_head l_item_head2">Ca hát</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'camp' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=camp"><i class="ion ion-bonfire"></i>
+        <span class="l_item_head l_item_head2">Hội trại</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_activity:'transgender' %}
+    <a class="l_item" href="{% url 'search:search' 'activity' %}?type=transgender"><i class="ion ion-transgender"></i>
+        <span class="l_item_head l_item_head2">Thế giới thứ ba</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    <a class="l_item" href="{% url 'activity:create' %}"><i class="fa fa-plus-square"></i>
+        <span class="l_item_head l_item_head2">Tạo hoạt động</span>
+    </a>
+    <a class="l_item" href="{% url 'event:eventall' %}">
+        <span class="l_item_head">Sự kiện</span>
+        {% load activity_extras %}
+        {% load event_extras %}
+        {% with t=request.user|total_event:'all' %}
+        <span class="not-num num-special">{{t.quantity}}</span>
+        {% endwith %}
+    </a>
+    {% with t=request.user|total_event:'fair' %}
+    <a class="l_item" href="{% url 'search:search' 'event' %}?type=fair" data-toggle="tooltip" title="Tìm kiếm hội chợ/triễn lãm"><i class="fa fa-map-pin" ></i>
+        <span class="l_item_head l_item_head2">Hội chợ/Triễn lãm</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_event:'music' %}
+    <a class="l_item" href="{% url 'search:search' 'event' %}?type=music" data-toggle="tooltip" title="Tìm kiếm sự kiện âm nhạc"><i class="fa fa-music"></i>
+        <span class="l_item_head l_item_head2">Âm nhạc</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_event:'sport' %}
+    <a class="l_item" href="{% url 'search:search' 'event' %}?type=sport" data-toggle="tooltip" title="Tìm kiếm sự kiện âm nhạc"><i class="ion ion-ios-color-filter"></i>
+        <span class="l_item_head l_item_head2">Thể thao</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_event:'esport' %}
+    <a class="l_item" href="{% url 'search:search' 'event' %}?type=esport" data-toggle="tooltip" title="Tìm kiếm sự kiện thể thao điện tử"><i class="fa fa-gamepad"></i>
+        <span class="l_item_head l_item_head2">Esport</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_event:'talk' %}
+    <a class="l_item" href="{% url 'search:search' 'event' %}?type=talk" data-toggle="tooltip" title="Tìm kiếm sự kiện hội thảo"><i class="fa fa-comments-o"></i>
+        <span class="l_item_head l_item_head2">Hội thảo</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_event:'prom' %}
+    <a class="l_item" href="{% url 'search:search' 'event' %}?type=prom" data-toggle="tooltip" title="Tìm kiếm dạ hội"><i class="fa fa-diamond"></i>
+        <span class="l_item_head l_item_head2">Dạ hội</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_event:'tech' %}
+    <a class="l_item" href="{% url 'search:search' 'event' %}?type=tech" data-toggle="tooltip" title="Tìm kiếm sự kiện công nghệ"><i class="fa fa-bolt"></i>
+        <span class="l_item_head l_item_head2">Khoa học/Công nghệ</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    <a class="l_item" href="{% url 'event:create' %}"><i class="fa fa-plus-circle"></i>
+        <span class="l_item_head l_item_head2">Tạo sự kiện</span>
+    </a>
+    <a class="l_item" href="{% url 'search:search' 'contest' %}">
+        <span class="l_item_head">Cuộc thi</span>
+        {% load contest_extras %}
+        {% with t=request.user|total_contest:'all' %}
+        <span class="not-num num-special">{{t.quantity}}</span>
+        {% endwith %}
+    </a>
+    {% with t=request.user|total_contest:'academic' %}
+    <a class="l_item" href="{% url 'search:search' 'contest' %}?type=academic" data-toggle="tooltip" title="Tìm kiếm cuộc thi học thuật"><i class="fa fa-book"></i>
+        <span class="l_item_head l_item_head2">Học thuật</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_contest:'sing' %}
+    <a class="l_item" href="{% url 'search:search' 'contest' %}?type=sing" data-toggle="tooltip" title="Tìm kiếm cuộc thi ca hát"><i class="fa fa-microphone"></i>
+        <span class="l_item_head l_item_head2">Ca hát</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_contest:'talent' %}
+    <a class="l_item" href="{% url 'search:search' 'contest' %}?type=talent" data-toggle="tooltip" title="Tìm kiếm cuộc thi tài năng"><i class="fa fa-star-o"></i>
+        <span class="l_item_head l_item_head2">Tài năng</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_contest:'sport' %}
+    <a class="l_item" href="{% url 'search:search' 'contest' %}?type=sport" data-toggle="tooltip" title="Tìm kiếm cuộc thi thể thao"><i class="fa fa-soccer-ball-o"></i>
+        <span class="l_item_head l_item_head2">Thể thao</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_contest:'esport' %}
+    <a class="l_item" href="{% url 'search:search' 'contest' %}?type=esport" data-toggle="tooltip" title="Tìm kiếm cuộc thi thể thao điện tử"><i class="ion ion-ios-game-controller-b"></i>
+        <span class="l_item_head l_item_head2">Esport</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_contest:'intellect' %}
+    <a class="l_item" href="{% url 'search:search' 'contest' %}?type=intellect" data-toggle="tooltip" title="Tìm kiếm cuộc thi trí tuệ"><i class="ion ion-lightbulb"></i>
+        <span class="l_item_head l_item_head2">Trí tuệ</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_contest:'media' %}
+    <a class="l_item" href="{% url 'search:search' 'contest' %}?type=media" data-toggle="tooltip" title="Tìm kiếm cuộc thi online"><i class="fa fa-puzzle-piece"></i>
+        <span class="l_item_head l_item_head2">Media</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_contest:'tech' %}
+    <a class="l_item" href="{% url 'search:search' 'contest' %}?type=tech" data-toggle="tooltip" title="Tìm kiếm cuộc thi khoa học, công nghệ"><i class="ion ion-planet"></i>
+        <span class="l_item_head l_item_head2">Khoa học/Công nghệ</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+    {% endwith %}
+    <a class="l_item" href="{% url 'contest:create' %}" data-toggle="tooltip" title="Tạo cuộc thi"><i class="fa fa-plus-square-o"></i>
+        <span class="l_item_head l_item_head2">Tạo cuộc thi</span>
+    </a>
+    <a class="l_item" href="{% url 'search:search' 'scholarship' %}">
+        <span class="l_item_head">Học bổng</span>
+    </a>
+    <a class="l_item" href="{% url 'scholarship:create' %}" data-toggle="tooltip" title="Tạo học bổng "><i class="ion ion-ios-plus-outline"></i>
+        <span class="l_item_head l_item_head2">Tạo học bổng</span>
+    </a>
+</div>

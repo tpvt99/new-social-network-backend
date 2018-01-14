@@ -1,0 +1,47 @@
+{% for i in events %}
+<div class="eve-cont" style="display:flex;">
+    {% load activity_extras %}
+    <img src="{{i.image.url}}" class="or-img">
+    <div style="display:inline-block;">
+        {% with a=i.head|addslash %}
+        <p style="margin-left:10px;font-size:15px;"><a href="{% url 'event:event' i.id a %}?id={{request.user.id}}">{{i.head}}</a></p>
+        {% endwith %}
+        <p style="margin-left:10px;"><span class="ion ion-location" style="margin-right:5px;font-size:16px;"></span><span class="or-s">{{i.address}}</span> - <span class="or-s">{{i.city_unicode}}</span> - <span class="or-s">{{i.province_unicode}}</span></p>
+        <p style="margin-left:10px;">
+        <span class="fa fa-calendar-check-o"></span>
+        <span class="day">{{i.time_begin.day}}</span>
+        <span>tháng</span>
+        <span class="month">{{i.time_begin.month}}</span>
+        <span>năm</span>
+        <span class="year">{{i.time_begin.year}}</span>
+        <span>vào lúc</span>
+        <span class="hour">{{i.time_begin.hour}}</span>
+        <span>giờ</span>
+        <span class="minute">{{i.time_begin.minute}}</span>
+        <span>phút</span>
+        </p>
+        <p style="margin-left:10px;">
+        {% load event_extras %}
+        {% with a=i|quantity %}
+        <span class="ion ion-person-stalker" style="margin-right:5px;"></span><span class="se-j">{{a.len}}</span><span style="margin-left:5px;">người tham gia</span>
+        {% endwith %}</p>
+    </div>
+</div>
+{% endfor %}
+<style>
+.eve-cont {
+    width : 100%;
+    margin : 0 auto;
+    border : 1px solid #ddd;
+    padding : 10px;
+    margin-bottom : 20px;
+    background-color : #fff;
+}
+.or-img {
+    width : 100px;
+    height : 100px;
+}
+</style>
+<script>
+(function() {var x = $('.or-cont');var tz = -new Date().getTimezoneOffset()/60;x.each(function() {var hour=$(this).find('.hour');var day=$(this).find('.day');var month=$(this).find('.month');var year=$(this).find('.year');var t = new Date(Date.UTC(parseInt(year.text()),parseInt(month.text())-1,parseInt(day.text()),parseInt(hour.text())));t.setHours(t.getHours()+tz);hour.text(t.getUTCHours());day.text(t.getUTCDate());month.text(t.getUTCMonth()+1);year.text(t.getUTCFullYear());});})();
+</script>

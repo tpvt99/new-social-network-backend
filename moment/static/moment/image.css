@@ -1,0 +1,90 @@
+.moment-item {
+    margin : 20px auto;
+    width : 600px;
+}
+.moment-user {
+    float : left;
+    width : 100px;
+    text-align : center;
+}
+.moment-info {
+    background-color : #fff;
+    float : left;
+    width : 500px;
+    border-radius : 3px;
+    padding : 0 10px;
+}
+.moment-img {
+    width : 100%;
+    height : auto;
+    border-radius : 5px;
+}
+.moment-head {
+    margin : 10px 0px;
+    display : -webkit-flex;
+    display : flex;
+}
+.moment-user-img {
+    width : 50px;
+    height : 50px;
+    border-radius : 50%;
+}
+.c-moment-user-img {
+    width : 30px;
+    height : 30px;
+    border-radius : 50%;
+}
+.moment-user-name {
+    font-size : 14px;
+    font-weight : 600;
+    margin : 0px;
+}
+.moment-user-name a:link,
+.moment-user-name a:visited {
+    color : #333;
+    text-decoration : none;
+}
+.c-moment-user-name {
+    font-size : 13px;
+    font-weight : 600;
+    margin : 0px;
+}
+.c-moment-user-name a:link,
+.c-moment-user-name a:visited {
+    color : #333;
+    text-decoration : none;
+}
+.moment-text {
+    margin : 0;
+    font-size : 13px;
+    margin-bottom: 10px;
+}
+.moment-time {
+    font-size : 11px;
+    margin : 0px;
+    font-weight : 400;
+}
+.moment-comment {
+    margin : 20px 0px;
+}
+.moment-comment-text {
+    padding : 0px 10px;
+    flex-flow : row nowrap;
+    justify-content : flex-start;
+}
+.comment-text-div {
+    margin : 0px 10px;
+    width : 100%;
+}
+.comment-text {
+    display : inline-block;
+    width : 100% !important;
+}
+.moment-static p {
+    margin : 5px 0px;
+}
+.moment-static a:link,
+.moment-static a:visited {
+    font-size : 13px;
+    text-decoration : none;
+}

@@ -1,0 +1,71 @@
+<div id="left_nav">
+    <div class="left_head">
+        <a href="{% url 'web:webpage' %}" style="color:#fff;">acelead</a>
+    </div>
+    <div class="left_search">
+        <label class="ls-label"><span class="fa fa-search ls-icon"></span><input type="search" name="search" class="l-search" value="" placeholder="Tìm kiếm" autocomplete="off"></label>
+    </div>
+    <div class="left_main">
+        <a class="l_item" id="everyone" href="{% url 'search:search' 'everyone' %}"><i class="ion ion-ios-people licon"></i> Mọi người</a>
+        <a class="l_item" href="{% url 'activity:activityall' %}"><i class="ion ion-ios-flame licon"></i> Hoạt động</a>
+        <a class="l_item" href="{% url 'event:eventall' %}"><i class="fa fa-calendar licon"></i> Sự kiện</a>
+        <a class="l_item" href="{% url 'search:search' 'skill' %}"><i class="fa fa-cogs licon"></i> Kỹ năng</a>
+        <a class="l_item" href="{% url 'contest:contestall'  %}"><i class="fa fa-trophy licon"></i> Cuộc thi</a>
+        <a class="l_item" href="{% url 'search:search' 'scholarship' %}" ><i class="fa fa-mortar-board licon"></i> Học bổng</a>
+    </div>
+</div>
+<style>
+#left_nav {
+    padding : 10px 15px;
+    font-size : 15px;
+    color : #fff;
+}
+.l_item {
+    padding : 10px 10px;
+    display : block;
+    cursor : pointer;
+    color : #bbb;
+}
+.licon {
+    display : inline-block;
+    width : 25px;
+    text-align : center;
+}
+.l_item:hover {
+    color : #fff;
+    text-decoration : none;
+}
+.ls-label {
+    position : relative;
+}
+.ls-icon {
+    position : absolute;
+    top : 7px;
+    left : 4px;
+    color : #333;
+}
+.left_search {
+    margin-top : 10px;
+}
+.l-search {
+    width : 130px;
+    background-color : #fff;
+    border : none;
+    padding : 3px;
+    padding-left : 22px;
+    color : #777;
+    border-width : 1px;
+    border-style : solid;
+    border-color : #222;
+    border-radius : 5px;
+    font-weight : normal;
+}
+.l-search::placeholder {
+    color : #fff;
+}
+.l-search:focus {
+    border-color : #fff;
+    border-width : 0.1px;
+    background-color : #fafafa;
+}
+</style>

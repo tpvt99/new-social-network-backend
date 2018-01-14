@@ -1,0 +1,31 @@
+<div class="btn-group btn-group-justified" role="group">
+    <div class="btn-group" role="group">
+        <a href="" type="button" class="btn btn-default" data-id="all">Tất cả</a>
+    </div>
+    <div class="btn-group" role="group">
+        <a href="" type="button" class="btn btn-default" data-id="act">Hoạt đông</a>
+    </div>
+    <div class="btn-group" role="group">
+        <a href=""type="button" class="btn btn-primary" data-id="user">Mọi người</a>
+    </div>
+</div>
+<div class="row column" id="main_search"></div>
+<script>
+(function() {
+    var q= $('input#q_act_s').data('q');
+    $('a[data-id="all"]').prop('href', ["{% url 'search:search' 'all' %}?q=",q].join(''));
+    $('a[data-id="user"]').prop('href', ["{% url 'search:search' 'user' %}?q=",q].join(''));
+    $('a[data-id="act"]').prop('href', ["{% url 'search:search' 'activity' %}?q=",q].join(''));
+    $.ajax({
+        url : "{% url 'search:user_content' %}",
+        method : 'GET',
+        data : {'q':q},
+        success : function(data) {
+            $('div#main_search').append(data);
+        },
+        error : function(data) {
+            $('div#main_search').text('Bộ lọc tìm kiếm không nhận ra từ khóa của bạn muốn tìm');
+        }
+    });
+})();
+</script>

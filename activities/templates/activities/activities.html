@@ -1,0 +1,29 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<div style="overflow:auto;">
+    <div class="a-main">
+        {% include 'activities/main.html' %}
+    </div>
+    <div class="b-main">
+        {% include 'activities/activity.html' %}
+    </div>
+</div>
+{% endblock %}
+
+{% block style %}
+<style>
+.a-main {
+    width : 530px;
+    float : left;
+}
+.b-main {
+    width : 530px;
+    float : left;
+    margin-left : 30px;
+}
+</style>
+{% endblock %}

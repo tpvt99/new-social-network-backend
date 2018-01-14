@@ -1,0 +1,120 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<div id="nav-web-left" style="float:left;width:200px;">
+    {% include 'event/nav-event-search-left.html' %}
+</div>
+
+<div id="nav-web-middle" style="float:left;width:900px;margin-left:20px;">
+<div class="organize">
+    <p class="or-p">Sự kiện bạn tổ chức</p>
+    {% if organize %}
+    {% for i in organize %}
+    <div class="or-cont" style="display:flex;">
+        {% load activity_extras %}
+        <img src="{{i.image.url}}" class="or-img">
+        <div style="display:inline-block;">
+            {% with a=i.head|addslash %}
+            <p style="margin-left:10px;font-size:15px;"><a href="{% url 'event:event' i.id a %}">{{i.head}}</a></p>
+            {% endwith %}
+            <p style="margin-left:10px;"><span class="ion ion-location" style="margin-right:5px;font-size:16px;"></span><span class="or-s">{{i.address}}</span> - <span class="or-s">{{i.city_unicode}}</span> - <span class="or-s">{{i.province_unicode}}</span></p>
+            <p style="margin-left:10px;"><span class="fa fa-calendar-check-o"></span><span class="hour" style="margin-left:3px;">{{i.time_begin.hour}}</span><span style="margin-left:3px;margin-right:3px;">giờ</span><span class="minute">{{i.time_begin.minute}}</span><span style="margin-left:3px">phút</span> -
+            <span class="day">{{i.time_begin.day}}</span><span style="margin-left:3px;margin-right:3px;">tháng</span><span class="month">{{i.time_begin.month}}</span><span style="margin-left:3px;margin-right:3px;">năm</span><span class="year">{{i.time_begin.year}}</span></p>
+            <p style="margin-left:10px;">
+            {% load event_extras %}
+            {% with a=i|quantity %}
+            <span class="ion ion-person-stalker" style="margin-right:5px;"></span><span class="se-j">{{a.len}}</span><span style="margin-left:5px;">người tham gia</span>
+            {% endwith %}</p>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p style="color:#555;font-size:13px;">Bạn chưa tổ chức sự kiện nào cả. Nhấn vào nút tạo sự kiện bên trái để tạo sự kiện cho mọi người hoặc chỉ bạn bè của bạn.</p>
+    {% endif %}
+</div>
+<div class="join_accepted">
+    <p class="or-p">Sự kiện bạn tham gia</p>
+    {% if join_accepted %}
+    {% for i in join_accepted %}
+    <div class="or-cont" style="display:flex;">
+        {% load activity_extras %}
+        <img src="{{i.image.url}}" class="or-img">
+        <div style="display:inline-block;">
+            {% with a=i.head|addslash %}
+            <p style="margin-left:10px;font-size:15px;"><a href="{% url 'event:event' i.id a%}">{{i.head}}</a></p>
+            {% endwith %}
+            <p style="margin-left:10px;"><span class="ion ion-location" style="margin-right:5px;font-size:16px;"></span><span class="or-s">{{i.address}}</span> - <span class="or-s">{{i.city_unicode}}</span> - <span class="or-s">{{i.province_unicode}}</span></p>
+            <p style="margin-left:10px;"><span class="fa fa-calendar-check-o"></span><span class="hour" style="margin-left:3px;">{{i.time_begin.hour}}</span><span style="margin-left:3px;margin-right:3px;">giờ</span><span class="minute">{{i.time_begin.minute}}</span><span style="margin-left:3px">phút</span> -
+            <span class="day">{{i.time_begin.day}}</span><span style="margin-left:3px;margin-right:3px;">tháng</span><span class="month">{{i.time_begin.month}}</span><span style="margin-left:3px;margin-right:3px;">năm</span><span class="year">{{i.time_begin.year}}</span></p>
+            <p style="margin-left:10px;">
+            {% load event_extras %}
+            {% with a=i|quantity %}
+            <span class="ion ion-person-stalker" style="margin-right:5px;"></span><span class="se-j">{{a.len}}</span><span style="margin-left:5px;">người tham gia</span>
+            {% endwith %}</p>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p style="color:#555;font-size:13px;">Bạn chưa tham gia sự kiện nào cả. Nhấn vào các mục bên trái để tham gia sự kiện.</p>
+    {% endif %}
+</div>
+<div class="join_wait">
+    <p class="or-p">Sự kiện đang chờ xét duyệt</p>
+    {% for i in join_wait %}
+    <div class="or-cont" style="display:flex;">
+        <div style="display:inline-block">
+            <p><img src="{{i.image.url}}" class="or-img"></p>
+            {% load event_extras %}
+            {% with a=i|render_participate_button:request.user %}
+            {% if a == 'owner' %}
+            <p><button class="btn btn-info subbut btn-sm" style=";width:90px;" data-action="accept" data-event="{{i.id}}" data-who="{{request.user.id}}" autocomplete="off" data-send="true">Chấp nhận</button></p>
+            <p><button class="btn btn-warning subbut btn-sm" data-action="refuse" style="width:90px;" data-event="{{i.id}}" autocomplete="off" data-send="true" data-who="{{request.user.id}}">Từ chối</button></p>
+            {% else %}
+            <p><button class="btn btn-default subbut btn-sm" style="width:90px;" data-action="decline" data-event="{{i.id}}" data-who="{{request.user.id}}" autocomplete="off" data-send="true">Hủy tham gia</button></p>
+            {% endif %}
+            {% endwith %}
+        </div>
+        <div style="display:inline-block;">
+            <p style="margin-left:10px;font-size:15px;"><a href="javascript:void(0);">{{i.head}}</a></p>
+            <p style="margin-left:10px;"><span class="ion ion-location" style="margin-right:5px;font-size:16px;"></span><span class="or-s">{{i.address}}</span> - <span class="or-s">{{i.city_unicode}}</span> - <span class="or-s">{{i.province_unicode}}</span></p>
+            <p style="margin-left:10px;"><span class="fa fa-calendar-check-o"></span><span class="hour" style="margin-left:3px;">{{i.time_begin.hour}}</span><span style="margin-left:3px;margin-right:3px;">giờ</span><span class="minute">{{i.time_begin.minute}}</span><span style="margin-left:3px">phút</span> -
+            <span class="day">{{i.time_begin.day}}</span><span style="margin-left:3px;margin-right:3px;">tháng</span><span class="month">{{i.time_begin.month}}</span><span style="margin-left:3px;margin-right:3px;">năm</span><span class="year">{{i.time_begin.year}}</span></p>
+            <p style="margin-left:10px;">
+            {% load event_extras %}
+            {% with a=i|quantity %}
+            <span class="ion ion-person-stalker" style="margin-right:5px;"></span><span class="se-j">{{a.len}}</span><span style="margin-left:5px;">người tham gia</span>
+            {% endwith %}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<style>
+.organize, .join_accepted, .join_wait {
+    margin-left : 20px;
+    margin-right : 20px;
+    background-color : #fff;
+    padding : 10px;
+    margin-top : 20px;
+}
+.or-img {
+    width : 100px;
+    height: 100px;
+}
+.or-p {
+    font-size : 16px;
+}
+.or-cont {
+    margin-top : 20px;
+}
+</style>
+<script>
+(function() {var x = $('.or-cont');var tz = -new Date().getTimezoneOffset()/60;x.each(function() {var hour=$(this).find('.hour');var day=$(this).find('.day');var month=$(this).find('.month');var year=$(this).find('.year');var t = new Date(Date.UTC(parseInt(year.text()),parseInt(month.text())-1,parseInt(day.text()),parseInt(hour.text())));t.setHours(t.getHours()+tz);hour.text(t.getUTCHours());day.text(t.getUTCDate());month.text(t.getUTCMonth()+1);year.text(t.getUTCFullYear());});})();
+</script>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/static/event/subbut.js"></script>
+{% endblock %}

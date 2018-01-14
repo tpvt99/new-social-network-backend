@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <meta lang="vi">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes" />
+    <link rel="shortcut icon" href="/static/web/favicon.ico" type="image/x-icon">
+    <link href="/static/frontpage/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/static/web/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/web/ionicons.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/web/ion.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="/static/web/nav-webpage.css">
+    <link rel="stylesheet" type="text/css" href="/static/web/css/Grid.css">
+    <link rel="stylesheet" type="text/css" href="/static/web/css/webpage.css">
+    <title>Lifelead</title>
+    <script src="/static/frontpage/jquery-3.1.1.min.js" ></script>
+    <script src="/static/frontpage/bootstrap.min.js"></script>
+    <script src="/static/web/cookie.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/web/nav-head.css">
+    <script type="text/javascript" src="/static/web/sticky-kit.min.js" async></script>
+    <script type="text/javascript" src="/static/web/masonry.pkgd.min.js"></script>
+    {% block head %}
+    {% endblock %}
+    {% block status_css %}
+    <link rel="stylesheet" type="text/css" href="/static/status/status.css">
+    {% endblock %}
+    {% block left_main %}
+    {% endblock %}
+<link rel="stylesheet" type="text/css" href="/static/web/left_main.css">
+</head>
+
+<body>
+    <div class="container-fluid" style="margin:0px;padding:0px;">
+        <div id="global-head">
+            <div id="head-inner">
+                <div class="head1">
+                    <p class="head1_p"><a href="{% url 'web:webpage' %}" style="color:inherit">lifelead</a></p>
+                </div>
+                <div class="head2" style="margin-left:20px;">
+                    <div class="child-head-search">
+                        <input type="search" class="head_search" placeholder="Tìm kiến bạn bè">
+                        <span class="search-icon"><span class="fa fa-search"></span></span>
+                    </div>
+                    <div class="dropdown">
+                        <div class="dropdown-menu nav-search">
+                            <p style="text-align:center;"><span class="fa fa-gear fa-spin"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="head3">
+                    <a href="{% url 'pro:profile' %}?id={{request.user.id}}" style="color:inherit;">
+                        {% if request.user.info.profile_pic %}
+                        <img class="head_pic" src="{{request.user.info.profile_pic.url}}">
+                        {% else %}
+                        <img class="head_pic" src="/static/web/user.jpeg">
+                        {% endif %}
+                    </a>
+                    <div class="dropdown dropdown-navfriend" style="display:inline-block;margin-left:10px;" title="Lời mời kết bạn">
+                        <button id="nav-friend" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-link">
+                        {% load web_extras %}
+                        {% with a=request.user|friend_request %}
+                        {% if a == 0 %}
+                        <span class="mhspan mhspan_n"><span class="ion ion-person-stalker mhion"></span><span style="margin-left:5px;">Bạn bè</span></span>
+                        {% else %}
+                        <span class="mhspan mhspan_y"><span class="ion ion-person-add mhion"></span><span class="mh-stat-noti">{{a}}</span><span style="margin-left:5px;">Bạn bè</span></span> 
+                        {% endif %}
+                        {% endwith %}
+                        </button>
+                        <div class="dropdown-menu nav-friend" aria-labelledby="nav-friend" style="display:none;">
+                            <p style="text-align:center;"><span class="fa fa-gear fa-spin"></span></p>
+                        </div>
+                    </div>
+
+                    <div class="dropdown dropdown-navstat" style="display:inline-block" title="Thông báo">
+                        <button id="nav-stat" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-link">
+                        {% load web_extras %}
+                        {% with a=request.user|notification %}
+                        {% if a == 0 %}
+                        <span class="mhspan mhspan_n" ><span class="ion ion-android-globe mhion"></span><span style="margin-left:5px;">Thông báo</span></span>
+                        {% else %}
+                        <span class="mhspan mhspan_y" ><span class="ion ion-android-globe mhion"></span><span class="mh-stat-noti">{{a}}</span><span style="margin-left:5px;">Thông báo</span></span>
+                        {% endif %}
+                        {% endwith %}
+                        </button>
+                        <div class="dropdown-menu nav-stat" aria-labelledby="nav-stat" style="display:none;">
+                            <p style="text-align:center;"><span class="fa fa-gear fa-spin"></span></p>
+                        </div>
+                    </div>
+                    <div class="dropdown dropdown-navset" style="display:inline-block;">
+                        <button id="nav-set" type="button" data-toggle="dropdown" aria-haspopup="true" aria-exapanded="false" class="btn btn-link">
+                            <span class="caret" style="color:#fff;"></span>
+                        </button>
+                        <div class="dropdown-menu nav-settings" aria-labelledby="nav-set" style="margin-left:-100px;">
+                            <div class="nav-set-div">
+                                <p class="navset-sp"><a href="{% url 'web:webpage' %}" class="navset-child">Trang chủ</a></p>
+                                <p class="navset-sp"><a href="{% url 'pro:profile' %}?id={{request.user.id}}" class="navset-child">Trang cá nhân</a></p>
+                            </div>
+                            <div class="nav-set-div">
+                                <p class="navset-sp"><span class="navset-parent">Hoạt động</span></p>
+                                <p class="navset-sp"><a href="{% url 'activities:activities' %}" class="navset-child">Tất cả hoạt động</a></p>
+                            </div>
+                            <div class="nav-set-div">
+                                <p class="navset-sp"><span class="navset-parent">Sự kiện</span></p>
+                                <p class="navset-sp"><a href="{% url 'events:events' %}" class="navset-child">Tất cả sự kiện</a></p>
+                            </div>
+                            <div class="nav-set-div">
+                                <p class="navset-sp"><a href="{% url 'frontpage:logout' %}" class="navset-child">Đăng xuất</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% block no_head %}
+            <div id="head-navigator">
+                <div class="head-vi">
+                    <span><a href="{% url 'life:lifepage' %}" style="" data-a="1">Trang chủ</a></span>
+                </div>
+                <div class="head-vi">
+                    <span><a href="{% url 'web:webpage' %}" style="" data-a="2">Dòng thời gian</a></span>
+                </div>
+                <div class="head-vi">
+                    <span><a href="{% url 'moment:moment' %}" style="" data-a="4">Khoảnh khắc</a></span>
+                </div>
+                <div class="head-vi">
+                    <span title="Bạn phải có tối thiểu ít nhất 10 người bạn mới truy cập được vào trang ẩn danh"><a href="{% url 'anonymous:anonymous' %}" style="" data-a="3">Ẩn danh</a></span>
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+        {% block no_global-main %}
+        <div id="global-main" style="max-width:1200px;">
+            {% block webpage %}
+            <div class="global-web-main">
+                <div id="nav-web-left">
+                    {% block left %}
+                    {% endblock %}
+                </div>
+                <div id="nav-web-middle">
+                    {% block middle %}
+                    {% endblock %}
+                </div>
+                <div id="nav-web-right">
+                    {% block right %}
+                    {% endblock %}
+                </div>
+            </div>
+            {% endblock webpage %}
+
+            {% block searchpage %}
+            <div class="global-search-main clearfix">
+                <div id="nav-search-bar">
+                    {% block nav-search-bar %}
+                    {% endblock %}
+                </div>
+                <div id="nav-search-left">
+                    {% block nav-search-left %}
+                    {% endblock %}
+                </div>
+                <div id="nav-search-middle">
+                    {% block nav-search-middle %}
+                    {% endblock %}
+                </div>
+                <div id="nav-search-right">
+                    {% block nav-search-right %}
+                    {% endblock %}
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+        {% endblock %}
+        {% block right-mess %}
+        {% endblock %}
+        {% block bottom-mess %}
+        <div class="nav-bottom-chat">
+        </div>
+        {% endblock %}
+    </div>
+
+<script>
+$(document).ready(function() {
+$('.sticky-div').stick_in_parent();
+$('.sticky-div').on('sticky_kit:bottom' ,function(e) {
+    $(this).parent().css('position','static');
+}).on('sticky_kit:unbottom', function(e) {
+    $(this).parent().css('position','relative');
+});
+});
+$(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+$('button#nav-set').on('click', function() {
+    $('.nav-stat').hide();
+    $('.nav-friend').hide();
+    $('.nav-search').hide();
+    $('.nav-mess').hide();
+});
+$(document).on('click', function(e) {
+    e.stopPropagation();
+    $('.nav-stat').hide();
+    $('.nav-friend').hide();
+    $('.nav-search').hide();
+    $('.nav-mess').hide();
+});
+function NotiTime() {var x = $('.noti_time');x.each(function() {var ren = $(this);var sec = ren.data('time');var minx = parseInt(sec) / 60;var hourx = minx/60;var dayx = hourx / 24;var timex = new Date();timex.setSeconds(timex.getSeconds() - parseFloat(sec));ren.attr('title', [timex.getDate()," tháng ", timex.getMonth()+1, " năm ", timex.getFullYear() ," vào lúc ", timex.getHours(), " giờ ", timex.getMinutes(), " phút" ].join(''));if(sec < 60 ) {ren.html( [Math.round(sec)," giây trước"].join(''));}else if (minx < 60) {ren.html([Math.round(minx), " phút trước"].join(''));}else if( hourx < 24) {ren.html([Math.round(hourx), " giờ trước"].join(''));}else if(Math.round(dayx) <= 1) {ren.html([Math.round(dayx), " ngày trước"].join(''));}else {ren.html([timex.getDate()," tháng ", timex.getMonth()+1, " năm ", timex.getFullYear()].join(''));}});};
+</script>
+<script type="text/javascript" src="/static/web/svg.js"></script>
+<script type="text/javascript" src="/static/web/nav-friend.js"></script>
+<script type="text/javascript" src="/static/web/nav-stat.js"></script>
+<script type="text/javascript" src="/static/web/nav-search.js"></script>
+{% block status_script %}
+<script type="text/javascript" src="/static/status/vote.js"></script>
+<script type="text/javascript" src="/static/status/status_privacy.js"></script>
+<script type="text/javascript" src="/static/status/comment.js"></script>
+{% endblock %}
+
+{% block script %}
+{% endblock %}
+{% block style %}
+{% endblock %}
+</body>
+</html>

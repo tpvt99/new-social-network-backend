@@ -1,0 +1,38 @@
+{% for act in acts %}
+<div class="div-act">
+    <div style="overflow:auto;">
+        {% if act.image %}
+        <div class="act-img">
+            <img class="imga" src="{{act.image.url}}">
+        </div>
+        {% endif %}
+        <div class="act-head">
+            <p class="head-p"><a href="{% url 'act:act' act.id %}">{{act.head}}</a></p>
+            {% load web_extras %}
+            {% with z=act.time_create|deltatime %}
+            <p class="time-p"><span class="ptime" data-time="{{z}}"></span></p>
+            {% endwith %}
+        </div>
+    </div>
+    {% with t=act.actpost_set.all %}
+    {% if t %}
+    <div class="act-comm">
+        {% for actpost in t %}
+        <div class="act-post">
+            {% if actpost.image %}
+            <div class="div1">
+                <img class="ap-img" src="{{actpost.image.url}}">
+            </div>
+            {% endif %}
+            <div class="div2">
+                <p>{{actpost.des|linebreaksbr}}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+</div>
+{% endfor %}
+<link rel="stylesheet" type="text/css" href="/static/activities/activities.css">
+<script type="text/javascript" src="/static/event/rendertime.js"></script>

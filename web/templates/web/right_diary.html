@@ -1,0 +1,31 @@
+{% if diaries %}
+{% for diary in diaries %}
+<div class="d_e">
+    {% load web_extras %}
+    <p class="d_time">
+    {% with a=diary.create_time|rendertime:tz %}
+    {{ a.hour }} giờ {{ a.minute }} phút
+    {% endwith %}
+    </p>
+    {% if diary.image %}
+    <p style="overflow:auto;"><img class="d_eimg" src="{{ diary.image.url }}"><span class="d_text">{{ diary.diary }}</span></p>
+    {% else %}
+    <p class="d_tep">{{ diary.diary }}</p>
+    {% endif %}
+</div>
+{% endfor %}
+{% elif diary %}
+<div class="d_e">
+    {% load web_extras %}
+    <p class="d_time">
+    {% with a=diary.create_time|rendertime:tz %}
+    {{ a.hour }} giờ {{ a.minute }} phút
+    {% endwith %}
+    </p>
+    {% if diary.image %}
+    <p style="overflow:auto;"><img class="d_eimg" src="{{ diary.image.url }}"><span class="d_text">{{ diary.diary }}</span></p>
+    {% else %}
+    <p class="d_tep">{{ diary.diary }}</p>
+    {% endif %}
+</div>
+{% endif %}

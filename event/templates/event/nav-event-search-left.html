@@ -1,0 +1,134 @@
+<link rel="stylesheet" type="text/css" href="/static/search/left-search.css">
+<div id="left_nav">
+    <a class="l_item" href="{% url 'search:search' 'event'%}?type=all">
+        <span class="l_item_head">Sự kiện</span>
+        {% load activity_extras %}
+        {% load event_extras %}
+        {% with t=request.user|total_event:'all' %}
+        <span class="not-num num-special">{{t.quantity}}</span>
+        {% endwith %}
+    </a>
+    {% with t=request.user|total_event:'fair' %}
+    <a class="l_item" href="{% url 'search:search' 'event' %}?type=fair" data-toggle="tooltip" title="Tìm kiếm hội chợ/triễn lãm"><i class="fa fa-map-pin" ></i>
+            <span class="l_item_head l_item_head1">Hội chợ/Triễn lãm</span>
+            <span class="not-num">{{t.quantity}}</span>
+        </a>
+        {% for i in t.event %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'event:event' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.events_eventspost_event_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    {% endwith %}
+    {% with t=request.user|total_event:'music' %}
+    <a class="l_item" href="{% url 'search:search' 'event' %}?type=music" data-toggle="tooltip" title="Tìm kiếm sự kiện âm nhạc"><i class="fa fa-music"></i>
+        <span class="l_item_head l_item_head1">Âm nhạc</span>
+        <span class="not-num">{{t.quantity}}</span>
+        {% for i in t.event %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'event:event' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.events_eventspost_event_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_event:'sport' %}
+    <a class="l_item" href="{% url 'search:search' 'event' %}?type=sport" data-toggle="tooltip" title="Tìm kiếm sự kiện âm nhạc"><i class="ion ion-ios-color-filter"></i>
+        <span class="l_item_head l_item_head1">Thể thao</span>
+        <span class="not-num">{{t.quantity}}</span>
+        {% for i in t.event %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'event:event' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.events_eventspost_event_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_event:'esport' %}
+    <a class="l_item" href="{% url 'search:search' 'event' %}?type=esport" data-toggle="tooltip" title="Tìm kiếm sự kiện thể thao điện tử"><i class="fa fa-gamepad"></i>
+        <span class="l_item_head l_item_head1">Esport</span>
+        <span class="not-num">{{t.quantity}}</span>
+        {% for i in t.event %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'event:event' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.events_eventspost_event_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_event:'talk' %}
+    <a class="l_item" href="{% url 'search:search' 'event' %}?type=talk" data-toggle="tooltip" title="Tìm kiếm sự kiện hội thảo"><i class="fa fa-comments-o"></i>
+        <span class="l_item_head l_item_head1">Hội thảo</span>
+        <span class="not-num">{{t.quantity}}</span>
+        {% for i in t.event %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'event:event' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.events_eventspost_event_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_event:'prom' %}
+    <a class="l_item" href="{% url 'search:search' 'event' %}?type=prom" data-toggle="tooltip" title="Tìm kiếm dạ hội"><i class="fa fa-diamond"></i>
+        <span class="l_item_head l_item_head1">Dạ hội</span>
+        <span class="not-num">{{t.quantity}}</span>
+        {% for i in t.event %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'event:event' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.events_eventspost_event_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    </a>
+    {% endwith %}
+    {% with t=request.user|total_event:'tech' %}
+    <a class="l_item" href="{% url 'search:search' 'event' %}?type=tech" data-toggle="tooltip" title="Tìm kiếm sự kiện công nghệ"><i class="fa fa-bolt"></i>
+        <span class="l_item_head l_item_head1">Khoa học/Công nghệ</span>
+        <span class="not-num">{{t.quantity}}</span>
+        {% for i in t.event %}
+        {% with h=i.head|addslash %}
+        <a class="l_item_child" href="{% url 'event:event' i.id h %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.image.url}}">
+            <div class="item_child_head"><span>{{i.head}}</span></div>
+            {% with zz=i.events_eventspost_event_set.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    </a>
+    {% endwith %}
+    <a class="l_item" href="{% url 'event:create' %}"><i class="fa fa-plus-circle"></i>
+        <span class="l_item_head l_item_head1">Tạo sự kiện</span>
+    </a>
+</div>
+

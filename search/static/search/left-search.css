@@ -1,0 +1,92 @@
+#left_nav {
+    font-size : 14px;
+    color : #333;
+    width : 100%;
+}
+.l_item {
+    padding-top: 10px;
+    display : block;
+    cursor : pointer;
+    color : #333;
+}
+.licon {
+    display : inline-block;
+    width : 15px;
+    text-align : left;
+}
+.l_item:hover {
+    color : #111;
+    text-decoration : none;
+}
+.l_item_head {
+    font-weight : 600;
+    color : #193e60;
+}
+.l_item_head1 {
+    color : #337ab7;
+    font-weight : normal;
+}
+.l_item_head2 {
+    color : #666;
+    font-weight : normal;
+    font-size : 13px;
+}
+.lh1 {
+    color : #555;
+    font-weight : normal;
+}
+.ls-label {
+    position : relative;
+}
+.ls-icon {
+    position : absolute;
+    top : 7px;
+    left : 4px;
+    color : #333;
+}
+.not-num {
+    float : right;
+    font-size : 13px;
+    color : #666;
+}
+.num-special {
+    background-color : #1da1f2;
+    border : 1px solid #1da1f2;
+    border-radius : 3px;
+    min-width : 17px;
+    line-height : 1;
+    color : #fff;
+    text-align : center;
+}
+.head_picc {
+    width : 25px;
+    height : 25px;
+    border-radius : 5px;
+    border : 1px solid #ddd;
+}
+.l_item_child {
+    color : #333;
+    padding : 5px 0px;
+    display : flex;
+    align-items : center;
+}
+.l_item_child:hover {
+    text-decoration : none;
+}
+.item_child_img {
+    width : 20px;
+    height : 20px;
+    border-radius : 3px;
+    border : 1px solid #ccc;
+    display : block;
+}
+.item_child_head {
+    margin-left : 5px;
+    max-width : 120px;
+    margin-right : 5px;
+    text-overflow : ellipsis;
+    white-space : nowrap;
+    word-wrap : break-word;
+    display : inline-block;
+    overflow : hidden;
+}

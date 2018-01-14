@@ -1,0 +1,774 @@
+<form method="post" enctype="multipart/form-data" id="plaform">
+    {% csrf_token %}
+    <div id="pltdiv">
+        <div id="pltdiv1">
+            <input type="text" placeholder="Tên hoạt động" id="plinput" autocomplete="off" autocorrect="off" name="plinput"/>
+        </div>
+        <div id="pltdiv2">
+            <textarea id="pltext" placeholder="Tổ chức 1 hoạt động của riêng bạn" autocomplete="off" autocorrect="off" name="pltext"></textarea>
+            <label for="pltfile" title="Thêm ảnh chủ đề"><span class="fa fa-picture-o" id="pltti"></span></label>
+            <input type="file" id="pltfile" name="pltfile" accept="image/*" style="display:none;" />
+        </div>
+        <div id="pltdiv4">
+            <div id="pltadd_file" style="display:none;">
+            </div>
+            <div id="pltadd_pla" style="margin-left:5px;display:none;">
+                - Tại 
+            </div>
+            <div id="pltadd_fr" style="margin-left:5px;display:none;">
+                + Gửi lời mời tới 
+            </div>
+        </div>
+        <div id="pltdiv3">
+            <div id="pltfriend2">
+                <div id="pltfr1">
+                    <span class="fa fa-envelope-o"></span>
+                </div>
+                <div id="pltfr2">
+                    <input type="text" placeholder="Bạn sẽ mời ai?" autocomplete="off" id="pltfr2_in">
+                </div>
+                <div id="pltfr3">
+                </div>
+            </div>
+            <div id="plttime2">
+                <div id="pltti1">
+                    <span class="fa fa-calendar"></span>
+                </div>
+                <div id="pltti2">
+                    <select name="year">
+                        <option value="">Năm</option>
+                    </select>
+                </div>
+                <div id="pltti3" style="display:none;">
+                    <select name="month">
+                        <option value="">Tháng</option>
+                    </select>
+                </div>
+                <div id="pltti4" style="display:none;">
+                    <select name="day">
+                        <option value="">Ngày</option>
+                    </select>
+                </div>
+                <div id="pltti5" style="display:none;">
+                    <select name="hour">
+                        <option value="">Giờ</option>
+                    </select>
+                </div>
+                <div id="pltti6" style="display:none;">
+                    <select name="minute">
+                        <option value="">Phút</option>
+                    </select>
+                </div>
+            </div>
+            <div id="pltplace2">
+                <div id="pltpla1">
+                    <span class="fa fa-map-o"></span>
+                </div>
+                <div id="pltpla2">
+                    <input type="text" placeholder="Tổ chức ở đâu" autocomplete="off" id="pltpla2_in">
+                </div>
+                <div id="pltpla3">
+                    <input type="text" placeholder="Địa chỉ cụ thể(Nếu có)" autocomplete="off" id="pltpla3_in" name="pltpla3_in">
+                </div>
+                <div id="pltpla4" class="dropdown-menu">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="plticon">
+        <div id="pltifr" title="Mời bạn bè">
+            <a class="plticona" data-click="friend"><span class="fa fa-envelope-o"></span></a>
+        </div>
+        <div id="pltitime" title="Đặt ngày giờ">
+            <a class="plticona" data-click="time"><span class="fa fa-calendar"></span></a>
+        </div>
+        <div id="pltiplace" title="Chọn địa điểm">
+            <a class="plticona" data-click="place"><span class="fa fa-map-o"></span></a>
+        </div>
+        <div id="pltishare" class="dropdown">
+            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-button" id="pltibutshare"><a style="color:#333;" data-share="1" title="Chia sẻ trên trang tìm kiếm đồng nghĩa với việc mọi người được quyền gửi yêu cầu tham gia">Chia sẻ trên trang tìm kiếm <span class="fa fa-search"></span></a> <span class="caret"></span></button>
+            <ul class="dropdown-menu" id="pltshareren">
+                <li class="pltshareli"><a style="color:#333;" data-share="2" title="Bài đăng chỉ hiển thị lên tường nhà bạn và những người bạn mời tham gia">Chỉ mình tôi và những người được mời <span class="fa fa-lock"></span></a></li>
+                <li class="pltshareli"><a style="color:#333;" data-share="3" title="Chỉ bạn bè mới thấy được bài đăng và họ được quyền gửi lời mời tham gia">Mời bạn bè tham gia <span class="fa fa-user" aria-hidden="true"></span></a></li>
+                <li class="pltshareli"><a style="color:#333;" data-share="4" title="Mọi người thấy được bài đăng được quyền gửi lời mời tham gia">Mời mọi người tham gia <span class="fa fa-globe"></span></a></li>
+            </ul>
+        </div>
+        <div id="pltisubmit">
+            <button type="submit" class="btn btn-button" id="pltibutsub">Đăng bài</button>
+        </div>
+    </div>
+</form>
+<style>
+#pltdiv {
+    margin-bottom : 10px;
+    margin-top : 10px;
+    border-top : 1px solid #ededed;
+    border-bottom : 1px solid #ededed;
+}
+#plticon {
+    display : flex;
+    align-items : center;
+}
+#pltext {
+    resize : none;
+    width : 100%;
+    border : none;
+    padding : 10px;
+}
+#plinput {
+    width : 100%;
+    border : none;
+    padding : 10px;
+    padding-left : 0px;
+    border-bottom : 1px solid #f1f1f1;
+}
+#pltdiv1 {
+    margin-left : 10px;
+    margin-right : 10px;
+}
+#pltdiv2 {
+    position : relative;
+    padding-right : 30px;
+}
+#pltdiv3 {
+    position : relative;
+}
+#pltti {
+    position : absolute;
+    top : 10px;
+    right : 20px;
+}
+#pltifr, #pltitime, #pltiplace {
+    width : 30px;
+    float : left;
+    text-align : center;
+    border-right: 1px solid #dddddd;
+}
+#pltishare {
+    float : left;
+    text-align : center;
+    position : relative;
+    margin-left : 10px;
+    margin-right : 10px;
+}
+#pltibutsub {
+    background-color : rgb(32,28,89);
+    color : white;
+    font-weight : 700;
+    padding : 5px;
+}
+.pltshareli {
+    width : 100%;
+    word-wrap : break-word;
+}
+#pltibutshare {
+    background-color : white;
+    border : 1px solid #aaaaaa;
+    width : 100%;
+}
+#pltshareren {
+    position : absolute;
+    top : 34px;
+    padding : 5px;
+    padding-left : 0px;
+    border : 1px solid #aaaaaa;
+    width : 320px;
+}
+#plticon {
+    padding-left : 2px;
+}
+.plticona {
+    color : #888888;
+}
+.plticona:hover {
+    cursor : pointer;
+}
+.pltshareli:hover {
+    cursor: pointer;
+}
+#pltfriend2 {
+    overflow : hidden;
+    display : flex;
+    align-items : center;
+    margin-bottom : 5px;
+}
+#pltplace2 {
+    overflow : hidden;
+    display : flex;
+    align-items : center;
+    margin-bottom : 5px;
+}
+#plttime2 {
+    overflow : hidden;
+    display : flex;
+    align-items : center;
+    margin-bottom : 5px;
+}
+#pltfr1 {
+    width : 30px;
+    float : left;
+    border-right : 1px solid #aaaaaa;
+    text-align: center;
+    margin-left : 2px;
+}
+#pltfr2 {
+    width : 100%;
+    float : left;
+}
+#pltfr3 {
+    position : absolute;
+    padding : 2px;
+    width : 250px;
+    display : none;
+    top : 30px;
+    left : 5px;
+    border: 1px solid #aaa;
+    background-color : #f9f9f9;
+    z-index:10;
+    box-shadow : 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+#pltfr2_in {
+    border: none;
+    padding : 5px;
+}
+#pltpla1 {
+    width : 30px;
+    float : left;
+    margin-left : 2px;
+    text-align : center;
+    border-right : 1px solid #aaaaaa;
+}
+#pltpla2 {
+    float : left;
+    width : 40%;
+    margin-right : 5px;
+}
+#pltpla3 {
+    float : left;
+    width : 60%;
+}
+#pltpla4 {
+    position : absolute;
+    width : 150px;
+    padding : 10px;
+    top : 110px;
+    left : 5px;
+    border: 1px solid #aaa;
+    z-index : 100;
+    background-color : #f9f9f9;
+    display : none;
+    box-shadow : 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+#pltpla2_in {
+    border: none;
+    padding : 5px;
+    border-right : 1px solid #cccccc;
+}
+#pltpla3_in {
+    border: none;
+    padding : 5px;
+    width : 100%;
+}
+#pltti1 {
+    float : left;
+    width : 30px;
+    border-right : 1px solid #aaaaaa;
+    text-align : center;
+    margin-left : 2px;
+}
+#pltti2 {
+    float : left;
+    width : 70px;
+    text-align : center;
+}
+#pltti3 {
+    float : left;
+    text-align : center;
+    width : 80px;
+}
+#pltti4 {
+    float : left;
+    text-align : center;
+    width : 70px;
+}
+#pltti5, #pltti6 {
+    float : left;
+    text-align : center;
+    width : 65px;
+}
+select {
+    background : #ddd;
+    border: 1px solid rgba(39, 41, 43, 0.15);
+    border-radius : 0.2857rem;
+    box-shadow : 0em 0em 0em 0em transparent inset;
+    padding : 3px 3px;
+    color : rgba(0, 0, 0, 0.8);
+    -webkit-transition : background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition : background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+#pltadd_pla {
+    margin-left : 10px;
+    color : rgb(51, 52, 53);
+}
+#pltadd_pla:hover {
+    cursor:pointer;
+}
+#pltadd_file {
+    margin-left : 10px;
+    margin-bottom : 5px;
+    position : relative;
+}
+#pltaddimg:hover {
+   opacity : 0.6; 
+   background-color : #fafafa;
+   border : 1px dotted #e1e1e1;
+}
+.pltfs {
+    position : absolute;
+    top:0px;
+    left : 105px;
+    font-size : 20px;
+}
+.pltfs:hover {
+    cursor:pointer;
+}
+.cl:hover {
+    cursor:pointer;
+}
+.pltaddfrs {
+    margin-left:5px;
+    margin-bottom : 2px;
+    background-color : #fcfcfc;
+    font-weight : bold;
+    padding : 3px;
+    border: 1px solid #fafafa;
+}
+
+/* this if for render friend list */
+
+.isfa {
+    padding : 3px;
+    margin-bottom : 3px;
+    display : block;
+    z-index : 100;
+}
+.isfa:hover {
+    cursor : pointer;
+}
+.isca {
+    padding : 2px;
+    z-index:100;
+    display : block;
+}
+.isca:hover {
+    cursor : pointer;
+}
+
+</style>
+<script>
+    $('#pltext').each(function() {
+        this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+    }).on('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight)+'px';
+    });
+(function() {
+    $('#pltishare').on('click','.pltshareli', function() {
+        var $this = $(this);
+        var ele = $this.children('a');
+        var but = $this.parents('#pltishare').children('button');
+        var cur_ele = but.find('a');
+        but.remove('a').prepend(ele);
+        $this.empty('a').append(cur_ele);
+    });
+
+    $('#pltfr2_in').on('keyup', function() {
+        var $this = $(this);
+        var key = $this.val();
+        var al = $('#pltadd_fr').children('span');
+        var x = [];
+        al.each(function() {
+            x.push($(this).data('id'));
+        });
+        var ren = $this.parents('#pltfriend2').find('#pltfr3');
+        $.ajax({
+            url : "{% url 'search:instancesearch' 'friend' %}",
+            method : 'GET',
+            data : {'key':key ,'except':JSON.stringify(x)},
+            success : function(data) {
+                ren.empty().append(data).show();
+            }
+        });
+    }).on('focusout', function() {
+        var $this = $(this);
+        var ren = $this.parents('#pltfriend2').find('#pltfr3');
+        ren.hide();
+    });
+    $('#pltpla2_in').on('keyup', function() {
+        var $this = $(this);
+        var key = $this.val();
+        var ren = $this.parents('#pltplace2').find('#pltpla4');
+        $.ajax({
+            url : "{% url 'search:instancesearch' 'city' %}",
+            method : 'GET',
+            data : {'key':key },
+            success : function(data) {
+                ren.empty().append(data).show();
+            }
+        });
+    }).on('focusout', function() {
+        var $this = $(this);
+        var ren = $this.parents('#pltplace2').find('#pltpla4');
+        ren.hide();
+    });
+    $('#pltplace2').on('click','a', function() {
+        var $this = $(this); 
+        var city_name = $this.text();
+        var city_code = $this.data('city-code');
+        $('#pltadd_pla').find('span').remove();
+        $('#pltadd_pla').append($(['<span data-city-code="',city_code,'">',city_name,'</span>'].join('')));
+        $('#pltadd_pla').show();
+    });
+    $('#pltfr3').on('click', '.isfa', function() {
+        var $this = $(this);
+        var fname = $this.find('span').text();
+        var fid = $this.data('id');
+        $( ['<span class="pltaddfrs" data-id="',fid,'">',fname,' <span class="cl">&times;</span></span>'].join('')).appendTo( $('#pltadd_fr'));
+        $('#pltadd_fr').show();
+    });
+    $('#pltadd_fr').on('click', '.cl', function() {
+        var $this = $(this);
+        $this.parent('.pltaddfrs').remove();
+        if (!($('#pltadd_fr').find('span').get(0))) {
+            $('#pltadd_fr').hide();
+        }
+    });
+
+})();
+(function() {
+
+function readURL(input) {
+    var $this = input;
+    input = input.get(0);
+    var pa = $('#pltadd_file');
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img= $( ['<img id="pltaddimg" src="',e.target.result,'" />'].join(''));
+            img.css({'width':'120px','height':'120px'});
+            pa.empty().append(img).show();
+            $('<span class="pltfs">&times;</span>').on('click', function() {
+                $this.val('');
+                pa.empty().hide();
+            }).insertAfter(img);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+    $('#pltfile').on('change', function() {
+        readURL($(this));
+    });
+})();
+(function() {
+    var today = new Date();
+    var dayx = today.getDate();
+    var yearx = today.getFullYear();
+    var monthx = today.getMonth() + 1;
+    var hourx = today.getHours();
+    var ren_yearx = $('#pltti2').find('select');
+    var ren_monthx = $('#pltti3').find('select');
+    var ren_dayx = $('#pltti4').find('select');
+    var ren_hourx = $('#pltti5').find('select');
+    var ren_minutex = $('#pltti6').find('select');
+    var year_choosed, month_choosed, day_choosed;
+
+    for (var i =yearx; i <= yearx + 1; i++) {
+        var l = $(['<option value="',i,'">',i,'</option>'].join(''));
+        ren_yearx.append(l);
+    }
+
+    ren_yearx.on('change', function() {
+        var $this = $(this);
+        year_choosed = parseInt($this.val());
+        if (year_choosed) {
+            if (year_choosed == yearx) {
+                $('#pltti4').hide();
+                ren_dayx.empty();
+                $('#pltti5').hide();
+                ren_hourx.empty();
+                $('#pltti6').hide();
+                ren_minutex.empty();
+                ren_monthx.empty();
+                ren_monthx.append( $('<option value="">Tháng</option>'));
+                for (i = monthx; i <= 12; i++) {
+                    var l = $(['<option value="',i,'">',i,'</option>'].join(''));
+                    ren_monthx.append(l);
+                }
+            }
+            else {
+                $('#pltti4').hide();
+                ren_dayx.empty();
+                $('#pltti5').hide();
+                ren_hourx.empty();
+                $('#pltti6').hide();
+                ren_minutex.empty();
+                ren_monthx.empty();
+                ren_monthx.append( $('<option value="">Tháng</option>'));
+                for (i = 1; i <= 12; i++) {
+                    var l = $(['<option value="',i,'">',i,'</option>'].join(''));
+                    ren_monthx.append(l);
+                }
+            }
+            $('#pltti3').show();
+        }
+        else {
+            $('#pltti3').hide();
+            ren_monthx.empty();
+            $('#pltti4').hide();
+            ren_dayx.empty();
+            $('#pltti5').hide();
+            ren_hourx.empty();
+            $('#pltti6').hide();
+            ren_minutex.empty();
+        }
+
+    });
+    ren_monthx.on('change', function() {
+        var $this = $(this);
+        month_choosed = parseInt($this.val());
+        if (month_choosed) {
+            if (month_choosed == 1 || month_choosed == 3 || month_choosed == 5 || month_choosed == 7 || month_choosed == 8 || month_choosed == 10 || month_choosed == 12) {
+                if(month_choosed == monthx && year_choosed == yearx) {
+                $('#pltti5').hide();
+                ren_hourx.empty();
+                $('#pltti6').hide();
+                ren_minutex.empty();
+                    ren_dayx.empty();
+                    ren_dayx.append( $('<option value="">Ngày</option>'));
+                    for (i = dayx; i <= 31; i++) {
+                        var l = $(['<option value="',i,'">',i,'</option>'].join(''));
+                        ren_dayx.append(l);
+                    }
+                    $('#pltti4').show();
+                }
+                else {
+                    $('#pltti5').hide();
+                    ren_hourx.empty();
+                    $('#pltti6').hide();
+                    ren_minutex.empty();
+                    ren_dayx.empty();
+                    ren_dayx.append( $('<option value="">Ngày</option>'));
+                    for (i = 1; i <= 31; i++) {
+                        var l = $(['<option value="',i,'">',i,'</option>'].join(''));
+                        ren_dayx.append(l);
+                    }
+                    $('#pltti4').show();
+                }
+            }
+            else if(month_choosed == 2) {
+                var isLeap = isLeapYear(year_choosed);
+                if (month_choosed == monthx && year_choosed == yearx) {
+                    if (isLeap) {
+                        $('#pltti5').hide();
+                        ren_hourx.empty();
+                        $('#pltti6').hide();
+                        ren_minutex.empty();
+                        ren_dayx.empty();
+                        ren_dayx.append( $('<option value="">Ngày</option>'));
+                        for (i = dayx; i <= 29; i++) {
+                            var l = $(['<option value="',i,'">',i,'</option>'].join(''));
+                            ren_dayx.append(l);
+                        }
+                        $('#pltti4').show();
+                    }
+                    else {
+                        $('#pltti5').hide();
+                        ren_hourx.empty();
+                        $('#pltti6').hide();
+                        ren_minutex.empty();
+                        ren_dayx.empty();
+                        ren_dayx.append( $('<option value="">Ngày</option>'));
+                        for (i =dayx; i <= 28; i++) {
+                            var l = $(['<option value="',i,'">',i,'</option>'].join(''));
+                            ren_dayx.append(l);
+                        }
+                        $('#pltti4').show();
+                    }
+                }
+                else {
+                    if (isLeap) {
+                        $('#pltti5').hide();
+                        ren_hourx.empty();
+                        $('#pltti6').hide();
+                        ren_minutex.empty();
+                        ren_dayx.empty();
+                        ren_dayx.append( $('<option value="">Ngày</option>'));
+                        for (i = 1; i <= 29; i++) {
+                            var l = $(['<option value="',i,'">',i,'</option>'].join(''));
+                            ren_dayx.append(l);
+                        }
+                        $('#pltti4').show();
+                    }
+                    else {
+                        $('#pltti5').hide();
+                        ren_hourx.empty();
+                        $('#pltti6').hide();
+                        ren_minutex.empty();
+                        ren_dayx.empty();
+                        ren_dayx.append( $('<option value="">Ngày</option>'));
+                        for (i = 1; i <= 28; i++) {
+                            var l = $(['<option value="',i,'">',i,'</option>'].join(''));
+                            ren_dayx.append(l);
+                        }
+                        $('#pltti4').show();
+                    }
+                }
+            }
+            else {
+                if(month_choosed == monthx && year_choosed == yearx) {
+                    $('#pltti5').hide();
+                    ren_hourx.empty();
+                    $('#pltti6').hide();
+                    ren_minutex.empty();
+                    ren_dayx.empty();
+                    ren_dayx.append( $('<option value="">Ngày</option>'));
+                    for (i = dayx; i <= 30; i++) {
+                        var l = $(['<option value="',i,'">',i,'</option>'].join(''));
+                        ren_dayx.append(l);
+                    }
+                    $('#pltti4').show();
+                }
+                else {
+                    $('#pltti5').hide();
+                    ren_hourx.empty();
+                    $('#pltti6').hide();
+                    ren_minutex.empty();
+                    ren_dayx.empty();
+                    ren_dayx.append( $('<option value="">Ngày</option>'));
+                    for (i = 1; i <= 30; i++) {
+                        var l = $(['<option value="',i,'">',i,'</option>'].join(''));
+                        ren_dayx.append(l);
+                    }
+                    $('#pltti4').show();
+                }
+
+            }
+
+        }
+        else {
+            $('#pltti4').hide();
+            $('#pltti5').hide();
+            ren_hourx.empty();
+            $('#pltti6').hide();
+            ren_minutex.empty();
+        }
+
+    });
+
+    ren_dayx.on('change', function() {
+        var $this = $(this);
+        day_choosed = parseInt($this.val());
+        if (day_choosed) {
+            if (day_choosed == dayx) {
+                $('#pltti6').hide();
+                ren_minutex.empty();
+                ren_hourx.empty();
+                ren_hourx.append( $('<option value="">Giờ</option>'));
+                for (i = hourx + 1; i <= 23; i++) {
+                    l = $(['<option value="',i,'">',i,'</option>'].join(''));
+                    ren_hourx.append(l);
+                }
+            }
+            else {
+                $('#pltti6').hide();
+                ren_minutex.empty();
+                ren_hourx.empty();
+                ren_hourx.append( $('<option value="">Giờ</option>'));
+                for (i = 1; i <= 23; i++) {
+                    var l = $(['<option value="',i,'">',i,'</option>'].join(''));
+                    ren_hourx.append(l);
+                }
+            }
+            $('#pltti5').show();
+        }
+        else {
+            $('#pltti5').hide();
+            ren_hourx.empty();
+            $('#pltti6').hide();
+            ren_minutex.empty();
+        }
+
+    });
+    ren_hourx.on('change', function() {
+        for(i = 0; i < 60; i+= 5) {
+            l = $(['<option value="',i,'">',i,'</option>'].join(''));
+            ren_minutex.append(l);
+        }
+        $('#pltti6').show();
+    });
+
+    function isLeapYear(year) {
+        if (year % 4 != 0) {
+            return false;
+        }
+        else if (year %100 != 0) {
+            return true;
+        }
+        else if (year % 400 != 0) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+})();
+
+(function() {
+    $('#plaform').on('submit', function(e) {
+        e.preventDefault();
+        var $this = $(this);
+        var dataform = new FormData($(this)[0]);
+        var plx = $this.find('#pltadd_fr').children('span');
+        var pl = []
+        plx.each(function() {
+            pl.push($(this).data('id'));
+    });
+        dataform.append("pl_invite", pl);
+        dataform.append("pl_city", $this.find('#pltadd_pla').find('span').data('city-code'));
+        dataform.append("share", $('#pltibutshare').children('a').data('share'));
+        dataform.append("timezone", -new Date().getTimezoneOffset()/60);
+
+        if (dataform.get('share') === '1') {
+            if (dataform.get('plinput') && dataform.get('pltext') && dataform.get('pltfile') && dataform.get('day') && dataform.get('pl_city') )
+            {
+            }
+            else {
+                alert('Khi chia sẻ trên trang tìm kiếm, bạn phải điền vào Tên hoạt động, Mô tả hoạt động, Ảnh chủ đề, Ngày tổ chức vá Địa điểm tổ chức')
+                return false;
+            }
+        }
+        var csrftoken = getCookie('csrftoken');
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                }
+            }
+        });
+        $.ajax({
+            url : '{% url "plan:create" %}',
+            method : 'POST',
+            processData : false,
+            contentType : false,
+            data: dataform,
+            success: function(data) {
+                alert('css');
+            },
+        });
+
+    });
+
+})();
+</script>

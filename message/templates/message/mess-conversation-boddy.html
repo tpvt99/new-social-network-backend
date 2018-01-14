@@ -1,0 +1,31 @@
+{% for i in mess %}
+    {% if i.user_send.id == user1 %}
+    <div class="chat-box1">
+        <div class="chat-box-wrapper">
+            {% if i.user_send.info.profile_pic %}
+            <img src="{{i.user_send.info.profile_pic.url}}" class="chat-box1-img">
+            {% else %}
+            <img src="/static/web/user.jpeg" class="chat-box1-img">
+            {% endif %}
+            <div class="chat-con-1">
+                <div class="chat-con-style">
+                    <p class="chat-con-text">{{i.text}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="chat-box2">
+        {% if i.user_send.info.profile_pic %}
+        <img src="{{i.user_send.info.profile_pic.url}}" class="chat-box2-img">
+        {% else %}
+        <img src="/static/web/user.jpeg" class="chat-box2-img">
+        {% endif %}
+        <div class="chat-con-2">
+            <div class="chat-con-style">
+                <p class="chat-con-text">{{i.text}}</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}

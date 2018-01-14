@@ -1,0 +1,43 @@
+.tl-div-a span:last-child{
+    text-transform : uppercase;
+}
+.tl-div-b {
+    background-color : #34495e;
+}
+.tl-div {
+    flex-flow : column nowrap;
+    justify-content : center;
+    align-items : center;
+    padding : 15px 10px;
+    font-size : 13px;
+}
+.tl-div:link,
+.tl-div:visited {
+    text-decoration : none;
+    color : #aaa;
+    transition : color 0.2s linear;
+}
+.tl-div:hover,
+.tl-div:active {
+    color : #fff;
+}
+.tl-div span {
+    color : inherit;
+}
+.tl-div span:first-child {
+    font-size : 18px;
+}
+
+.tl-div img {
+    width : 20px;
+    height : 20px;
+    border-radius : 50%;
+}
+.tl-div span.a-text {
+    text-overflow : ellipsis;
+    overflow : hidden;
+    white-space : nowrap;
+    max-width : 120px;
+    word-wrap : break-word;
+    display : inline-block;
+}

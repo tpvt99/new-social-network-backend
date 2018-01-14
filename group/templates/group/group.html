@@ -1,0 +1,443 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block no_global-main %}
+{% spaceless %}
+<section class="global-main row">
+    <section class="group-left col span-1-of-4">
+        <div class="group-image">
+            <div class="group-img">
+            {% if group.group_groupinfo_group.image %}
+            <img src="{{group.group_groupinfo_group.image.url}}">
+            {% else %}
+            <img src="/static/group/group.jpg">
+            {% endif %}
+            </div>
+        </div>
+        <div class="group-name">
+            <h3 class="text-overflow"><a href="{% url 'group:group' group.id %}">{{group.name}}</a></h3>
+        </div>
+    </section>
+
+    <section class="group-middle col span-3-of-4">
+        <div class="group-background">
+            {% if group.group_groupinfo_group.background %}
+            <div style="background-image : linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.4)), url({{group.group_groupinfo_group.background.url}})">
+            {% else %}
+            <div style="background-image : linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.4)),url(/static/group/background.jpg)">
+            {% endif %}
+                <div class="div-priv">
+                    <div class="dropdown">
+                    {% if group.privacy == 'private' %}
+                        <a href="#" data-toggle="dropdown" class="a-pr"><span class="fa fa-lock"></span><span style="margin-left:10px;">Nhóm riêng tư</span></a>
+                    {% else %}
+                        <a href="#" data-toggle="dropdown" class="a-pr"><span class="fa fa-unlock-alt"></span><span style="margin-left:10px;">Nhóm công khai</span></a>
+                    {% endif %}
+                    {% if is_admin == True %}
+                        <div class="dropdown-menu">
+                            {% csrf_token %}
+                            <a href="javascript:void(0);" class="edit-privacy" data-group="{{group.id}}" data-privacy="private"><span class="fa fa-lock"></span><span style="margin-left:10px;">Nhóm riêng tư</span></a>
+                            <a href="javascript:void(0);" class="edit-privacy" data-group="{{group.id}}" data-privacy="public"><span class="fa fa-unlock-alt"></span><span style="margin-left:10px;">Nhóm công khai</span></a>
+                        </div>
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="div-but">
+                    {% csrf_token %}
+                    {% load group_extras %}
+                    {% if is_member == True %}
+                        {% if is_admin == False %}
+                        <div class="dropdown mem" style="display:inline-block;">
+                            <button type="button" class="bunx" data-x="work" data-group="{{group.id}}" data-toggle="dropdown">Thành viên nhóm
+                            <span class="caret" style="margin-left:5px"></span>
+                            </button>
+                            <div class="dropdown-menu">
+                                {% csrf_token %}
+                                {% with m=request.user|is_follow:group %}
+                                {% if m == True %}
+                                <a href="#" class="follow-edit" data-group="{{group.id}}"><span class="ion-eye-disabled"></span><span style="margin-left:5px;">Bỏ theo dõi nhóm</span></a>
+                                {% else %}
+                                <a href="#" class="follow-edit" data-group="{{group.id}}"><span class="ion-eye"></span><span style="margin-left:5px;">Theo dõi nhóm</span></a>
+                                {% endif %}
+                                {% endwith %}
+                                <a href="#" action="leave" data-group="{{group.id}}" class="leave-remove"><span class="ion-heart-broken"></span><span style="margin-left:5px;">Rời khỏi nhóm</span></a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% with t=request.user|group_type:group %}
+                        {% if t == 'work' %}
+                        <button type="button" class="but but-active" data-x="work" data-group="{{group.id}}" style="margin-right:10px">Công việc</button>
+                        <button type="button" class="but" data-x="entertainment" data-group="{{group.id}}">Giải trí</button>
+                        {% else %}
+                        <button type="button" class="but" data-x="work" data-group="{{group.id}}" style="margin-right:10px;">Công việc</button>
+                        <button type="button" class="but but-active" data-x="entertainment" data-group="{{group.id}}">Giải trí</button>
+                        {% endif %}
+                        {% endwith %}
+                    {% else %}
+                        {% with t=request.user|render_member_button:group %}
+                        {% if t == 'no' %}
+                            <button type="button" class="btnx" data-action="join" data-group="{{group.id}}" autocomplete="off" data-send="true">Tham gia</button>
+                        {% elif t == 'guess' %}
+                        <button type="button" class="btnx" data-action="back" data-group="{{group.id}}" data-who="{{request.user.id}}" data-send="true">Rút lại lời mời tham gia</button>
+                        {% else %}
+                        <button type="button" class="btnx" data-action="accept" data-group="{{group.id}}" data-who="{{request.user.id}}" data-send="true" style="margin-right:10px;">Chấp nhận</button>
+                        <button type="button" class="btnx" data-action="refuse" data-group="{{group.id}}" data-who="{{request.user.id}}" data-send="true">Từ chối</button>
+                        {% endif %}
+                        {% endwith %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="group-main">
+            <div class="group-status">
+                {% if is_member == True %}
+                <div class="status-post">
+                    <form method="post" action="/group/grouppost/" enctype="multipart/form-data" class="post-form-x">
+                        {% csrf_token %}
+                        <input type="hidden" name="group" value="{{group.id}}">
+                        <textarea rows="5" placeholder="Có gì mới trong nhóm của bạn?" name="text" class="st-text"></textarea>
+                        <div class="ac-image"></div>
+                        <div class="post-option clearfix">
+                            <div style="float:left;height:100%;">
+                                <span>
+                                    <label for="st-image"><span class="fa fa-image" title="Thêm hình ảnh"></span><input type="file" name="image" id="st-image" style="display:none;" accept="image/*"></span>
+                            </div>
+                            <div style="float:right;display:flex;align-items:center;">
+                                <span class="status-privacy">{{group.name}}</span>
+                                <button type="submit" class="btn btn-primary">Đăng bài</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+                <div class="status-index">
+                    {% if group.privacy == 'public' or group.privacy == 'private' and is_member == True %}
+                        {% if status %}
+                        {% include 'status/status.html' %}
+                        {% else %}
+                            <p>Nhóm chưa có bài đăng</p>
+                        {% endif %}
+                    {% else %}
+                    <p>Hãy tham gia nhóm để thấy các bài đăng của nhóm</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="group-intro">
+                <div class="intro-member intro-box">
+                    {% with z=group.group_groupmember_group.all %}
+                    <p>Thành viên nhóm<span style="margin-left:5px;color:#1abc9c;">{{z|length}}</span></p>
+                    {% for i in z %}
+                    {% if i.user.info.profile_pic %}
+                        <img src="{{i.user.info.profile_pic.url}}">
+                    {% else %}
+                        <img src="/static/user.jpeg">
+                    {% endif %}
+                    {% endfor %}
+                    {% endwith %}
+                    {% if is_admin == True %}
+                    <p style="margin-top:10px;">Thêm thành viên tham gia</p>
+                    <input type="text" class="member-search" placeholder="Tên bạn bè muốn thêm" style="border:1px solid #ccc;" data-group="{{group.id}}">
+                    <div class="dropdown">
+                        <div class="dropdown-menu fr-div" style="display:none;">
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if is_admin == True %}
+                    <p style='margin-top:10px;'>Lời mời tham gia nhóm</p>
+                    {% with t=group|member_request %}
+                    {% for i in t %}
+                    <div class="handle-but">
+                        {% if i.user.info.profile_pic %}
+                        <img src="{{i.user.info.profile_pic.url}}">
+                        {% else %}    
+                        <img src="/static/web/user.jpeg">
+                        {% endif %}
+                        <div style="margin-left:5px;">
+                            <p style="margin:0;">{{i.user.fullname}}</p>
+                            <p style="margin:0;">
+                            {% csrf_token %}
+                            {% with zz=i.user|render_member_button:group %}
+                            {% if zz == 'owner' %}
+                            <button type="button" class="btnx" data-action="back" data-group="{{group.id}}" data-who="{{i.user.id}}" data-send="true">Rút lại lời mời tham gia</button>
+                            {% elif zz == 'guess' %}
+                            <button type="button" class="btnx" data-action="accept" data-group="{{group.id}}" data-who="{{i.user.id}}" data-send="true" style="margin-right:10px;">Chấp nhận</button>
+                            <button type="button" class="btnx" data-action="refuse" data-group="{{group.id}}" data-who="{{i.user.id}}" data-send="true">Từ chối</button>
+                            {% endif %}
+                            {% endwith %}
+                            </p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endwith %}
+                    {% endif %}
+                </div>
+                <div class="intro-group intro-box">
+                    <p>Giới thiệu về nhóm</p>
+                    {% if group.group_groupinfo_group.intro %}
+                    <p class="text-overflow" style="text-align:center;font-size:13px;">{{group.group_groupinfo_group.intro|linebreaksbr}}</p>
+                    {% else %}
+                    <p class="intro-text">Chưa có giới thiệu nào về nhóm</p>
+                    {% endif %}
+                    {% if is_admin == True %}
+                        <a href="javascript:void(0);" data-group="{{group.id}}" class="intro-edit"><span class="fa fa-plus-square-o"></span><span style="margin-left:5px;">Thêm giới thiệu về nhóm</span></a>
+                        <a href="javascript:void(0);" class="image-edit" data-group="{{group.id}}"><span class="fa fa-plus-square"></span><span style="margin-left:5px;">Thay đổi ảnh của nhóm</span></a>
+                        <a href="javascript:void(0);" class="background-edit" data-group="{{group.id}}"><span class="fa fa-plus-circle"></span><span style="margin-left:5px;">Thay đổi ảnh đại diện của nhóm</span></a>
+                    {% endif %}
+                </div>
+                <div class="activity-group intro-box">
+                    <p>Hoạt động của nhóm</p>
+                    {% load activity_extras %}
+                    {% with z=group|outgoing_activity_group %}
+                    {% if z %}
+                    {% for i in z %}
+                    <div style="margin:10px;">
+                        {% with s=i.head|addslash %}
+                        <a href="{% url 'activity:activity' i.id s %}" style="display:flex;">
+                        <img src="{{i.image.url}}">
+                        <div style="margin-left:5px;">
+                            <p>{{i.head}}</p>
+                            <p class="or-cont"><span class="hour" style="margin-left:3px;">{{i.time_begin.hour}}</span><span style="margin-left:3px;margin-right:3px;">giờ</span><span class="minute">{{i.time_begin.minute}}</span><span style="margin-left:3px">phút</span> -<span class="day" style="margin-left:3px;">{{i.time_begin.day}}</span><span style="margin-left:3px;margin-right:3px;">tháng</span><span class="month">{{i.time_begin.month}}</span><span style="margin-left:3px;margin-right:3px;">năm</span><span class="year">{{i.time_begin.year}}</span></p>
+                        </div>
+                        </a>
+                        {% endwith %}
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p style="font-size:13px;">Không có hoạt động nào của nhóm sắp diễn ra</p>
+                    {% endif %}
+                    {% endwith %}
+                    {% if is_admin == True %}
+                        <a href="{% url 'activity:create' %}"><span class="fa fa-rocket"></span><span style="margin-left:5px;">Tạo hoạt động cho nhóm</span></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+{% endspaceless %}
+{% endblock %}
+
+{% block head %}
+<style>
+.global-main {
+    margin-top : 70px;
+    width : 100%;
+}
+.group-left {
+    margin : 0;
+    padding : 0px 15px;
+}
+.group-middle {
+    margin : 0;
+    padding : 0px 15px;
+}
+body {
+    background-color : #fff;
+}
+.group-img img {
+    width : 100%;
+    height : 200px;
+    border-radius : 5px;
+}
+.group-name {
+    text-align : center;
+}
+.text-overflow {
+    word-wrap : break-word;
+    word-break : keep-all;
+}
+.group-name h3 {
+    margin : 10px 0px;
+}
+.group-name h3 a:link,
+.group-name h3 a:visited {
+    text-decoration : none;
+    color : #3889db;
+}
+.group-name h3 a:hover,
+.group-name h3 a:active{
+    text-decoration : none;
+    color : #2980b9;
+}
+.group-background > div {
+    position : relative;
+    background-size : cover;
+    background-position : center;
+    width : 100%;
+    height : 200px;
+    border-radius : 5px;
+}
+.div-but .bunx {
+    padding : 5px 10px;
+    border-radius : 2px;
+    border : 1px solid #eee;
+    background-color: #eee;
+    margin-right : 10px;
+}
+.mem a:link,
+.mem a:visited {
+    font-size : 13px;
+    display : block;
+    padding : 3px;
+    text-decoration : none;
+}
+.div-but .but, .div-but .btnx{
+    background-color : transparent;
+    padding : 5px 10px;
+    color : #fff;
+    display : inline-block;
+    border-radius : 5px;
+    border : 1px solid #fff;
+    transition : background-color 0.2s;
+}
+.div-but .but-active {
+    background-color : #2ecc71;
+    border : 1px solid #2ecc71;
+}
+.div-but .but-active:hover {
+    background-color : #27ae60;
+}
+.div-but .but:not(.but-active):hover {
+    background-color : #ccc;
+}
+.group-background .div-but {
+    position : absolute;
+    bottom : 20px;
+    right : 20px;
+}
+.group-main {
+    margin-top : 20px;
+}
+.group-status {
+    float : left;
+    width : 60%;
+}
+.group-intro {
+    float : left;
+    width : 40%;
+    padding-left : 15px;
+}
+.post-form-x {
+    border : 1px solid #ccc;
+    border-radius : 5px;
+    margin-bottom : 10px;
+}
+.status-post {
+}
+.post-option {
+    background-color : #eee;
+    padding : 5px;
+}
+.post-option div:first-child span{
+    display : inline-block;
+    margin : 0px 10px;
+    font-size : 15px;
+    cursor : pointer;
+}
+.status-post textarea {
+    resize : none;
+    width : 100%;
+    border : none;
+    padding : 10px 15px;
+}
+.status-privacy {
+    display : inline-block;
+    max-width : 100px;
+    text-overflow : ellipsis;
+    font-size : 13px;
+    white-space : nowrap;
+    overflow : hidden;
+    margin-right : 10px;
+}
+.intro-box {
+    border : 1px solid #ccc;
+    border-radius : 5px;
+    padding : 5px;
+    margin-bottom : 20px;
+    background-color : #f2f8fc;
+}
+.intro-member {
+}
+.intro-member img {
+    width : 40px;
+    height : 40px;
+}
+.activity-group a:link,
+.activity-group a:visited,
+.intro-group a:link,
+.intro-group a:visited {
+    font-size : 13px;
+    display : block;
+    margin : 0px 2%;
+    text-decoration : none;
+    color : #3289db;
+}
+.activity-group a:active,
+.activity-group a:hover,
+.intro-group a:active,
+.intro-group a:hover {
+    color : #34495e;
+}
+.activity-group img {
+    width : 45px;
+    height : 45px;
+}
+.intro-text {
+    font-size : 13px;
+    text-align : center;
+}
+.div-priv .dropdown {
+    position : absolute;
+    left : 10px;
+    bottom : 10px;
+}
+.div-priv a:link,
+.div-priv a:visited {
+    display : block;
+    color : #666;
+    text-decoration : none;
+    padding : 5px;
+}
+.div-priv a:hover,
+.div-priv a:active{
+    color : #aaa;
+}
+.div-priv a.a-pr:link,
+.div-priv a.a-pr:visited {
+    color : #fff;
+}
+.handle-but {
+    display : flex;
+    align-teims : center;
+    font-size : 13px;
+}
+.handle-but img {
+    width : 50px;
+    height : 50px;
+    border-radius : 5px;
+}
+</style>
+{% endblock %}
+{% block script %}
+<script type="text/javascript" src="/static/group/post_image.js"></script>
+<script type="text/javascript" src="/static/group/post_textarea.js"></script>
+<script type="text/javascript" src="/static/group/post_submit.js"></script>
+<script type="text/javascript" src="/static/group/time_adjust.js"></script>
+<script type="text/javascript" src="/static/group/image.js"></script>
+<script type="text/javascript" src="/static/group/background.js"></script>
+<script type="text/javascript" src="/static/group/member-add.js"></script>
+<script type="text/javascript" src="/static/group/member-group-type.js"></script>
+<script type="text/javascript" src="/static/group/intro.js"></script>
+<script type="text/javascript" src="/static/group/edit-privacy.js"></script>
+<script type="text/javascript" src="/static/group/button-btnx.js"></script>
+<script type="text/javascript" src="/static/group/member-follow.js"></script>
+<script type="text/javascript" src="/static/group/member-leave.js"></script>
+{% endblock %}

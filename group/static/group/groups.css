@@ -1,0 +1,91 @@
+.group-a, .group-navigation {
+    background-color : #fff;
+    width : 90%;
+    margin : 0 auto;
+    margin-bottom : 30px;
+}
+.group-navigation {
+    padding : 15px 10px;
+    background-color : #1abc9c;
+}
+.group-navigation a:link,
+.group-navigation a:visited{
+    background-color : #fff;
+    border : 1px solid #fff;
+    padding : 5px 10px;
+    text-decoration : none;
+}
+.group-navigation a.create-group {
+    margin-left : 20px;
+    background-color : #3498db;
+    color : #fff;
+}
+h3 {
+    font-family : 'Open Sans';
+    font-weight : 300;
+    letter-spacing : 0.1px;
+    font-size : 150%;
+    word-spacing : 2px;
+    text-transform : uppercase;
+    text-align : center;
+    padding : 10px 0px;
+}
+.group-a h3:after {
+    content : '';
+    display : block;
+    height : 2px;
+    width : 100px;
+    margin : 0 auto;
+    background-color : #e74c3c;
+    margin-top : 15px;
+}
+.group-image {
+    width : 100%;
+    height : 200px;
+    color : #fff;
+    background-size : cover;
+    background-position : center;
+}
+.col-half {
+    width : 50%;
+    padding : 20px 30px;
+}
+.group-image a:link,
+.group-image a:visited {
+    text-decoration : none;
+    color : #fff;
+    font-weight : 600;
+    word-spacing : 0.1px;
+    font-size : 15px;
+    border-bottom : transparent;
+    padding-bottom : 5px;
+    transition : border-bottom 0.2s linear;
+}
+.group-image a:hover,
+.group-image a:active {
+    border-bottom : 1px solid #e74c3c;
+}
+.group-create {
+    border : 1px solid #ccc;
+    border-radius : 5px;
+    width : 500px;
+    margin : 20px auto;
+    padding : 10px;
+}
+.h-form {
+    text-align : center;
+    color : #e74c3c;
+}
+select[name="privacy"] {
+    border : 1px solid #ccc;
+    border-radius : 5px;
+    padding :3px 6px;
+    margin-left : 10px;
+}
+.group-name {
+    width : 70%;
+    padding : 4px 6px;
+    margin : 10px;
+    border : 1px solid #e67e22;
+    border-radius : 3px;
+}

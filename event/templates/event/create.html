@@ -1,0 +1,94 @@
+{% extends 'web/standardpage.html' %}
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<p class="main">Tạo sự kiện</p>
+<div style="text-align:center;display:block;">
+    <div class="mx">
+        <div class="e1 e_music">
+            <img src="/static/event/music.jpeg" class="e_img"/>
+            <p class="music xt">Âm nhạc</p>
+        </div>
+    </div>
+    <div class="mx">
+        <div class="e1 e_sport">
+            <img src="/static/event/sport.jpeg" class="e_img"/>
+            <p class="sport xt">Thể Thao</p>
+        </div>
+    </div>
+    <div class="mx">
+        <div class="e1 e_talk">
+            <img src="/static/event/talk.jpeg" class="e_img"/>
+            <p class="talk xt">Hội thảo</p>
+        </div>
+    </div>
+    <div class="mx">
+        <div class="e1 e_prom">
+            <img src="/static/event/prom.jpeg" class="e_img"/>
+            <p class="prom xt">Prom</p>
+        </div>
+    </div>
+    <div class="mx">
+        <div class="e1 e_tech">
+            <img src="/static/event/tech.jpeg" class="e_img"/>
+            <p class="tech xt">Khoa học/Kỹ thuật</p>
+        </div>
+    </div>
+    <div class="mx">
+        <div class="e1 e_fair">
+            <img src="/static/event/fair.jpeg" class="e_img"/>
+            <p class="fair xt">Hội chợ/Triễn lãm</p>
+        </div>
+    </div>
+</div>
+<style>
+.main {
+    font-size : 20px;
+    text-align : center;
+    margin-top : 60px;
+}
+.mx {
+    margin-top : 30px;
+    margin-left : 20px;
+    box-sizing : border-box;
+    display : inline-block;
+}
+.e1 {
+    width : 300px;
+    height : 200px;
+    cursor : pointer;
+}
+.e_img {
+    width : inherit;
+    height : inherit;
+}
+.xt {
+    font-size  : 18px;
+    text-align : center;
+    margin-top : 10px;
+    font-weight : 600;
+    font-family : serif, sans-serif;
+}
+.music {
+    color : #c6538c;
+}
+.sport {
+    color : #00b300;
+}
+.talk {
+    color : #e68a00;
+}
+.prom {
+    color : #e6005c;
+}
+.tech {
+    color : #0073e6;
+}
+.exhibition {
+    color : #fafa11;
+}
+</style>
+<script src="/static/event/create.js" async="true"></script>
+{% endblock %}
+

@@ -1,0 +1,57 @@
+<div id="main_search">
+</div>
+
+<script>
+var curr_page = 1;
+var hasmoreload = true;
+var q= $('input#q_act_s').data('q');
+function getDocHeight() {
+    var D = document;
+    return Math.max(
+            D.body.scrollHeight, D.documentElement.scrollHeight,
+            D.body.offsetHeight, D.documentElement.offsetHeight,
+            D.body.clientHeight, D.documentElement.clientHeight);
+}
+
+var loadScroll = function(e) {
+    var page = e.data.page;
+    var i = e.data.i;
+    if ( $(window).scrollTop() + $(window).height() > getDocHeight() - 100 ) {
+        $(window).off('scroll');
+        callAjax(page, i);
+    }
+}
+
+function LoadAjax(page, i) {
+    $.ajax({
+        url : "{% url 'search:activity_content' %}",
+        method : 'GET',
+        data: {'page' :page, 'id':i, 'q':q },
+        success : function(data) {
+            $('div#main_search').append(data);
+            callAjax(page, parseInt(i) +1);
+       },
+        statusCode: {
+            404: function() {
+                hasmoreload = false;
+                if(page === 1 && i ===0) {
+                    $('div#main_search').text('Bộ lọc tìm kiếm không nhận ra từ khóa của bạn muốn tìm');
+                }
+            }
+        }
+
+    });
+}
+
+function callAjax(page, i) {
+    if (i === 5) {
+        page = parseInt(page) + 1;
+        i = 0;
+        $(window).on('scroll', {'page':page,'i':i}, loadScroll);
+    }
+    else {
+        LoadAjax(page, i);
+    }
+}
+callAjax(curr_page, 0);
+</script>

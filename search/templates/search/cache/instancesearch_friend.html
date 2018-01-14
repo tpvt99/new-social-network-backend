@@ -1,0 +1,20 @@
+{% for friend in friends %}
+<div class="isfa" data-id="{{ friend.friend.id }}">
+    {% if friend.friend.info.profile_pic %}
+    <div class="isfa1">
+        <img src="{{ friend.friend.info.profile_pic.url}}" style="width:30px;height:30px;">
+    </div>
+    <div class="isfa2">
+        {{ friend.friend.fullname }}
+    </div>
+    {% else %}
+    {% load staticfiles %}
+    <div class="isfa1">
+        <img src="{% static 'web/user.jpeg' %}" style="width:30px;height:30px;">
+    </div>
+    <div class="isfa2">
+        {{ friend.friend.fullname }}
+    </div>
+    {% endif %}
+</div>
+{% endfor %}

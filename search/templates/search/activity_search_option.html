@@ -1,0 +1,110 @@
+<form method="post" class="s-form" action="/activity/search/">
+    {% csrf_token %}
+    <input type="hidden" name="type" value="{{request.GET.type}}">
+    <input type="hidden" name="timezone" value="">
+    <input type="hidden" name="time" value="all">
+    <input type="hidden" name="age" value="all">
+    <div class="m_op_a">
+        <span class="fa fa-search m_op_a_l"></span>
+        <input type="search" name="m_op_head" class="m_op_head" id="m_op_head" value="{{head}}" autocomplete="off" placeholder="Tên chủ đề..." style="width:200px;">
+    </div>
+    <div class="m_op_a">
+        {% with a=request.GET.type %}
+        {% if a == 'sport' %}
+        <select name="m_op_which">
+            {% include 'activity/sport_type.html' %}
+        </select>
+        {% elif a == 'esport' %}
+        <select name="m_op_which">
+            {% include 'activity/esport_type.html' %}
+        </select>
+        {% elif a == 'sing' %}
+        <select name="m_op_which">
+            {% include 'activity/song_type.html' %}
+        </select>
+        {% endif %}
+        {% endwith %}
+    </div>
+    <div class="m_op_a">
+        <select name="m_op_place">
+            {% include 'activity/province.html' %}
+        </select>
+    </div>
+    <div class="m_op">
+            <p class="m_hh"><span class="ion ion-ios-people"></span> Số lượng</p>
+            <label class="m_op_ral"><input type="radio" name="quantity" value="unlimited" class="m_op_ra" checked><span class="m_op_rax">Không giới hạn</span></label>
+            <label class="m_op_ral"><input type="radio" name="quantity" value="limited" class="m_op_ra" ><span class="m_op_rax">Giới hạn</span></label>
+    </div>
+    <div class="m_op">
+            <p class="m_hh"><span class="fa fa-money"></span> Chi phí tham gia: </p>
+            <label class="m_op_ral"><input type="radio" name="fee" value="free" class="m_op_ra" checked><span class="m_op_rax">Miễn phí</span></label>
+            <label class="m_op_ral"><input type="radio" name="fee" value="nofree" class="m_op_ra"><span class="m_op_rax">Có phí</span></label>
+    </div>
+    <div class="m_op">
+            <p class="m_hh"><span class="ion ion-android-people"></span> Giới tính</p>
+            <label class="m_op_ral"><input type="radio" name="sex" value="both" class="m_op_ra" checked><span class="m_op_rax">Tất cả</span></label>
+            <label class="m_op_ral"><input type="radio" name="sex" value="male" class="m_op_ra"><span class="m_op_rax">Nam</span></label>
+            <label class="m_op_ral"><input type="radio" name="sex" value="female" class="m_op_ra"><span class="m_op_rax">Nữ</span></label>
+    </div>
+</form>
+<style>
+.m_op {
+    padding-left:10px;
+}
+.m_op_a {
+    margin-bottom : 10px;
+    position : relative;
+}
+.m_op_a_l {
+    position : absolute;
+    left : 11px;
+    top : 7px;
+    color : #aaa;
+}
+.m_op_head {
+    border : 1px solid #ccc;
+    border-radius : 5px;
+    width : 180px;
+    padding : 3px;
+    padding-left : 25px;
+    color : #333;
+}
+.m_op_head:focus{
+    border-color : #aaa;
+}
+select[name="m_op_which"],select[name="m_op_place"] {
+    border : 1px solid #ccc;
+    border-radius : 5px;
+    background-color : #fff;
+    width : 200px;
+    padding : 5px;
+    color : #333;
+}
+label {
+    font-weight : normal;
+}
+.m_hh {
+    color : #333;
+    margin : 0;
+    font-size : 15px;
+}
+.m_op_ra {
+    vertical-align : bottom;
+    width : 13px;
+    height : 13px;
+    padding : 0;
+    margin : 0;
+    position : relative;
+    top : -1px;
+    *overflow : hidden;
+}
+.m_op_ral {
+    display : block;
+    margin-top : 5px;
+    padding-left : 15px;
+    text-indent : -15px;
+}
+.m_op_rax {
+    padding-left : 5px;
+}
+</style>

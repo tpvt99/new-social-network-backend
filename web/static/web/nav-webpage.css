@@ -1,0 +1,51 @@
+#nav-web-left {
+    float : left;
+    width : 200px;
+}
+#nav-web-middle {
+    float : left;
+    width : 800px;
+    margin-left: 20px;
+}
+#nav-web-right {
+    float : left;
+    width : 310px;
+    margin-left : 15px;
+    position : relative;
+}
+#nav-search-left {
+    float : left;
+    width : 200px;
+}
+#nav-search-middle {
+    float : left;
+    width : 650px;
+    margin-left: 20px;
+    margin-top : 20px;
+}
+#nav-search-right {
+    float : right;
+    width : 250px;
+    margin-left : 20px;
+    position : relative;
+}
+.right-absolute {
+    position :absolute;
+    top : 50px;
+    right : 0;
+    bottom : 0px;
+    width : 70px;
+    text-align : center;
+}
+.nav-bottom-chat {
+    bottom : 0;
+    right : 80px;
+    position : fixed;
+    display : -webkit-flex;
+    display : flex;
+    flex-flow : row nowrap;
+    z-index : 20;
+    float : left;
+    align-items : flex-end;
+    height : 0;
+}

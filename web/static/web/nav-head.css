@@ -1,0 +1,205 @@
+#global-head {
+    width : 100%;
+    height : 50px;
+}
+#global-head>div{
+    position : fixed;
+    top : 0;
+    right : 0;
+    left : 0;
+    z-index : 1000;
+    background-color : #3889bd;
+    color : #fff;
+    border-bottom : 1px solid #3889db;
+    height : inherit;
+}
+#head-inner {
+    position : relative;
+    margin : 0 auto;
+    width : 1140px;
+    display : flex;
+    justify-content : flex-start; 
+    align-items : center;
+    height : inherit;
+}
+#head-navigator, .head3 {
+    color : #fff;
+    margin : 0px 10px;
+    display : -webkit-flex;
+    display : flex;
+    justify-content : center;
+}
+.head3 {
+    margin-left : auto;
+}
+.head-vi {
+    padding : 0px 10px;
+    font-weight : normal;
+    height : 100%;
+    color : #fff;
+}
+.head-vi a:link,
+.head-vi a:visited {
+    text-decoration : none;
+    color : #eee;
+}
+.head-vi a.head-vi-active:link,
+.head-vi a.head-vi-active:visited {
+    border-bottom : 3px solid #e74c3c;
+    padding-bottom : 3px;
+}
+.head-vi a:hover,
+.head-vi a:active {
+    color : #fff;
+    border-bottom : 3px solid #e74c3c;
+    padding-bottom : 3px;
+}
+#global-main {
+    margin : 20px auto 0;
+    max-width : 1140px;
+}
+.head1_p {
+    margin : 0;
+    font-weight: 600;
+    font-size : 20px;
+}
+.head1 a:link,
+.head1 a:visited{
+    text-decoration : none;
+    color : #fff;
+}
+.head1 a:hover,
+.head1 a:active{
+    color : #ddd;
+}
+.head3>a:hover {
+    text-decoration : none;
+}
+.head3 > div {
+    display : flex;
+    align-items : center;
+}
+.child-head-search {
+    position : relative;
+    display : table;
+    border-collapse : separate;
+    width : 300px;
+}
+.head_search {
+    background-color : #fff;
+    color : #333;
+    width : 100%;
+    border : 1px solid #3889db;
+    padding : 5px 10px;
+    border-radius : 100px;
+}
+.search-icon {
+    color : #888;
+    position : absolute;
+    top : 5px;
+    right : 15px;
+}
+.nav-search {
+    color : #333;
+    width : 500px;
+    padding-bottom : 0px;
+    left : -350px;
+    top : 25px;
+}
+textarea:hover, input:hover {
+    outline : none;
+}
+*:focus {
+    outline : none;
+}
+.head_pic {
+    width : 40px;
+    height : 40px;
+    border-radius : 50%;
+}
+.mhspan {
+    cursor : pointer;
+    padding : 3px;
+    color : #fff;
+    position : relative;
+    display : flex;
+    align-items : center;
+}
+.mhspan_y {
+    color : #fff;
+}
+.mh-stat-noti {
+    position : absolute;
+    top : -7px;
+    right : -6px;
+    display:inline-block;
+    min-width : 8px;
+    text-align : center;
+    color : #fff;
+    font-size : 12px;
+    font-weight : 700;
+    vertical-align : middle;
+    line-height : 1.1;
+    background-color :#bf3b37;
+    border-radius : 8px;
+    padding : 2px 5px;
+}
+.mhspan:hover {
+    text-decoration : none;
+}
+.mhion {
+    font-size : 20px;
+}
+div.nav-stat {
+    width : 500px;
+    left : -400px;
+    min-height : 50px;
+    max-height : 500px;
+    overflow-y : scroll;
+}
+div.nav-friend {
+    color : #222;
+    width : 500px;
+    left : -300px;
+    min-height : 50px;
+    max-height : 500px;
+    overflow-y : scroll;
+}
+div.nav-settings {
+    width : 200px;
+    left : -10px;
+    color : #555;
+    font-size : 14px;
+    padding : 0px;
+}
+div.nav-mess {
+    width : 500px;
+    min-height : 50px;
+    max-height : 500px;
+    overflow-y : scroll;
+    left : -300px;
+    color : #333;
+}
+.navset-sp {
+    margin : 0;
+}
+.navset-child {
+    display : block;
+    color : #555;
+    padding : 5px;
+    padding-left : 20px;
+}
+.navset-parent {
+    color : #555;
+    padding : 5px;
+    padding-left : 10px;
+    padding-bottom : 10px;
+}
+.nav-set-div {
+    padding : 3px;
+    border-bottom : 1px solid #ddd;
+    font-size : 13px;
+}
+.btn {
+    padding : 5px;
+}

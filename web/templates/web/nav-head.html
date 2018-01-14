@@ -1,0 +1,173 @@
+<div class="md_head_user">
+    {% if request.user.info.profile_pic %}
+    <img class="mh_pic" src="{{ request.user.info.profile_pic.url }}">
+    {% else %}
+    {% load staticfiles %}
+    <img class="mh_pic" src="{% static 'web/user.jpeg' %}">
+    {% endif %}
+    <a class="mh_uname" href="{% url 'pro:profile' %}?id={{request.user.id}}"><span>{{ request.user.fullname }}</span></a>
+    {% if request.user.info.head %}
+        <span style="color:#333;">- {{request.user.info.head}}</span>
+    {% endif %}
+</div>
+<div id="middle_head_right">
+    {% load web_extras %}
+    {% with a=request.user|friend_request %}
+    {% if a == 0 %}
+    <span class="mhspan mhspan_n"><a href="{% url 'friend:request' %}" style="color:#777;"><span class="ion ion-person-add mhion"></span></a></span> 
+    {% else %}
+    <span class="mhspan mhspan_y"><a href="{% url 'friend:request' %}" style="color:rgb(32,28,89);"><span class="ion ion-person-add mhion"></span><span class="mh-fr-noti">{{a}}</span></a></span> 
+    {% endif %}
+    {% endwith %}
+    <div class="dropdown dropdown-navmess" style="display:inline-block;" title="Tin nhắn">
+        <button id="nav-mess" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-link">
+        <span class="mhspan"><span class="ion ion-android-chat mhion"></span></span>
+        </button>
+        <div class="dropdown-menu nav-mess" aria-labelledby="nav-mess" style="display:none;">
+            <p style="text-align:center;"><span class="fa fa-gear fa-spin"></span></p>
+        </div>
+    </div>
+
+    <div class="dropdown dropdown-navstat" style="display:inline-block" title="Thông báo">
+        <button id="nav-stat" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-link">
+        {% load web_extras %}
+        {% with a=request.user|notification %}
+        {% if a == 0 %}
+            <span class="mhspan mhspan_n" ><span class="ion ion-android-globe mhion"></span></span>
+        {% else %}
+        <span class="mhspan mhspan_y" ><span class="ion ion-android-globe mhion"></span><span class="mh-stat-noti">{{a}}</span></span>
+        {% endif %}
+        {% endwith %}
+        </button>
+        <div class="dropdown-menu nav-stat" aria-labelledby="nav-stat" style="display:none;">
+            <p style="text-align:center;"><span class="fa fa-gear fa-spin"></span></p>
+        </div>
+    </div>
+    <div class="dropdown dropdown-navset">
+        <button id="nav-set" type="button" data-toggle="dropdown" aria-haspopup="true" aria-exapanded="false" class="btn btn-link">
+            <span class="mhspan"><span class="ion ion-ios-gear-outline mhion" style="color:#999;"></span></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="nav-set" style="margin-left:-100px;">
+            <span class="navset-sp" style="padding:5px;"><a href="{% url 'frontpage:logout' %}"><span class="ion ion-ios-redo"></span>Đăng xuất</a></span>
+        </ul>
+    </div>
+</div>
+<div id="middle_head_se">
+    <span class="mhse-s">
+        {% load activities_extras %}
+        {% with a=request.user|total_activities %}
+        <span style="color:red;">{{a}}</span>
+        {% endwith %}
+        <span><a href="{% url 'activities:activities' %}" style="color:#333;">Hoạt động</a></span>
+    </span>
+    <span class="mhse-s">
+        {% load events_extras %}
+        {% with a=request.user|total_events %}
+        <span style="color:red;">{{a}}</span>
+        {% endwith %}
+        <span><a href="{% url 'events:events' %}" style="color:#333;">Sự kiện</a></span>
+    </span>
+    <span class="mhse-s"><a href="#" style="color:#333;">Kỹ năng</a></span>
+    <span class="mhse-s"><a href="{% url 'anonymous:anonymous' %}" style="color:#333;">Ẩn danh</a></span>
+</div>
+<style>
+div.nav-stat {
+    width : 500px;
+    left : -400px;
+    min-height : 50px;
+    max-height : 500px;
+    overflow-y : scroll;
+}
+#middle_head_right {
+    float : right;
+    display : inline-block;
+    width : auto;
+    color : #373737;
+    padding-top : 5px;
+}
+.mhion {
+    font-size : 20px;
+}
+.mhspan {
+    cursor : pointer;
+    margin-left : 5px;
+    padding : 3px 3px;
+    color : #777777;
+    position : relative;
+}
+.mhspan_y {
+    color : #b92b27;
+}
+.mh-fr-noti {
+    position : absolute;
+    top : -10px;
+    left : 12px;
+    display:inline-block;
+    min-width : 10px;
+    text-align : center;
+    color : #fff;
+    font-size : 12px;
+    font-weight : 700;
+    vertical-align : middle;
+    line-height : 1.1;
+    background-color : red;
+    border-radius : 10px;
+    padding : 2px 5px;
+}
+.mh-stat-noti {
+    position : absolute;
+    top : -10px;
+    left : 12px;
+    display:inline-block;
+    min-width : 8px;
+    text-align : center;
+    color : #fff;
+    font-size : 12px;
+    font-weight : 700;
+    vertical-align : middle;
+    line-height : 1.1;
+    background-color :red;
+    border-radius : 8px;
+    padding : 2px 5px;
+}
+.mh_uname {
+    color : #333;
+    font-size : 15px;
+    font-weight : 500;
+}
+.dropdown-navset {
+    display : inline-block;
+    color : #373737;
+}
+.mh_uname:hover {
+    color : #111;
+    text-decoration : none;
+}
+.mh_pic {
+    width : 30px;
+    height : 30px;
+    border-radius : 3px;
+    border-style : solid;
+    border-width : 1px;
+    border-color : #373737;
+    outline : 0;
+}
+.md_head_user {
+    padding : 3px 3px;
+    background-color : #fff;
+    display : inline-block;
+    width : auto;
+}
+#middle_head_se {
+    border-top : 1px solid #eaeaea;
+    background-color : #fff;
+    color : #333;
+    padding : 3px 6px;
+    min-height : 30px;
+}
+.mhse-s {
+    font-size : 15px;
+    padding : 3px 3px;
+    color : #777;
+}
+</style>

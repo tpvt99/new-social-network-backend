@@ -1,0 +1,150 @@
+<link rel="stylesheet" type="text/css" href="/static/search/left-search.css">
+<div id="left_nav">
+    <a class="l_item" href="{% url 'search:search' 'contest' %}">
+        <span class="l_item_head">Cuộc thi</span>
+        {% load contest_extras %}
+        {% load activity_extras %}
+        {% with t=request.user|total_contest:'all' %}
+        <span class="not-num num-special">{{t.quantity}}</span>
+        {% endwith %}
+    </a>
+    {% with t=request.user|total_contest:'academic' %}
+    <a class="l_item" href="{% url 'search:search' 'contest' %}?type=academic" data-toggle="tooltip" title="Tìm kiếm cuộc thi học thuật"><i class="fa fa-book"></i>
+        <span class="l_item_head l_item_head2">Học thuật</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+        {% for i in t.contest %}
+        {% with h=i.contest.head|addslash %}
+        <a class="l_item_child" href="{% url 'contest:contest' i.contest.id h %}" data-toggle="tooltip" title="{{i.contest.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.contest.image.url}}">
+            <div class="item_child_head"><span>{{i.contest.head}}</span></div>
+            {% with zz=i.contest.contest_contestpost_contest.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    {% endwith %}
+    {% with t=request.user|total_contest:'sing' %}
+    <a class="l_item" href="{% url 'search:search' 'contest' %}?type=sing" data-toggle="tooltip" title="Tìm kiếm cuộc thi ca hát"><i class="fa fa-microphone"></i>
+        <span class="l_item_head l_item_head2">Ca hát</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+        {% for i in t.contest %}
+        {% with h=i.contest.head|addslash %}
+        <a class="l_item_child" href="{% url 'contest:contest' i.contest.id h %}" data-toggle="tooltip" title="{{i.contest.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.contest.image.url}}">
+            <div class="item_child_head"><span>{{i.contest.head}}</span></div>
+            {% with zz=i.contest.contest_contestpost_contest.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    {% endwith %}
+    {% with t=request.user|total_contest:'talent' %}
+    <a class="l_item" href="{% url 'search:search' 'contest' %}?type=talent" data-toggle="tooltip" title="Tìm kiếm cuộc thi tài năng"><i class="fa fa-star-o"></i>
+        <span class="l_item_head l_item_head2">Tài năng</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+        {% for i in t.contest %}
+        {% with h=i.contest.head|addslash %}
+        <a class="l_item_child" href="{% url 'contest:contest' i.contest.id h %}" data-toggle="tooltip" title="{{i.contest.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.contest.image.url}}">
+            <div class="item_child_head"><span>{{i.contest.head}}</span></div>
+            {% with zz=i.contest.contest_contestpost_contest.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    {% endwith %}
+    {% with t=request.user|total_contest:'sport' %}
+    <a class="l_item" href="{% url 'search:search' 'contest' %}?type=sport" data-toggle="tooltip" title="Tìm kiếm cuộc thi thể thao"><i class="fa fa-soccer-ball-o"></i>
+        <span class="l_item_head l_item_head2">Thể thao</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+        {% for i in t.contest %}
+        {% with h=i.contest.head|addslash %}
+        <a class="l_item_child" href="{% url 'contest:contest' i.contest.id h %}" data-toggle="tooltip" title="{{i.contest.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.contest.image.url}}">
+            <div class="item_child_head"><span>{{i.contest.head}}</span></div>
+            {% with zz=i.contest.contest_contestpost_contest.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    {% endwith %}
+    {% with t=request.user|total_contest:'esport' %}
+    <a class="l_item" href="{% url 'search:search' 'contest' %}?type=esport" data-toggle="tooltip" title="Tìm kiếm cuộc thi thể thao điện tử"><i class="ion ion-ios-game-controller-b"></i>
+        <span class="l_item_head l_item_head2">Esport</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+        {% for i in t.contest %}
+        {% with h=i.contest.head|addslash %}
+        <a class="l_item_child" href="{% url 'contest:contest' i.contest.id h %}" data-toggle="tooltip" title="{{i.contest.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.contest.image.url}}">
+            <div class="item_child_head"><span>{{i.contest.head}}</span></div>
+            {% with zz=i.contest.contest_contestpost_contest.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    {% endwith %}
+    {% with t=request.user|total_contest:'intellect' %}
+    <a class="l_item" href="{% url 'search:search' 'contest' %}?type=intellect" data-toggle="tooltip" title="Tìm kiếm cuộc thi trí tuệ"><i class="ion ion-lightbulb"></i>
+        <span class="l_item_head l_item_head2">Trí tuệ</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+        {% for i in t.contest %}
+        {% with h=i.contest.head|addslash %}
+        <a class="l_item_child" href="{% url 'contest:contest' i.contest.id h %}" data-toggle="tooltip" title="{{i.contest.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.contest.image.url}}">
+            <div class="item_child_head"><span>{{i.contest.head}}</span></div>
+            {% with zz=i.contest.contest_contestpost_contest.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    {% endwith %}
+    {% with t=request.user|total_contest:'media' %}
+    <a class="l_item" href="{% url 'search:search' 'contest' %}?type=media" data-toggle="tooltip" title="Tìm kiếm cuộc thi online"><i class="fa fa-puzzle-piece"></i>
+        <span class="l_item_head l_item_head2">Media</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+        {% for i in t.contest %}
+        {% with h=i.contest.head|addslash %}
+        <a class="l_item_child" href="{% url 'contest:contest' i.contest.id h %}" data-toggle="tooltip" title="{{i.contest.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.contest.image.url}}">
+            <div class="item_child_head"><span>{{i.contest.head}}</span></div>
+            {% with zz=i.contest.contest_contestpost_contest.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    {% endwith %}
+    {% with t=request.user|total_contest:'tech' %}
+    <a class="l_item" href="{% url 'search:search' 'contest' %}?type=tech" data-toggle="tooltip" title="Tìm kiếm cuộc thi khoa học, công nghệ"><i class="ion ion-planet"></i>
+        <span class="l_item_head l_item_head2">Khoa học/Công nghệ</span>
+        <span class="not-num">{{t.quantity}}</span>
+    </a>
+        {% for i in t.contest %}
+        {% with h=i.contest.head|addslash %}
+        <a class="l_item_child" href="{% url 'contest:contest' i.contest.id h %}" data-toggle="tooltip" title="{{i.contest.head}}">
+        {% endwith %}
+            <img class="item_child_img" src="{{i.contest.image.url}}">
+            <div class="item_child_head"><span>{{i.contest.head}}</span></div>
+            {% with zz=i.contest.contest_contestpost_contest.all|length %}
+            <span class="not-num" style="margin-left:auto;">{{zz}}</span>
+            {% endwith %}
+        </a>
+        {% endfor %}
+    {% endwith %}
+    <a class="l_item" href="{% url 'contest:create' %}" data-toggle="tooltip" title="Tạo cuộc thi"><i class="fa fa-plus-square-o"></i>
+        <span class="l_item_head l_item_head2">Tạo cuộc thi</span>
+    </a>
+</div>

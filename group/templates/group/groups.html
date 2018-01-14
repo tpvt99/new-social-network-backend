@@ -1,0 +1,90 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block no_global-main %}
+{% spaceless %}
+<div class="global-main row">
+    <div class="group-navigation">
+        <a href="{% url 'group:groups' %}">Nhóm của bạn</a>
+        <a href="#" class="create-group">Tạo nhóm</a>
+    </div>
+    <div class="group-a clearfix">
+        <h3>Nhóm bạn quản lý</h3>
+            {% for i in admin_group %}
+            <div class="col span-1-of-2 col-half" style="margin:0;">
+                {% if i.group_groupinfo_group.image %}
+                <div style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.3) , rgba(0,0,0,0)), url({{i.group_groupinfo_group.image.url}})" class="group-image">
+                {% else %}
+                <div style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.3) , rgba(0,0,0,0)), url(/static/group/group.jpg)" class="group-image">
+                {% endif %}
+                <p style="text-align:center;"><a href="{% url 'group:group' i.id %}">{{i.name}}</a></p>
+                <p style="text-align:center;">
+                {% with m=i.group_groupmember_group.all|length|add:-1 %}
+                <span>{{m}}</span><span style="margin-left:5px;">thành viên</span>
+                {% endwith %}
+                </p>
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+    <div class="group-a clearfix">
+        <h3>Nhóm bạn tham gia</h3>
+            {% for i in member_group %}
+            <div class="col span-1-of-2 col-half" style="margin:0;">
+                {% if i.group_groupinfo_group.image %}
+                <div style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.3) , rgba(0,0,0,0)), url({{i.group_groupinfo_group.image.url}})" class="group-image">
+                {% else %}
+                <div style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.3) , rgba(0,0,0,0)), url(/static/group/group.jpg)" class="group-image">
+                {% endif %}
+                <p style="text-align:center;"><a href="{% url 'group:group' i.id %}">{{i.name}}</a></p>
+                <p style="text-align:center;">
+                {% with m=i.group_groupmember_group.all|length|add:-1 %}
+                <span>{{m}}</span><span style="margin-left:5px;">thành viên</span>
+                {% endwith %}
+                </p>
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="group-create">
+            <form class="form-create" method="post" enctype="multipart/form-data" action="/group/create/">
+                {% csrf_token %}
+                <h5 class="h-form">Tạo nhóm</h5>
+                <p style="margin-left:10px;">
+                <label>Tên nhóm</label><input type="text" name="group-name" class="group-name" placeholder="Tên nhóm"/>
+                </p>
+                <p style="margin-left:10px;">
+                <label>Quyền riêng tư</label>
+                <select name="privacy">
+                    <option value="public">Công khai</option>
+                    <option value="private">Riêng tư</option>
+                </select>
+                </p>
+                <p style="margin-left:10px;"><button type="submit" class="btn btn-primary">Tạo nhóm</button></p>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+{% endspaceless %}
+{% endblock %}
+
+{% block head %}
+<link type="text/css" href="/static/group/groups.css" rel="stylesheet">
+{% endblock %}
+{% block script %}
+<script>
+$('.create-group').on('click', function() {
+    $('.modal').modal({
+        keyborad : false,
+        show : true,
+    });
+});
+</script>
+{% endblock %}

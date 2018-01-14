@@ -1,0 +1,45 @@
+<div class="ss-bar">
+    <div class="sss-bar">
+        <a href="{% url 'search:search' 'everyone' %}">Mọi người</a>
+    </div>
+    <div class="sss-bar">
+        <a href="{% url 'search:search' 'activity' %}">Hoạt động</a>
+    </div>
+    <div class="sss-bar">
+        <a href="{% url 'search:search' 'event' %}">Sự kiện</a>
+    </div>
+    <div class="sss-bar">
+        <a href="{% url 'search:search' 'contest' %}">Cuộc thi</a>
+    </div>
+    <div class="sss-bar">
+        <a href="{% url 'search:search' 'scholarship' %}">Học bổng</a>
+    </div>
+</div>
+<style>
+.ss-bar {
+    background-color : #fff;
+    border : 1px solid #ccc;
+    border-radius : 5px;
+    display : table;
+    width : 100%;
+    border-collapse : collapse;
+}
+.sss-bar {
+    display : table-cell;
+    width : 1%;
+    color : inherit;
+    border : 1px solid #ccc;
+    height: 30px;
+    cursor : pointer;
+}
+.sss-bar:hover {
+    background-color : #193e60;
+    color : #fff;
+}
+.sss-bar > a {
+    text-align : center;
+    margin : 5px 0px;
+    display : block;
+    color : inherit;
+}
+</style>

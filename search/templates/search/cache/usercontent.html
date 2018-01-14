@@ -1,0 +1,56 @@
+{% for person in users %}
+<div class="row f_person">
+    <div class="col-md-3">
+        {% if person.info.profile_pic %}
+        <img src="{{ person.info.profile_pic.url }}" class="f_img">
+        {% else %}
+        {% load staticfiles %}
+        <img src="{% static 'web/user.jpeg' %}" class="f_img">
+        {% endif %}
+    </div>
+    <div class="col-md-9">
+        <div class="col-md-12">
+            <p> {{ person.fullname }}</p>
+        </div>
+        <div>
+            <a type="button" class="btn btn-default" id="addfriend" data-id="{{ person.id }}" data-name="{{ person.fullname }}">Kết bạn</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<style>
+.f_img {
+    width : 100px;
+    height : 100px;
+}
+.f_person {
+    margin : 10px;
+    padding : 5px;
+    border-bottom : 5px solid #ededed;
+}
+</style>
+<script>
+$('a#addfriend').on('click', function() {
+    var $this = $(this);
+    var id = $(this).data('id');
+    var name = $(this).data('name');
+    $.ajax({
+        url : "{% url 'friend:addfriend' %}",
+        method : 'GET',
+        dataType : 'json',
+        data : { 'id' : id, 'name':name},
+        success : function(data) {
+            $this.text('Đã gửi lời mời kết bạn').attr('class','btn btn-primary');
+        },
+        error : function(data) {
+            if (data.responseJSON.reason === 'sent request') {
+                alert('Bạn đã kết bạn với người này');
+            }
+            else if (data.responseJSON.reason === 'bad request') {
+                alert('Yêu cầu của bạn không thực hiện được');
+            }
+        }
+    });
+});
+
+</script>

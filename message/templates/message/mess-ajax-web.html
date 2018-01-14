@@ -1,0 +1,16 @@
+<div class="div-chat div-chat-active" data-emchat="{{messageuser.id}}">
+    <div class="chat-title chat-title-active" data-min="false">
+        <div style="font-weight:600;"><a href="{% url 'pro:profile' %}?id={{user2.id}}" style="color:inherit;">{{user2.fullname}}</a></div>
+        <div><span class="fa fa-close chat-close" style="cursor:pointer" data-ti=""></span></div>
+    </div>
+    <div class="chat-body">
+        <p style="text-align:center;"><i class="fa fa-spinner fa-pulse fa-2x fa-fw" style="color:#333;"></i></p>
+    </div>
+    <div class="chat-bottom">
+        <form method="post" class="mess-form" data-b="{{messageuser.id}}">
+            {% csrf_token %}
+            <input type="text" name="mess" class="mess-in" autocomplete="off" spellcheck="false" placeholder="Nhập tin nhắn">
+            <button type="submit" style="display:none;"></button>
+        </form>
+    </div>
+</div>

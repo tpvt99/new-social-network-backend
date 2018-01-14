@@ -1,0 +1,420 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<form method="post" enctype="multipart/form-data" class="form-event" action="/event/create/" autocomplete="off">
+    {% csrf_token %}
+    <input type="hidden" name="timezone" value="">
+    <input type="hidden" name="type" value="{{type}}">
+<div class="first_a">
+    <div class="f_a">
+        <p class="f_a_m">Nội dung sự kiện</p>
+    </div>
+    <div class="f_b">
+        {% if type == 'music' %}
+            <span class="fa fa-music f_b_l"></span>
+            <input type="text" class="f_b_i1" name="f_b_i1" autocomplete="off" placeholder="Tên sự kiện âm nhạc *"/>
+        {% elif type == 'fair' %}
+            <span class="ion ion-android-globe f_b_l"></span>
+            <input type="text" class="f_b_i1" name="f_b_i1" autocomplete="off" placeholder="Tên sự kiện triễn lãm / hội chợ *"/>
+        {% elif type == 'sport' %}
+            <span class="fa fa-soccer-ball-o f_b_l"></span>
+            <input type="text" class="f_b_i1" name="f_b_i1" autocomplete="off" placeholder="Tên sự kiện thể thao *"/>
+        {% elif type == 'talk' %}
+            <span class="fa fa-share-alt f_b_l"></span>
+            <input type="text" class="f_b_i1" name="f_b_i1" autocomplete="off" placeholder="Chủ đề buổi hội thảo *"/>
+        {% elif type == 'prom' %}
+            <span class="fa fa-star-half-o f_b_l"></span>
+            <input type="text" class="f_b_i1" name="f_b_i1" autocomplete="off" placeholder="Chủ đề dạ hội *"/>
+        {% elif type == 'tech' %}
+            <span class="fa fa-plane f_b_l"></span>
+            <input type="text" class="f_b_i1" name="f_b_i1" autocomplete="off" placeholder="Tên sự kiện công nghệ*"/>
+        {% endif %}
+        <div class="head-err" style="display:none;">
+        </div>
+    </div>
+    {% if type == 'music' %}
+    <div class="f_c">
+        <span class="ion ion-ios-musical-note f_c_l"><span style="margin-left:5px;">Thể loại âm nhạc</span></span>
+        <select name="f_music">
+            {% include 'activity/song_type.html' %}
+        </select>
+        <input type="hidden" name="f_music_unicode" value="">
+        <div class="type-err"></div>
+    </div>
+    {% elif type == 'sport' %}
+    <div class="f_c">
+        <span class="ion ion-ios-bolt f_c_l"><span style="margin-left:5px;">Môn thể thao</span></span>
+        <select name="f_sport" autocomplete="off">
+            {% include 'activity/sport_type.html' %}
+        </select>
+        <input type="hidden" name="f_sport_unicode" value="">
+        <div class="type-err"></div>
+    </div>
+    {% endif %}
+    <div class="f_d">
+        <label for="f_img" class="f_b_l fbll" title="Thêm ảnh chủ đề sự kiện"><span class="fa fa-image"></span></label>
+        <input type="file" accept="image/*" style="display:none;" id="f_img" name="f_img" autcomplete="off">
+        <textarea class="f_d_t" name="f_d_t" placeholder="Nội dung sự kiện" rows="8"></textarea>
+        <div class="des-err">
+        </div>
+    </div>
+    <div class="f_d_img">
+        <div class="img-err" style="display:none;">
+        </div>
+    </div>
+    <div class="f_e">
+        <p class="f_epp">Đại diện người tổ chức <span class="ion ion-alert" style="cursor:pointer;color:#aaa;width:10px;text-align:center;" data-toggle="tooltip" title="Để thay đổi đại diện người tổ chức, bạn phải là người quản lý của 1 trang hoặc nhóm"></span></p>
+        <div class="dropdown" style="display:inline-block;">
+            <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="f_ebut">
+                {% if request.user.info.profile_pic %}
+                <img src="{{ request.user.info.profile_pic.url }}" class="f_eimg">
+                {% else %}
+                <img src="/static/web/user.jpeg" class="f_eimg">
+                {% endif %}
+                <span class="f_ename"> {{ request.user.fullname }}</span>
+                <span class="caret"></span>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dLabel" style="display:none;">
+            </div>
+        </div>
+    </div>
+    <div class="f_f" style="margin-top:10px;margin-bottom:5px;margin-left:20px;">
+        <span style="font-size:16px;">Tính riêng tư sự kiện</span>
+        <select name="privacy" style="min-width:130px;border-color:#11123e;">
+            <option value="public">Công khai</option>
+            <option value="private">Riêng tư</option>
+        </select>
+    </div>
+</div>
+<div class="first_b">
+    <div class="b_a">
+        <p class="b_a_m">Thông tin sự kiện</p>
+    </div>
+    <div class="b_b">
+        <div class="c_time">
+            <p class="c_th">Thời gian sự kiện bắt đầu</p>
+            <div class="c_ti">
+                <div id="c_ti1">
+                    <select name="year">
+                        <option value="">Năm</option>
+                    </select>
+                </div>
+                <div id="c_ti2" >
+                    <select name="month">
+                        <option value="">Tháng</option>
+                    </select>
+                </div>
+                <div id="c_ti3" >
+                    <select name="day">
+                        <option value="">Ngày</option>
+                    </select>
+                </div>
+                <div id="c_ti4" >
+                    <select name="hour">
+                        <option value="">Giờ</option>
+                    </select>
+                </div>
+                <div id="c_ti5" >
+                    <select name="minute">
+                        <option value="">Phút</option>
+                    </select>
+                </div>
+                <div class="c_begin_time">
+                </div>
+            </div>
+            <p class="c_th">Thời gian sự kiện kết thúc</p>
+            <div class="c_ti_end">
+                <div id="c_ti1_e">
+                    <select name="year_e">
+                        <option value="">Năm</option>
+                    </select>
+                </div>
+                <div id="c_ti2_e" >
+                    <select name="month_e">
+                        <option value="">Tháng</option>
+                    </select>
+                </div>
+                <div id="c_ti3_e" >
+                    <select name="day_e">
+                        <option value="">Ngày</option>
+                    </select>
+                </div>
+                <div id="c_ti4_e" >
+                    <select name="hour_e">
+                        <option value="">Giờ</option>
+                    </select>
+                </div>
+                <div id="c_ti5_e" >
+                    <select name="minute_e">
+                        <option value="">Phút</option>
+                    </select>
+                </div>
+                <div class="c_end_time">
+                </div>
+            </div>
+            <div class="c_to">
+                * Hiện tại chúng tôi chỉ cho phép tổ chức sự kiện tại các tỉnh và thành phố thuộc Việt Nam nên múi giời sử dụng là<span style="color:blue;"> UTC+07</span>
+            </div>
+        </div>
+    </div>
+    <div class="b_c">
+        <div class="b_c_m">
+            Địa điểm tổ chức sự kiện
+        </div>
+        <div class="b_c_e">
+            <span class="b_c_sp">Tỉnh - Thành phố</span>
+            <select name="b_c_in" autocomplete="off">
+                {% include 'activity/province.html' %}
+            </select>
+            <input type="hidden" value="" name="province_unicode">
+        </div>
+        <div class="b_c_z">
+            <span class="b_c_sp">Thành phố/Quận/Huyện</span>
+            <select name="b_c_city" autocomplete="off">
+                <option value="">Thành phố/Quận/Huyện</option>
+            </select>
+            <input type="hidden" name="city_unicode" value="">
+        </div>
+        <div class="b_c_ee">
+            <span class="fa fa-map-marker b_c_mp"></span>
+            <input type="text" autocomplete="off" class="b_c_in1" name="b_c_in1" placeholder="Địa chỉ cụ thể nơi diễn ra sự kiện"/>
+        </div>
+        <div class="place-err">
+        </div>
+    </div>
+</div>
+<div class="first_c">
+    <div class="c_a">
+        <p class="c_ah">Quảng cáo sự kiện</p>
+    </div>
+    <div class="c_b">
+        <p class="c_cch">Độ tuổi phù hợp tham gia</p>
+        <div class="c_bi">
+            <select name="beg_a">
+                <option value="">Tuổi bắt đầu</option>
+            </select>
+            <select name="end_a" style="min-width:110px;">
+                <option value="">Tuổi kết thúc</option>
+            </select>
+        </div>
+        <div class="age-err">
+        </div>
+    </div>
+    <div class="c_c">
+        <p class="c_cch">Số lượng người tham gia</p>
+        <div class="c_div">
+            <label class="c_la">
+                <input type="radio" name="quan" value="unlimited" checked> <span class="c_la1">Không giới hạn</span></label>
+            <label class="c_la">
+                <input type="radio" name="quan" value="limited"><span class="c_la1">Giới hạn</span></label>
+        </div>
+        <div class="quan-err"></div>
+    </div>
+    <div class="c_e">
+        <p class="c_cch">Lệ phí tham gia </p>
+        <label class="c_la">
+            <input type="radio" name="fee" value="free" checked/>Miễn phí</label>
+        <label class="c_la">
+            <input type="radio" name="fee" value="paid" />Có phí</label>
+        <textarea class="c_et" name="fee_text" rows="5" placeholder="Miêu tả cách thức được vào sự kiện? Vào cửa tự do hay cần vé...? "></textarea>
+        <div class="fee-err"></div>
+    </div>
+</div>
+<div class="first_c">
+    <button type="submit" class="btn btn-primary" style="width:100%;">Tạo sự kiện</button>
+</div>
+</form>
+{% endblock %}
+{% block script %}
+<script type="text/javascript" src="/static/activity/province.js"></script>
+<script>
+$('select[name="b_c_in"]').on('change', function() {
+    var a = getCity($(this).val());
+    $('input[name="province_unicode"]')[0].value = getContext('b_c_in');
+    var pa = $('select[name="b_c_city"]');
+    if (a) {
+        pa.empty();
+        for(var i =0; i< a.length ;i++) {
+            pa.append($(['<option>',a[i],'</option>'].join('')));
+        }
+        $('input[name="city_unicode"]')[0].value = getContext('b_c_city');
+    } else {
+        pa.empty().append('<option value="">Thành phố/Quận/Huyện</option>');
+        $('input[name="city_unicode"]')[0].value = ""
+    }
+});
+$('select[name="b_c_city"]').on('change', function() {
+        $('input[name="city_unicode"]')[0].value = getContext('b_c_city');
+});
+$('select[name="f_music"]').on('change', function() {
+    $('input[name="f_music_unicode"]')[0].value = getContext('f_music');
+});
+$('select[name="f_sport"]').on('change', function() {
+    $('input[name="f_sport_unicode"]')[0].value = getContext('f_sport');
+});
+</script>
+<script src="/static/event/time.js" async="true"></script>
+<script>
+$('.f_d_t').each(function() {this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');}).on('input', function() {this.style.height = 'auto';this.style.height = (this.scrollHeight)+'px';});
+
+$('input[name="quan"]').on('change', function() {
+    var a = $(this).val();
+    if (a === 'limited') {
+        $('<input type="number" class="c_qu" name="qu" placeholder="Số lượng người dự kiến"/>').appendTo( $(this).parents('div.c_div'));
+    }
+    else {
+        $(this).parents('div.c_div').find('.c_qu').remove();
+    }
+});
+(function() {
+var b_a = $('.c_bi').children('select:nth-child(1)');
+var e_a = $('.c_bi').children('select:nth-child(2)');
+var i;
+for(i=10;i<=100;i++) {
+    b_a.append( ['<option value="',i,'">',i,'</option>'].join(''));
+}
+b_a.on('change', function() {
+    var i = parseInt($(this).val());
+    e_a.empty();
+    for(;i<=100;i++) {
+        e_a.append( ['<option value="',i,'">',i,'</option>'].join(''));
+    }
+});
+})();
+</script>
+<script>
+function getContext(eclass) {
+    var e = document.getElementsByName(eclass)[0];
+    if(e.selectedIndex == -1) return null;
+    return e.options[e.selectedIndex].text;
+}
+$('.form-event').on('submit', function() {
+    var $this = $(this);
+    var submit = true;
+    var form = new FormData($this[0]);
+    if(form.get('f_img') && form.get('f_img').name.length > 0 ) {
+        if (form.get('f_img').type.split('/')[0] !== 'image') {
+            $('.img-err').html('File của bạn không đúng định dạng ảnh. Xin tải lại').show();
+            submit = false;
+        }
+        else {
+            $('.img-err').html('').hide();
+        }
+    }
+    else {
+        $('.img-err').html('Xin tải ảnh chủ đề của sự kiện').show();
+        submit = false;
+    }
+    if(form.get('f_b_i1') === '') {
+        $('.head-err').html('Xin hãy điền tên sự kiện').show();
+        submit = false;
+    } else {
+        $('.head-err').html('').hide();
+    }
+    if(form.get('f_d_t') === '') {
+        $('.des-err').html('Nội dung sự kiện còn thiếu').show();
+        submit = false;
+    } else {
+        $('.des-err').html('').hide();
+    }
+    if($('select[name="f_sport"]')[0]) {
+        if(form.get('f_sport').trim() === '') {
+            $('.type-err').html('Xin hãy chọn môn thể thao bạn tổ chức').show();
+            submit = false;
+        }
+        else {
+            $('.type-err').html('').hide();
+        }
+    }
+    else if($('select[name="f_music"]')[0]) {
+        if(form.get('f_music').trim() === '') {
+            $('.type-err').html('Xin hãy chọn thể loại âm nhạc tổ chức').show();
+            submit = false;
+        }
+        else {
+            $('.type-err').html('').hide();
+        }
+    }
+    if(form.get('year') && form.get('month') && form.get('day') && form.get('hour') && form.get('minute')) {
+        $('.c_begin_time').html('').hide();
+    } else {
+        $('.c_begin_time').html('Xin hãy chọn thời gian bắt đầu hoạt động').show();
+        submit = false;
+    }
+    if(form.get('year_e') && form.get('month_e') && form.get('day_e') && form.get('hour_e') && form.get('minute_e')) {
+        $('.c_end_time').html('').hide();
+    } else {
+        $('.c_end_time').html('Xin hãy chọn thời gian kết thúc hoạt động').show();
+        submit = false;
+    }
+    if(form.get('b_c_in') ==='' || form.get('b_c_in1') === '') {
+        $('.place-err').html('Xin hãy điền thông tin nơi tổ chức sự kiện').show();
+        submit = false;
+    } else {
+        $('.place-err').html('').hide();
+    }
+    if(form.get('beg_a') === '') {
+        $('.age-err').html('Xin hãy chọn độ tuổi người tham gia').show();
+        submit = false;
+    } else {
+        $('.age-err').html('').hide();
+    }
+    if(form.get('fee_text') === '') {
+        $('.fee-err').html('Lệ phí tham gia còn trống').show();
+        submit = false;
+    } else{
+        $('.fee-err').html('').hide();
+    }
+    if(form.get('quan') === 'limited') {
+        if(form.get('qu') === null || form.get('qu').trim() === '' || form.get('qu').trim() === '0') {
+            $('.quan-err').html('Xin hãy ghi vào số lượng người tham gia').show();
+            submit = false;
+        }
+        else {
+            $('.quan-err').html('').hide();
+        }
+    } else {
+            $('.quan-err').html('').hide();
+    }
+    return submit;
+});
+(function() {
+    t = document.getElementsByName("timezone");
+    t[0].value = -new Date().getTimezoneOffset()/60;
+})();
+(function() {
+    t = document.getElementById("f_img");
+    t.value = "";
+})();
+function readURL(input) {
+    var $this = input;
+    input = input.get(0);
+    var pa = $('.f_d_img');
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var div = $( ['<div class="c_img_div"><img src="',e.target.result,'" /></div>'].join(''));
+            div.find('img').css({'width':'100px','height':'100px'});
+            div.append( $("<span class='ld_cl'>&times;</span>").on('click', function() {
+                $this.val('');
+                pa.find('.c_img_div').remove();
+            })
+            );
+            pa.find('.c_img_div').remove();
+            pa.append(div);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$('#f_img').on('change', function() {
+    readURL($(this));
+});
+</script>
+{% endblock %}
+{% block style %}
+<link type="text/css" rel="stylesheet" href="/static/event/create_content.css"></link>
+{% endblock %}

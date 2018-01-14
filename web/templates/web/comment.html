@@ -1,0 +1,23 @@
+<div class="w_com">
+    <div class="row">
+        <div class="col-md-1">
+            {% if comment.user.info.profile_pic %}
+            <img src="{{ comment.user.info.profile_pic.url }}" class="w_com_img">
+            {% else %}
+            {% load staticfiles %}
+            <img src="{% static 'web/user.jpeg' %}" class="w_com_img">
+            {% endif %}
+        </div>
+        <div class="col-md-11">
+            <div class="row">
+                <a href="{% url 'pro:profile' comment.user.id %}">{{ comment.user.fullname }}</a>
+                {{ comment.comment }}
+            </div>
+            <div class="row">
+                {% if comment.image %}
+                <img src="{{ comment.image.url }}" class="w_xxx"></img>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

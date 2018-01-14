@@ -1,0 +1,75 @@
+{% extends 'web/standardpage.html' %}
+
+{% block no_global-main %}
+<div style="margin-top:10px" class="row">
+    <div class="col span-2-of-3">
+        <div class="global-main">
+            <form method="post" enctype="multipart/form-data" autocomplete="off" action="/moment/create/">
+                {% csrf_token %}
+                <input type="text" name="text" placeholder="Chú thích hình ảnh">
+                <div>
+                    <label for="image"><span class="fa fa-image"></span></label>
+                    <input type="file" name="image" accept="image/*" id="image" class="moment-img-in">
+                    <button type="submit" class="btn-submit"><span>&#10004;</span></button>
+                </div>
+            </form>
+        </div>
+        <div class="pf-image" style="margin-left:100px;">
+        </div>
+        <div class="grid-image">
+            {% include 'moment/image.html' %}
+        </div>
+    </div>
+    <div class="col span-1-of-3">
+        <div class="plustag">
+            {% include 'moment/plustag.html' %}
+        </div>
+    </div>
+</div>
+<script>
+$('.head-vi-active').removeClass('head-vi-active');
+$('a[data-a="4"]').addClass('head-vi-active');
+$('div.moment-static a').on('click', function(e) {
+    e.preventDefault();
+    $(this).parents('div.moment-static').siblings('div.moment-index').show();
+})
+</script>
+{% endblock %}
+
+{% block script %}
+<script>
+(function time() {
+    var x = $('.moment-time');x.each(function() {var ren = $(this);var sec = ren.data('time');var minx = parseInt(sec) / 60;var hourx = minx/60;var dayx = hourx / 24;var timex = new Date();timex.setSeconds(timex.getSeconds() - parseFloat(sec));ren.attr('title', [timex.getDate()," tháng ", timex.getMonth()+1, " năm ", timex.getFullYear() ," vào lúc ", timex.getHours(), " giờ ", timex.getMinutes(), " phút" ].join(''));if(sec < 60 ) {ren.html("Vừa xong");}else if (minx < 60) {ren.html([Math.round(minx), " phút"].join(''));}else if( hourx < 24) {ren.html([Math.round(hourx), " giờ"].join(''));}else if(Math.round(dayx) <= 1) {ren.html([Math.round(dayx), " ngày"].join(''));}else {ren.html([timex.getDate()," tháng ", timex.getMonth()+1, " năm ", timex.getFullYear()].join(''));}});})();
+</script>
+<script type="text/javascript" src="/static/moment/comment.js"></script>
+<script>
+$('.moment-img-in').on('change', function() {
+    input = $(this);
+    var $this = input;
+    input = input.get(0);
+    var pa = $('.pf-image');
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var div = $( ['<div class="c_img_div"><img src="',e.target.result,'" class="cimg" /></div>'].join(''));
+            div.find('img').css({'width':'100px','height':'100px'});
+            div.append( $("<span class='ld_cl'>&times;</span>").on('click', function() {
+                $this.val('');
+                pa.find('.c_img_div').remove();
+            })
+            );
+            pa.find('.c_img_div').remove();
+            pa.append(div);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+});
+</script>
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="/static/moment/home.css">
+<link rel="stylesheet" type="text/css" href="/static/moment/image.css">
+<link rel="stylesheet" type="text/css" href="/static/moment/plustag.css">
+<link rel="stylesheet" type="text/css" href="/static/moment/comment.css">
+{% endblock %}

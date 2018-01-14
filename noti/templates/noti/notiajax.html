@@ -1,0 +1,961 @@
+{% if notis %}
+{% for noti in notis %}
+{% if noti.noti_type == 'event' %}
+    {% load activity_extras %}
+    {% with z=noti.eventnotification_set.all|first %}
+    {% if z %}
+<div class="ulxx" style="overflow:auto">
+    {% with a=z.event.head|addslash %}
+    <a href="{% url 'event:event' z.event.id a %}" style="text-decoration:none;">
+        <img src="{{z.event.image.url}}" style="width:40px;height:40px;float:left;">
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p style="margin-bottom:5px;"><span style="color:#333;">Bạn vừa tạo sự kiện</span>
+            <span style="margin-left:1px;color:#337ab7">{{z.event.head}}</span>
+            <span style="margin-left:1px;color:#333;">.Nhấn vô đây để đi tới sự kiện do bạn tổ chức.</span>
+            </p>
+            {% load web_extras %}
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div>
+    </a>
+    {% endwith %}
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'event-a' %}
+    {% with a=noti.eventanotification_set.all|first %}
+    {% if a %}
+    {% load activity_extras %}
+    {% with m=a.eventparticipants.event.head|addslash %}
+    <div class="ulxx" style="overflow:auto;">
+        <a href="{% url 'event:event' a.eventparticipants.event.id m %}" style="text-decoration:none;">
+    {% endwith %}
+            {% if a.eventparticipants.user.info.profile_pic %}
+            <img src="{{a.eventparticipants.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+            {% else %}
+            <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+            {% endif %}
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p style="margin-bottom:5px;"><span style="color:#337ab7;">{{a.eventparticipants.user.fullname}}</span>
+                <span style="margin-left:3px;color:#333;">muốn tham gia sự kiện</span> <span>{{a.eventparticipants.event.head}}</span> <span style="color:#333;">do bạn tổ chức.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'event-b' %}
+    {% with a=noti.eventbnotification_set.all|first %}
+    {% if a %}
+    {% load activity_extras %}
+    {% with m=a.eventparticipants.event.head|addslash %}
+    <div class="ulxx" style="overflow:auto;">
+        <a href="{% url 'event:link' %}?id={{a.eventparticipants.event.id}}" style="text-decoration:none;">
+    {% endwith %}
+            {% if a.eventparticipants.event.user.info.profile_pic %}
+            <img src="{{a.eventparticipants.event.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+            {% else %}
+            <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+            {% endif %}
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p style="margin-bottom:5px;"><span style="color:#337ab7;">{{a.eventparticipants.event.user.fullname}}</span>
+                <span style="margin-left:3px;color:#333;">mời bạn tham gia 1 sự kiện </span> <span>{{a.eventparticipants.event.head}}</span> <span style="color:#333;">do {{a.eventparticipants.event.user.fullname}} tổ chức.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'event-c' %}
+    {% with a=noti.eventcnotification_set.all|first %}
+    {% if a %}
+    <div class="ulxx" style="overflow:auto;"><a href="#" style="text-decoration:none;">
+            <img src="{{a.event.image.url}}" style="width:40px;height:40px;float:left;">
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p style="margin-bottom:5px;"><span style="color:#333">Người tổ chức sự kiện</span><span style="margin-left:3px;color:#337ab7;">{{a.event.head}}</span><span style="color:#333;"> rút lại lời mời tham gia đã gửi cho bạn</span><span style="color:#333;"> vào</span>
+            {% load web_extras %}
+            {% with t=a.time_send|deltatime %}
+            <span class="noti_time" data-time="{{t}}" style="color:#337ab7"></span>
+            {% endwith %}
+            <span style="color:#333;">. Liên hệ lại người tổ chức để biết thêm chi tiết.</span>
+            </p>
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div></a>
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'event-d' %}
+    {% with a=noti.eventdnotification_set.all|first %}
+    {% if a %}
+    {% load activity_extras %}
+    {% with m=a.event.head|addslash %}
+    <div class="ulxx" style="overflow:auto;">
+        <a href="{% url 'event:event' a.event.id m %}" style="text-decoration:none;">
+        {% if a.guess %}
+            {% if a.guess.info.profile_pic %}
+            <img src="{{a.guess.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+            {% else %}
+            <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+            {% endif %}
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p style="margin-bottom:5px;"><span>{{a.guess.fullname}}</span>
+        {% else %}
+        <span style="color:#333;">1 người</span>
+        {% endif %}
+        <span style="color:#333;">đã rút lại lời mời tham gia sự kiện</span>
+        <span>{{a.event.head}}</span>
+        <span style="color:#333;">gửi tới cho bạn vào</span>
+        {% load web_extras %}
+        {% with t=a.time_send|deltatime %}
+        <span class="noti_time" data-time="{{t}}" style="color:#337ab7;font-size:14px;"></span><span>.</span>
+        {% endwith %}
+            </p>
+        {% with t=noti.time|deltatime %}
+        <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+        {% endwith %}
+        </div>
+        </a>
+    </div>
+    {% endwith %}
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'event-e' %}
+        {% load activity_extras %}
+        {% with a=noti.eventenotification_set.all|first %}
+        {% if a %}
+    <div class="ulxx" style="overflow:auto;">
+        {% with z=a.eventparticipants.event.head|addslash %}
+        <a href="{% url 'event:event' a.eventparticipants.event.id z %}" style="text-decoration:none;">
+            <img src="{{a.eventparticipants.event.image.url}}" style="width:40px;height:40px;float:left;">
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p><span style="margin-left:3px;color:#333;">Bạn đã được chấp nhận tham gia sự kiện</span><span style="margin-left:3px;">{{a.eventparticipants.event.head}}</span><span style="margin-left:3px;color:#333;">. Nhấn vô đây để xem thêm cụ thể nội dung sự kiện.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+        {% endwith %}
+    </div>
+        {% endif %}
+        {% endwith %}
+{% elif noti.noti_type == 'event-f' %}
+        {% load activity_extras %}
+        {% with a=noti.eventfnotification_set.all|first %}
+        {% if a %}
+    <div class="ulxx" style="overflow:auto;">
+        {% with z=a.eventparticipants.event.head|addslash %}
+        <a href="{% url 'event:event' a.eventparticipants.event.id z %}" style="text-decoration:none;">
+            {% if a.eventparticipants.user.info.profile_pic %}
+            <img src="{{a.eventparticipants.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+            {% else %}
+            <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+            {% endif %}
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p><span>{{a.eventparticipants.user.fullname}}</span><span style="margin-left:3px;color:#333;"> chấp nhận lời mời tham gia sự kiện</span><span style="margin-left:3px;">{{a.eventparticipants.event.head}}</span><span>.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+        {% endwith %}
+    </div>
+        {% endif %}
+        {% endwith %}
+{% elif noti.noti_type == 'event-g' %}
+        {% load activity_extras %}
+        {% with a=noti.eventgnotification_set.all|first %}
+        {% if a %}
+    <div class="ulxx" style="overflow:auto;">
+        {% with z=a.event.head|addslash %}
+        <a href="#" style="text-decoration:none;">
+            <img src="{{a.event.image.url}}" style="width:40px;height:40px;float:left;">
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p><span style="color:#333;">Người tổ chức sự kiện</span><span style="margin-left:3px;color:#337ab7;">{{a.event.head}}</span><span style="margin-left:3px;color:#333;">đã từ chối lời mời của bạn tham gia sự kiện trên.</span><span style="color:#333;"> Bạn có thể gửi lại lời mời hoặc liên hệ với người tổ chức để biết thêm thông tin.</span>
+                </p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+        {% endwith %}
+    </div>
+        {% endif %}
+        {% endwith %}
+{% elif noti.noti_type == 'event-h' %}
+        {% load activity_extras %}
+        {% with a=noti.eventhnotification_set.all|first %}
+        {% if a %}
+    <div class="ulxx" style="overflow:auto;">
+        {% with z=a.event.head|addslash %}
+        <a href="{% url 'event:event' a.event.id  z %}" style="text-decoration:none;">
+            {% if a.guess.info.profile_pic %}
+            <img src="{{a.guess.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+            {% else %}
+            <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+            {% endif %}
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p><span>{{a.guess.fullname}}</span><span style="margin-left:3px;color:#333;"> từ chối lời mời của bạn tham gia sự kiện </span><span style="margin-left:3px;color:#337ab7;">{{a.event.head}}.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+        {% endwith %}
+    </div>
+        {% endif %}
+        {% endwith %}
+{% elif noti.noti_type == 'event-i' %}
+        {% load activity_extras %}
+        {% with a=noti.eventinotification_set.all|first %}
+        {% if a %}
+        <div class="ulxx" style="overflow:auto;">
+        {% with z=a.event.head|addslash %}
+        <a href="{% url 'event:event' a.event.id  z %}" style="text-decoration:none;">
+            <img src="{{a.event.image.url}}" style="width:40px;height:40px;float:left;">
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p><span style="color:#333;">Đã có người báo cáo vi phạm sự kiện </span><span style="margin-left:3px;color:#337ab7;">{{a.event.head}} </span><span style="color:#333;">do bạn tổ chức. Nếu quá 50 lần báo cáo, sự kiện của bạn sẽ bị hủy.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+        {% endwith %}
+        </div>
+        {% endif %}
+        {% endwith %}
+{% elif noti.noti_type == 'event-j' %}
+        {% load activity_extras %}
+        {% with a=noti.eventjnotification_set.all|first %}
+        {% if a %}
+        <div class="ulxx" style="overflow:auto;">
+        {% with z=a.event.head|addslash %}
+        <a href="{% url 'event:event' a.event.id  z %}" style="text-decoration:none;">
+            {% if a.user.info.profile_pic %}
+                <img src="{{a.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+            {% else %}
+                <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+            {% endif %}
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p><span >{{a.user.fullname}}</span><span style="color:#333;margin-left:3px;">đã đăng 1 bài trong sự kiện</span><span style="margin-left:3px;color:#337ab7;">{{a.event.head}}.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+        {% endwith %}
+        </div>
+        {% endif %}
+        {% endwith %}
+{% elif noti.noti_type == 'event-k' %}
+        {% load activity_extras %}
+        {% with a=noti.eventknotification_set.all|first %}
+        {% if a %}
+        <div class="ulxx" style="overflow:auto;">
+        {% with z=a.eventpostcomment.eventpost.event.head|addslash %}
+        <a href="{% url 'event:event' a.eventpostcomment.eventpost.event.id  z %}" style="text-decoration:none;">
+            {% if a.eventpostcomment.user.info.profile_pic %}
+                <img src="{{a.eventpostcomment.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+            {% else %}
+                <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+            {% endif %}
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p><span >{{a.eventpostcomment.user.fullname}}</span><span style="color:#333;margin-left:3px;">đã bình luận 1 bài đăng trong sự kiện</span><span style="margin-left:3px;color:#337ab7;">{{a.eventpostcomment.eventpost.event.head}}.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+        {% endwith %}
+        </div>
+        {% endif %}
+        {% endwith %}
+{% elif noti.noti_type == 'activity' %}
+    {% load activity_extras %}
+    {% with z=noti.activitynotification_set.all|first %}
+    {% if z %}
+    <div class="ulxx" style="overflow:auto">
+    {% with a=z.activity.head|addslash %}
+    <a href="{% url 'activity:activity' z.activity.id a %}" style="text-decoration:none;">
+        <img src="{{z.activity.image.url}}" style="width:40px;height:40px;float:left;">
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p style="margin-bottom:5px;"><span style="color:#333;">Bạn vừa tạo hoạt động</span>
+            <span style="margin-left:1px;color:#337ab7">{{z.activity.head}}</span>
+            <span style="margin-left:1px;color:#333;">.Nhấn vô đây để đi tới hoạt động do bạn tổ chức.</span>
+            </p>
+            {% load web_extras %}
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div>
+    </a>
+    {% endwith %}
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'activity-a' %}
+    {% with a=noti.activityanotification_set.all|first %}
+    {% if a %}
+    {% load activity_extras %}
+    {% with m=a.activityparticipants.activity.head|addslash %}
+    <div class="ulxx" style="overflow:auto;">
+        <a href="{% url 'activity:activity' a.activityparticipants.activity.id m %}" style="text-decoration:none;">
+        {% endwith %}
+            {% if a.activityparticipants.person.info.profile_pic %}
+            <img src="{{a.activityparticipants.person.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+            {% else %}
+            <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+            {% endif %}
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p style="margin-bottom:5px;"><span style="color:#337ab7;">{{a.activityparticipants.person.fullname}}</span>
+                <span style="margin-left:3px;color:#333;">muốn tham gia hoạt động</span> <span>{{a.activityparticipants.activity.head}}</span> <span style="color:#333;">do bạn tổ chức.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'activity-b' %}
+    {% with a=noti.activitybnotification_set.all|first %}
+    {% if a %}
+    {% load activity_extras %}
+    {% with m=a.activityparticipants.activity.head|addslash %}
+    <div class="ulxx" style="overflow:auto;">
+        <a href="{% url 'activity:link' %}?id={{a.activityparticipants.activity.id}}" style="text-decoration:none;">
+    {% endwith %}
+            {% if a.activityparticipants.activity.user.info.profile_pic %}
+            <img src="{{a.activityparticipants.activity.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+            {% else %}
+            <img src="/static/web/user.jpeg" style="width:40;height:40px;float:left;">
+            {% endif %}
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p style="margin-bottom:5px;"><span style="color:#337ab7;">{{a.activityparticipants.activity.user.fullname}}</span>
+                <span style="margin-left:3px;color:#333;">mời bạn tham gia 1 hoạt động </span> <span>{{a.activityparticipants.activity.head}}</span> <span style="color:#333;">do {{a.activityparticipants.activity.user.fullname}} tổ chức.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'activity-c' %}
+    {% with a=noti.activitycnotification_set.all|first %}
+    {% if a %}
+    <div class="ulxx" style="overflow:auto;"><a href="#" style="text-decoration:none;">
+        <img src="{{a.activity.image.url}}" style="width:40px;height:40px;float:left;">
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p style="margin-bottom:5px;"><span style="color:#333"> Người tổ chức hoạt động</span><span style="margin-left:3px;color:#337ab7;">{{a.activity.head}}</span><span style="color:#333;"> rút lại lời mời tham gia đã gửi tới cho bạn</span>
+            <span style="color:#333;"> vào</span>
+            {% load web_extras %}
+            {% with t=a.time_send|deltatime %}
+            <span class="noti_time" data-time="{{t}}" style="color:#337ab7"></span>
+            {% endwith %}
+            <span style="color:#333;">. Liên hệ lại người tổ chức để biết thêm chi tiết.</span>
+            </p>
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div></a>
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'activity-d' %}
+    {% with a=noti.activitydnotification_set.all|first %}
+    {% if a %}
+    {% load activity_extras %}
+    {% with m=a.activity.head|addslash %}
+    <div class="ulxx" style="overflow:auto;">
+        <a href="{% url 'activity:activity' a.activity.id m %}" style="text-decoration:none;">
+        {% if a.guess %}
+            {% if a.guess.info.profile_pic %}
+            <img src="{{a.guess.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+            {% else %}
+            <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+            {% endif %}
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p style="margin-bottom:5px;"><span>{{a.guess.fullname}}</span>
+        {% else %}
+        <span style="color:#333;">1 người</span>
+        {% endif %}
+        <span style="color:#333;">đã rút lại lời mời tham gia hoạt động</span><span style="margin-left:3px;">{{a.activity.head}}</span>
+        <span style="color:#333;">gửi tới cho bạn vào</span>
+        {% load web_extras %}
+        {% with t=a.time_send|deltatime %}
+        <span class="noti_time" data-time="{{t}}" style="color:#337ab7;font-size:14px;"></span><span>.</span>
+        {% endwith %}
+        <span>
+                </p>
+        {% with t=noti.time|deltatime %}
+        <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+        {% endwith %}
+        </div>
+        </a>
+    </div>
+    {% endwith %}
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'activity-e' %}
+        {% load activity_extras %}
+        {% with a=noti.activityenotification_set.all|first %}
+        {% if a %}
+    <div class="ulxx" style="overflow:auto;">
+        {% with z=a.activityparticipants.activity.head|addslash %}
+        <a href="{% url 'activity:activity' a.activityparticipants.activity.id z %}" style="text-decoration:none;">
+            <img src="{{a.activityparticipants.activity.image.url}}" style="width:40px;height:40px;float:left;">
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p><span style="color:#333;">Bạn đã được chấp nhận tham gia hoạt động</span><span style="margin-left:3px;">{{a.activityparticipants.activity.head}}</span><span style="color:#333;">. Nhấn vô đây để xem thêm cụ thể nội dung hoạt động.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+        {% endwith %}
+    </div>
+        {% endif %}
+        {% endwith %}
+{% elif noti.noti_type == 'activity-f' %}
+        {% load activity_extras %}
+        {% with a=noti.activityfnotification_set.all|first %}
+        {% if a %}
+    <div class="ulxx" style="overflow:auto;">
+        {% with z=a.activityparticipants.activity.head|addslash %}
+        <a href="{% url 'activity:activity' a.activityparticipants.activity.id z %}" style="text-decoration:none;">
+            {% if a.activityparticipants.person.info.profile_pic %}
+            <img src="{{a.activityparticipants.person.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+            {% else %}
+            <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+            {% endif %}
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p><span>{{a.activityparticipants.person.fullname}}</span><span style="margin-left:3px;color:#333;"> chấp nhận lời mời tham gia hoạt động</span><span style="margin-left:3px;">{{a.activityparticipants.activity.head}}</span><span>.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+        {% endwith %}
+    </div>
+        {% endif %}
+        {% endwith %}
+{% elif noti.noti_type == 'activity-g' %}
+        {% load activity_extras %}
+        {% with a=noti.activitygnotification_set.all|first %}
+        {% if a %}
+    <div class="ulxx" style="overflow:auto;">
+        {% with z=a.activity.head|addslash %}
+        <a href="#" style="text-decoration:none;">
+            <img src="{{a.activity.image.url}}" style="width:40px;height:40px;float:left;">
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p><span style="color:#333;">Người tổ chức hoạt động</span><span style="margin-left:3px;color:#337ab7;">{{a.activity.head}}</span><span style="margin-left:3px;color:#333;">từ chối lời mời của bạn tham gia tham gia hoạt động trên.</span><span style="color:#333;"> Bạn có thể gửi lại lời mời hoặc liên hệ với người tổ chức để biết thêm thông tin.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+        {% endwith %}
+    </div>
+        {% endif %}
+        {% endwith %}
+{% elif noti.noti_type == 'activity-h' %}
+        {% load activity_extras %}
+        {% with a=noti.activityhnotification_set.all|first %}
+        {% if a %}
+    <div class="ulxx" style="overflow:auto;">
+        {% with z=a.activity.head|addslash %}
+        <a href="{% url 'activity:activity' a.activity.id  z %}" style="text-decoration:none;">
+            {% if a.guess.info.profile_pic %}
+            <img src="{{a.guess.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+            {% else %}
+            <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+            {% endif %}
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p><span>{{a.guess.fullname}}</span><span style="margin-left:3px;color:#333;"> từ chối lời mời của bạn tham gia hoạt động</span><span style="margin-left:3px;color:#337ab7;">{{a.activity.head}}.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+        {% endwith %}
+    </div>
+        {% endif %}
+        {% endwith %}
+{% elif noti.noti_type == 'activity-i' %}
+        {% load activity_extras %}
+        {% with a=noti.activityinotification_set.all|first %}
+        {% if a %}
+        <div class="ulxx" style="overflow:auto;">
+        {% with z=a.activity.head|addslash %}
+        <a href="{% url 'activity:activity' a.activity.id  z %}" style="text-decoration:none;">
+            <img src="{{a.activity.image.url}}" style="width:40px;height:40px;float:left;">
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p><span style="color:#333;">Đã có người báo cáo vi phạm hoạt động </span><span style="margin-left:3px;color:#337ab7;">{{a.activity.head}} </span><span style="color:#333;">do bạn tổ chức. Nếu quá 20 lần báo cáo, hoạt động của bạn sẽ bị hủy.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+        {% endwith %}
+        </div>
+        {% endif %}
+        {% endwith %}
+{% elif noti.noti_type == 'activity-j' %}
+        {% load activity_extras %}
+        {% with a=noti.activityjnotification_set.all|first %}
+        {% if a %}
+        <div class="ulxx" style="overflow:auto;">
+        {% with z=a.activity.head|addslash %}
+        <a href="{% url 'activity:activity' a.activity.id  z %}" style="text-decoration:none;">
+            {% if a.user.info.profile_pic %}
+                <img src="{{a.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+            {% else %}
+                <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+            {% endif %}
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p><span >{{a.user.fullname}}</span><span style="color:#333;margin-left:3px;">đã đăng 1 bài trong hoạt động</span><span style="margin-left:3px;color:#337ab7;">{{a.activity.head}}.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+        {% endwith %}
+        </div>
+        {% endif %}
+        {% endwith %}
+{% elif noti.noti_type == 'activity-k' %}
+        {% load activity_extras %}
+        {% with a=noti.activityknotification_set.all|first %}
+        {% if a %}
+        <div class="ulxx" style="overflow:auto;">
+        {% with z=a.activitypostcomment.activitypost.activity.head|addslash %}
+        <a href="{% url 'activity:activity' a.activitypostcomment.activitypost.activity.id  z %}" style="text-decoration:none;">
+            {% if a.activitypostcomment.user.info.profile_pic %}
+                <img src="{{a.activitypostcomment.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+            {% else %}
+                <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+            {% endif %}
+            <div style="float:left;width:420px;margin-left:10px;">
+                <p><span >{{a.activitypostcomment.user.fullname}}</span><span style="color:#333;margin-left:3px;">đã bình luận 1 bài đăng trong hoạt động</span><span style="margin-left:3px;color:#337ab7;">{{a.activitypostcomment.activitypost.activity.head}}.</span></p>
+                {% load web_extras %}
+                {% with t=noti.time|deltatime %}
+                <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+                {% endwith %}
+            </div>
+        </a>
+        {% endwith %}
+        </div>
+        {% endif %}
+        {% endwith %}
+{% elif noti.noti_type == 'anonymous-a' %}
+    {% with a=noti.anonymousanotification %}
+    {% if a %}
+    <div class="ulxx" style="overflow:auto;">
+        <a href="{% url 'anonymous:link' %}?id={{a.ano_post.id}}" style="text-decoration:none;">
+            {% if a.vote.user.info.profile_pic %}
+                <img src="{{a.vote.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+            {% else %}
+                <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+            {% endif %}
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p>
+            {% if a.vote.user %}
+            <span>{{a.vote.user.fullname}}</span> 
+            {% else %}
+            <span>1 người</span>
+            {% endif %}
+            <span style="color:#333;">đã thả tim bài đăng ẩn danh của bạn.</span></p>
+            {% load web_extras %}
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div>
+        </a>
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'anonymous-b' %}
+    {% with a=noti.anonymousbnotification %}
+    {% if a %}
+    <div class="ulxx" style="overflow:auto;">
+        <a href="{% url 'anonymous:link' %}?id={{a.ano_post.id}}" style="text-decoration:none;">
+            {% if a.comment.is_anonymous == False %}
+                {% if a.comment.user.info.profile_pic %}
+                    <img src="{{a.comment.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+                {% else %}
+                    <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+                {% endif %}
+                <div style="float:left;width:420px;margin-left:10px;">
+                <p><span>{{a.comment.user.fullname}}</span> <span style="color:#333;"> đã bình luận bài đăng ẩn danh của bạn.</span></p>
+            {% else %}
+                <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+                <div style="float:left;width:420px;margin-left:10px;">
+                    <p><span>1 người ẩn danh</span><span style="color:#333;"> đã bình luận bài đăng ẩn danh của bạn.</span></p>
+            {% endif %}
+            {% load web_extras %}
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div>
+        </a>
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'contest' %}
+    {% load activity_extras %}
+    {% with z=noti.contestnotification %}
+    {% if z %}
+    <div class="ulxx" style="overflow:auto">
+    {% with a=z.contest.head|addslash %}
+    <a href="{% url 'contest:contest' z.contest.id a %}" style="text-decoration:none;">
+        <img src="{{z.contest.image.url}}" style="width:40px;height:40px;float:left;">
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p style="margin-bottom:5px;"><span style="color:#333;">Bạn vừa tạo cuộc thi</span>
+            <span style="margin-left:1px;color:#337ab7">{{z.contest.head}}</span>
+            <span style="margin-left:1px;color:#333;">.Nhấn vô đây để đi tới cuộc thi do bạn tổ chức.</span>
+            </p>
+            {% load web_extras %}
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div>
+    </a>
+    {% endwith %}
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'status-a' %}
+    {% load activity_extras %}
+    {% with z=noti.statusanotification %}
+    {% if z %}
+    <div class="ulxx" style="overflow:auto">
+        <a href="{% url 'status:specific' %}?id={{z.status.id}}" style="text-decoration:none;">
+        {% if z.who_vote.info.profile_pic %}
+        <img src="{{z.who_vote.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+        {% else %}
+        <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+        {% endif %}
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p style="margin-bottom:5px;">
+            <span style="color:#337ab7">{{z.who_vote.fullname}}</span>
+            <span style="margin-left:1px;color:#333;">thích hoạt động</span>
+            <span style="color:#337ab7">{{z.status.act.head}}</span>
+            <span style="margin-left:1px;color:#333;">của bạn.</span>
+            </p>
+            {% load web_extras %}
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div>
+    </a>
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'status-b' %}
+    {% load activity_extras %}
+    {% with z=noti.statusbnotification %}
+    {% if z %}
+    <div class="ulxx" style="overflow:auto">
+        <a href="{% url 'status:specific' %}?id={{z.status.id}}" style="text-decoration:none;">
+        {% if z.statuscomment.user.info.profile_pic %}
+        <img src="{{z.statuscomment.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+        {% else %}
+        <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+        {% endif %}
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p style="margin-bottom:5px;">
+            <span style="color:#337ab7">{{z.statuscomment.user.fullname}}</span>
+            <span style="margin-left:1px;color:#333;">đã bình luận hoạt động</span>
+            <span style="color:#337ab7">{{z.status.act.head}}</span>
+            <span style="margin-left:1px;color:#333;">của bạn.</span>
+            </p>
+            {% load web_extras %}
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div>
+    </a>
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'act-a' %}
+    {% load activity_extras %}
+    {% with z=noti.actanotification %}
+    {% if z %}
+    <div class="ulxx" style="overflow:auto">
+        {% with t=z.act.status_set.all|first %}
+        <a href="{% url 'status:specific' %}?id={{t.id}}" style="text-decoration:none;">
+        {% endwith %}
+        {% if z.act.user.info.profile_pic %}
+        <img src="{{z.act.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+        {% else %}
+        <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+        {% endif %}
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p style="margin-bottom:5px;">
+            <span style="color:#337ab7">{{z.act.user.fullname}}</span>
+            <span style="margin-left:1px;color:#333;">đã gắn thẻ bạn vào hoạt động </span>
+            {% if z.act.image %}
+            <span><img src="{{z.act.image.url}}" style="width:30px;height:30px;"></span>
+            {% endif %}
+            <span style="color:#337ab7;">{{z.act.head}}.</span>
+            </p>
+            {% load web_extras %}
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div>
+    </a>
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'act-b' %}
+    {% load activity_extras %}
+    {% with z=noti.actbnotification %}
+    {% if z %}
+    <div class="ulxx" style="overflow:auto">
+        {% with t=z.actpost.status_set.all|first %}
+        <a href="{% url 'status:specific' %}?id={{t.id}}" style="text-decoration:none;">
+        {% endwith %}
+        {% if z.actpost.user.info.profile_pic %}
+        <img src="{{z.actpost.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+        {% else %}
+        <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+        {% endif %}
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p style="margin-bottom:5px;">
+            <span style="color:#337ab7">{{z.actpost.user.fullname}}</span>
+            <span style="margin-left:1px;color:#333;">đã gắn thẻ bạn vào 1 bài đăng trong hoạt động </span>
+            {% if z.actpost.image %}
+            <span><img src="{{z.actpost.image.url}}" style="width:30px;height:30px;"></span>
+            {% endif %}
+            <span style="color:#337ab7;">{{z.actpost.act.head}}.</span>
+            </p>
+            {% load web_extras %}
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div>
+    </a>
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'activities-a' %}
+    {% load activity_extras %}
+    {% with z=noti.activitiesanotification %}
+    {% if z %}
+    <div class="ulxx" style="overflow:auto">
+        {% with t=z.activitiespost.status_set.all|first %}
+        <a href="{% url 'status:specific' %}?id={{t.id}}" style="text-decoration:none;">
+        {% endwith %}
+        {% if z.activitiespost.user.info.profile_pic %}
+        <img src="{{z.activitiespost.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+        {% else %}
+        <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+        {% endif %}
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p style="margin-bottom:5px;">
+            <span style="color:#337ab7">{{z.activitiespost.user.fullname}}</span>
+            <span style="margin-left:1px;color:#333;">đã gắn thẻ bạn vào 1 bài đăng trong hoạt động</span>
+            {% if z.activity.image %}
+            <span><img src="{{z.activity.image.url}}" style="width:30px;height:30px;"></span>
+            {% endif %}
+            <span style="color:#337ab7;">{{z.activity.head}}.</span>
+            <span style="margin-left:1px;color:#333;">Nhấn vô đây để xem chi tiết.</span>
+            </p>
+            {% load web_extras %}
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div>
+    </a>
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'events-a' %}
+    {% load activity_extras %}
+    {% with z=noti.eventsanotification %}
+    {% if z %}
+    <div class="ulxx" style="overflow:auto">
+        {% with t=z.eventspost.status_set.all|first %}
+        <a href="{% url 'status:specific' %}?id={{t.id}}" style="text-decoration:none;">
+        {% endwith %}
+        {% if z.eventspost.user.info.profile_pic %}
+        <img src="{{z.eventspost.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+        {% else %}
+        <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+        {% endif %}
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p style="margin-bottom:5px;">
+            <span style="color:#337ab7">{{z.eventspost.user.fullname}}</span>
+            <span style="margin-left:1px;color:#333;">đã gắn thẻ bạn vào 1 bài đăng trong sự kiện</span>
+            {% if z.event.image %}
+            <span><img src="{{z.event.image.url}}" style="width:30px;height:30px;"></span>
+            {% endif %}
+            <span style="color:#337ab7;">{{z.event.head}}.</span>
+            <span style="margin-left:1px;color:#333;">Nhấn vô đây để xem chi tiết.</span>
+            </p>
+            {% load web_extras %}
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div>
+    </a>
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'post-a' %}
+    {% load activity_extras %}
+    {% with z=noti.postanotification %}
+    {% if z %}
+    <div class="ulxx" style="overflow:auto">
+        {% with t=z.post.status_set.all|first %}
+        <a href="{% url 'status:specific' %}?id={{t.id}}" style="text-decoration:none;">
+        {% endwith %}
+        {% if z.post.user.info.profile_pic %}
+        <img src="{{z.post.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+        {% else %}
+        <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+        {% endif %}
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p style="margin-bottom:5px;">
+            <span style="color:#337ab7">{{z.post.user.fullname}}</span>
+            <span style="margin-left:1px;color:#333;">đã gắn thẻ bạn vào 1 bài đăng. Nhấn vô đây để xem chi tiết.</span>
+            </p>
+            {% load web_extras %}
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div>
+    </a>
+    </div>
+    {% endif %}
+    {% endwith %}
+{% elif noti.noti_type == 'trait-a' %}
+    {% load activity_extras %}
+    {% with z=noti.traitanotification %}
+    <div class="ulxx" style="overflow:auto;">
+        {% with t=z.trait.status_set.all|first %}
+        <a href="{% url 'status:specific' %}?id={{t.id}}" style="text-decoration:none;">
+        {% endwith %}
+        {% if z.trait.user_send.info.profile_pic %}
+        <img src="{{z.trait.user_send.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+        {% else %}
+        <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+        {% endif %}
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p style="margin-bottom:5px;">
+            <span style="color:#337ab7;">{{z.trait.user_send.fullname}}</span>
+            <span style="margin-left:1px;color:#333">đã tặng bạn phẩm chất. Nhấn vô đây đề xem chi tiết.</span>
+            </p>
+            {% load web_extras %}
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div>
+    </div>
+    {% endwith %}
+{% elif noti.noti_type == 'group-a' %}
+    {% with z=noti.groupanotification.groupinvitation %}
+    <div class="ulxx" style="overflow:auto;">
+        <a href="/group/group/{{z.group.id}}" style="text-decoration:none;">
+        {% if z.who_invite.info.profile_pic %}
+        <img src="{{z.who_invite.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+        {% else %}
+        <img src="/static/web/user.jpg" style="width:40px;height:40px;float:left;">
+        {% endif %}
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p style="margin-bottom:5px;">
+            <span style="color:#337ab7;">{{z.who_invite.fullname}}</span>
+            <span style="margin-left:1px;color:#333">mời bạn tham gia nhóm</span><span style="margin-left:3px;color:#337ab7;">{{z.group.name}}</span>
+            </p>
+            {% load web_extras %}
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div>
+    </div>
+    {% endwith %}
+{% elif noti.noti_type == 'group-b' %}
+    {% with z=noti.groupbnotification.groupinvitation %}
+    <div class="ulxx" style="overflow:auto;">
+        <a href="/group/group/{{z.group.id}}" style="text-decoration:none;">
+        {% if z.user.info.profile_pic %}
+        <img src="{{z.user.info.profile_pic.url}}" style="width:40px;height:40px;float:left;">
+        {% else %}
+        <img src="/static/web/user.jpeg" style="width:40px;height:40px;float:left;">
+        {% endif %}
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p style="margin-bottom:5px;">
+            <span style="color:#337ab7;">{{z.user.fullname}}</span>
+            <span style="margin-left:1px;color:#333">đã gửi lời mời tham gia nhóm</span><span style="margin-left:3px;color:#337ab7;">{{z.group.name}}</span>
+            </p>
+            {% load web_extras %}
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div>
+    </div>
+    {% endwith %}
+{% elif noti.noti_type == 'group-c' %}
+    {% with z=noti.groupcnotification.group %}
+    <div class="ulxx" style="overflow:auto;">
+        <a href="/group/group/{{z.id}}" style="text-decoration:none;">
+        {% if z.image %}
+        <img src="{{z.image.url}}" style="width:40px;height:40px;float:left;">
+        {% else %}
+        <img src="/static/group/group.jpg" style="width:40px;height:40px;float:left;">
+        {% endif %}
+        <div style="float:left;width:420px;margin-left:10px;">
+            <p style="margin-bottom:5px;">
+            <span style="margin-left:1px;color:#333">Bạn đã đã được chấp nhận tham gia nhóm</span><span style="margin-left:3px;color:#337ab7;">{{z.name}}</span>
+            </p>
+            {% load web_extras %}
+            {% with t=noti.time|deltatime %}
+            <p class="noti_time" data-time="{{t}}" style="color:#777;font-size:12px;margin:0;"></p>
+            {% endwith %}
+        </div>
+    </div>
+    {% endwith %}
+{% endif %}
+{% endfor %}
+{% else %}
+<p style="color:#666;padding:5px 10px;" class="nope">Không có thông báo nào</p>
+{% endif %}
+<style>
+.ulxx {
+    margin:5px;
+    padding-top:5px;
+    padding-bottom:5px;
+    padding : 0;
+    text-decoration : none;
+    border-bottom : 1px solid #e1e1e1;
+}
+.ulxx:hover {
+    text-decoration : none;
+    background-color : #eee;
+}
+</style>

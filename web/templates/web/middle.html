@@ -1,0 +1,82 @@
+{% if ref == 'friend' or ref == '' %}
+<div class="post" >
+    {% include 'web/actpost.html' %}
+</div>
+{% endif %}
+<div class="content"></div>
+<style>
+.post {
+    background-color : white;
+    width : 100%;
+    border : 1px solid #ddd;
+    border-radius : 5px;
+}
+.content {
+    margin-top : 20px;
+    width : 100%;
+}
+
+</style>
+<script src="/static/web/cookie.min.js" async="true"></script>
+<script>
+    $('textarea.w_com_t').each(function() {
+        this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+    }).on('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight)+'px';
+    });
+</script>
+
+<script>
+var curr_page = 0;
+var hasmoreload = true;
+function getDocHeight() {
+    var D = document;
+    return Math.max(
+        D.body.scrollHeight, D.documentElement.scrollHeight,
+        D.body.offsetHeight, D.documentElement.offsetHeight,
+        D.body.clientHeight, D.documentElement.clientHeight);
+}
+
+var loadScroll = function(e) {
+    var page = e.data.page;
+    if ( $(window).scrollTop() + $(window).height() > getDocHeight() - 200 ) {
+        $(window).off('scroll');
+        callAjax(page);
+    }
+}
+
+function LoadAjax(page) {
+    $.ajax({
+        url : "/status/content/",
+        method : 'GET',
+        data: {'page' :page,'ref':getParameterByName('ref')},
+        success : function(data) {
+            if (data !== 'error') {
+                $('.content').append(data);
+                $('[data-toggle="tooltip"]').tooltip();
+                $(window).on('scroll', {'page':page+1}, loadScroll);
+            }
+            else {
+                hasmoreload = false;
+            }
+       },
+    });
+}
+
+function callAjax(page) {
+    LoadAjax(page);
+}
+callAjax(curr_page);
+function getParameterByName(name, url) {
+    if(!url) {
+        url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+</script>

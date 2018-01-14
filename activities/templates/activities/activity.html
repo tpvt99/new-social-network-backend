@@ -1,0 +1,34 @@
+<link rel="stylesheet" type="text/css" href="/static/activities/activities.css">
+{% for act in activity %}
+<div class="div-activity">
+    <div class="aa-img">
+        <img class="activity-img" src="{{act.image.url}}">
+    </div>
+    <div class="aa-info">
+        {% load activity_extras %}
+        {% with t=act.head|addslash %}
+        <p><a href="{% url 'activity:activity' act.id t %}?id={{request.user.id}}">{{act.head}}</a></p>
+        {% endwith %}
+        <p><span class="ion ion-location" style="margin-right:5px;font-size:16px;"></span><span>{{act.address}}</span> - <span >{{act.city}}</span> - <span>{{act.province_unicode}}</span></p>
+        <p class="render_time">
+        <span class="fa fa-calendar-check-o"></span>
+        <span class="day">{{act.time_begin.day}}</span>
+        <span >tháng</span>
+        <span class="month">{{act.time_begin.month}}</span>
+        <span>năm</span>
+        <span class="year">{{act.time_begin.year}}</span>
+        <span>vào lúc</span>
+        <span class="hour">{{act.time_begin.hour}}</span>
+        <span>giờ</span>
+        <span class="minute">{{act.time_begin.minute}}</span>
+        <span>phút</span>
+        </p>
+        <p>
+        {% load activity_extras %}
+        {% with a=act.id|quantity %}
+        <span class="ion ion-person-stalker" style="margin-right:5px;"></span><span class="se-j">{{a.len}}</span><span style="margin-left:5px;">người tham gia</span>
+        {% endwith %}</p>
+    </div>
+</div>
+{% endfor %}
+<script type="text/javascript" src="/static/activities/render_time.js"></script>

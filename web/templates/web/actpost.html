@@ -1,0 +1,97 @@
+<div class="actpost">
+    <form class="actf" method="post" autocomplete="off" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="acthead">
+            <div>
+                <div class="actinpa">
+                    <textarea spellcheck="false" name="desin" class="desin" rows="2" placeholder="Cập nhật trạng thái của bạn" data-h=""></textarea>
+                    <input type="text" autocomplete="off" placeholder="Tên chủ đề hoạt động?" class="actin" name="actin">
+                </div>
+            </div>
+            <div class="ac-friend" style="display:none;">
+                <input type="text" class="ac-frin ain" autocomplete="false" value="" placeholder="Tên bạn bè">
+                <div style="display:none;" class="hiddenin">
+                </div>
+                <div class="dropdown">
+                    <div class="dropdown-menu fr-div" style="display:none;">
+                    </div>
+                </div>
+                <div class="ac-frlist">
+                </div>
+            </div>
+            <div class="ac-place" style="display:none;">
+                <select name="province">
+                    {% include 'activity/province.html' %}
+                </select>
+                <input type="hidden" name="hiddenprovince" value="">
+            </div>
+            <div class="ac-image">
+            </div>
+        </div>
+        <div class="actopt">
+            <!--
+            <span data-toggle="tooltip" title="Thêm địa điểm" class="deoptsp" id="addpl"><span class="fa fa-map-marker optsp"></span></span> -->
+            <span data-toggle="tooltip" title="Gắn thẻ bạn bè" class="deoptsp" id="addfr"><span class="ion ion-person-add optsp"></span></span>
+            <span data-toggle="tooltip" title="Tạo hoạt động" class="deoptsp" id="adddes"><span class="fa fa-pencil-square-o optsp"></span></span>
+            <label style="display:inline-block;padding-left:20px;" data-toggle="tooltip" title="Thêm ảnh chủ đề" class="deoptsp" id="addimg"><span class="fa fa-image optsp"></span><input type="file" accept="image/*" name="act-image" class="act-image" style="display:none;"></label>
+            <button type="submit" class="btn btn-sm btn-primary" style="float:right;">Đăng bài</button>
+            <div style="float:right;padding-right:10px;">
+                <div class="dropdown">
+                    <input type="hidden" name="privacy" value="public">
+                    <button type="button" class="btn btn-sm" aria-haspopup="true" aria-expanded="false" id="pribut" data-toggle="dropdown">
+                        <input type="hidden" name="privacy" value="public">
+                        <span class="ren-pri"><span class="fa fa-globe"></span><span style="margin-left:5px;">Công khai</span></span>
+                        <span class="caret"></span>
+                    </button>
+                    <div class="dropdown-menu pridiv" aria-labelledby="pribut">
+                        <p class="pri-p">Ai có thể thấy được bài đăng của bạn?</p>
+                        <div class="div-pri" data-privacy="public">
+                            <p><span class="fa fa-globe"></span><span style="margin-left:5px;">Công khai</span></p>
+                            <p style="margin-left:10px;padding-bottom:10px;">Bài đăng của bạn sẽ được thấy bởi tất cả mọi người</p>
+                        </div>
+                        <div class="div-pri" data-privacy="friend">
+                            <p><span class="ion ion-person-stalker"></span><span style="margin-left:5px;">Bạn bè</span></p>
+                            <p style="margin-left:10px;padding-bottom:10px;">Bài đăng của bạn chỉ có bạn bè của bạn mới xem được</p>
+                        </div>
+                        <div class="div-pri" data-privacy="private">
+                            <p><span class="fa fa-lock"></span><span style="margin-left:5px;padding-bottom:10px;">Riêng tư</span></p>
+                            <p style="margin-left:10px;">Bài đăng của bạn chỉ có bạn và những người được bạn gắn thẻ mới thấy được</p>
+                        </div>
+                    </div >
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<link rel="stylesheet" type="text/css" href="/static/web/actpost.css">
+<script type="text/javascript" src="/static/activity/province.js" async="true"></script>
+<script>
+$('#addfr').on('click', function() {
+    $('.ac-friend').show();
+});
+$('#addpl').on('click', function() {
+    $('.ac-place').show();
+});
+$('#adddes').on('click', function() {
+    $('.actin').show();
+});
+$('.desin').each(function() {
+    this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+}).on('input', function() {
+    this.style.height = 'auto';
+    this.style.height = (this.scrollHeight)+'px';
+});
+function getContext(eclass) {
+    var e = document.getElementsByName(eclass)[0];
+    if(e.selectedIndex == -1) return null;
+    return e.options[e.selectedIndex].text;
+}
+$('select[name="province"]').on('change', function() {
+    $('input[name="hiddenprovince"]').prop('value', getContext('province'));
+});
+$('.desin')[0].dataset.h = $('.desin')[0].style.height;
+</script>
+<script type="text/javascript" src="/static/web/actpost_privacy.js"></script>
+<script type="text/javascript" src="/static/web/actpost_image.js"></script>
+<script type="text/javascript" src="/static/web/actpost_submit.js"></script>
+<script type="text/javascript" src="/static/web/actpost_friend.js"></script>

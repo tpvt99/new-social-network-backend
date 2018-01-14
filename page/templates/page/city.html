@@ -1,0 +1,12 @@
+<form method="post" action="{% url 'page:createpage' 'city' %}">
+    {% csrf_token %}
+    <label for="name">ascii</label>
+    <input type="text" id="name" name="name" />
+    <label for="name1">unicode</label>
+    <input type="text" id="name1" name="name1" />
+    <label for="code">city_code</label>
+    <input type="text" id="code" name="code">
+    <label for="code1">country_code</label>
+    <input type="text" id="code1" name="code1">
+    <button type="submit" value="hello">Hello</button>
+</form>

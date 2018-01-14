@@ -1,0 +1,530 @@
+{% extends 'web/standardpage.html' %}
+{% block middle_createact %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+<div class="first_a">
+    <div class="f_d">
+        <label for="f_img" class=" f_b_l" title="Thêm ảnh chủ đề sự kiện"><span class="fa fa-image"></span></label>
+        <input type="file" accept="image/*" style="display:none;" id="f_img">
+        <textarea class="f_d_t" name="f_d_t" placeholder="Nội dung sự kiện *" rows="6"></textarea>
+        <p class="f_he">* Để thêm ảnh chủ đề sự kiện, nhấn vào biểu tượng hình ảnh trong phần nội dung</p>
+    </div>
+    <div class="f_e">
+        <p class="f_epp">Đại diện người tổ chức <span class="ion ion-alert" style="cursor:pointer;color:#aaa;width:10px;text-align:center;" title="Để thay đổi đại diện người tổ chức, bạn phải là người quản lý của 1 trang hoặc nhóm"></span></p>
+        <div class="dropdown" style="display:inline-block;">
+            <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="f_ebut">
+                {% if request.user.info.profile_pic %}
+                <img src="{{ request.user.info.profile_pic.url }}" class="f_eimg">
+                {% else %}
+                <img src="/static/web/user.jpeg" class="f_eimg">
+                {% endif %}
+                <span class="f_ename"> {{ request.user.fullname }}</span>
+                <span class="caret"></span>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dLabel">
+            </div>
+        </div>
+    </div>
+    <div class="f_f">
+        <div class="f_f_a">
+            <p class="p_span">Mời bạn bè tham gia</p>
+            <span class="ion ion-person-add p_span_a" ></span>
+            <input type="search" name="f_f_fr" class="f_f_ff" placeholder="Nhập tên bạn bè vào đây">
+        </div>
+        <div class="f_f_b">
+            <div class="dropdown">
+                <div class="dropdown-menu f_display" >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="first_b">
+    <div class="b_a">
+        <p class="b_a_m">Thông tin sự kiện</p>
+    </div>
+    <div class="b_b">
+        <div class="c_time">
+            <p class="c_th">Thời gian sự kiện bắt đầu</p>
+            <div class="c_ti">
+                <div id="c_ti1">
+                    <select name="year">
+                        <option value="">Năm</option>
+                    </select>
+                </div>
+                <div id="c_ti2" >
+                    <select name="month">
+                        <option value="">Tháng</option>
+                    </select>
+                </div>
+                <div id="c_ti3" >
+                    <select name="day">
+                        <option value="">Ngày</option>
+                    </select>
+                </div>
+                <div id="c_ti4" >
+                    <select name="hour">
+                        <option value="">Giờ</option>
+                    </select>
+                </div>
+                <div id="c_ti5" >
+                    <select name="minute">
+                        <option value="">Phút</option>
+                    </select>
+                </div>
+            </div>
+            <p class="c_th">Thời gian sự kiện kết thúc</p>
+            <div class="c_ti_end">
+                <div id="c_ti1_e">
+                    <select name="year_e">
+                        <option value="">Năm</option>
+                    </select>
+                </div>
+                <div id="c_ti2_e" >
+                    <select name="month_e">
+                        <option value="">Tháng</option>
+                    </select>
+                </div>
+                <div id="c_ti3_e" >
+                    <select name="day_e">
+                        <option value="">Ngày</option>
+                    </select>
+                </div>
+                <div id="c_ti4_e" >
+                    <select name="hour_e">
+                        <option value="">Giờ</option>
+                    </select>
+                </div>
+                <div id="c_ti5_e" >
+                    <select name="minute_e">
+                        <option value="">Phút</option>
+                    </select>
+                </div>
+            </div>
+            <div class="c_to">
+                * Hiện tại chúng tôi chỉ cho phép tổ chức sự kiện tại các tỉnh và thành phố thuộc Việt Nam nên múi giời sử dụng là<span style="color:blue;"> UTC+07</span>
+            </div>
+        </div>
+    </div>
+    <div class="b_c">
+        <div class="b_c_m">
+            Địa điểm tổ chức sự kiện
+        </div>
+        <div class="b_c_e">
+            <span class="fa fa-search b_c_sp"></span>
+            <input type="text" autocomplete="off" class="b_c_in" name="b_c_in" placeholder="Thành phố - Tỉnh"/>
+        </div>
+        <div class="b_c_ee">
+            <span class="fa fa-map-marker b_c_mp"></span>
+            <input type="text" autocomplete="off" class="b_c_in1" name="b_c_in1" placeholder="Địa chỉ cụ thể nơi diễn ra sự kiện"/>
+        </div>
+    </div>
+</div>
+<div class="first_c">
+    <div class="c_a">
+        <p class="c_ah">Quảng cáo sự kiện</p>
+    </div>
+    <div class="c_b">
+        <p class="c_cch">Độ tuổi phù hợp tham gia</p>
+        <div class="c_bi">
+            <select name="beg_a">
+                <option value="">Tuổi bắt đầu</option>
+            </select>
+            <select name="end_a">
+                <option value="">Tuổi kết thúc</option>
+            </select>
+        </div>
+    </div>
+    <div class="c_c">
+        <p class="c_cch">Số lượng người tham gia</p>
+        <div class="c_div">
+            <label class="c_la">
+                <input type="radio" name="quan" value="a" checked> <span class="c_la1">Không giới hạn</span></label>
+            <label class="c_la">
+                <input type="radio" name="quan" value="b"> <span class="c_la1">Giới hạn</span></label>
+        </div>
+    </div>
+    <div class="c_e">
+        <p class="c_cch">Lệ phí tham gia </p>
+        <label class="c_la">
+            <input type="radio" name="fee" value="a" checked/>Miễn phí</label>
+        <textarea class="c_et" name="fee_text" value="a" rows="5" placeholder="Miêu tả cách thức được vào sự kiện? Vào cửa tự do hay cần vé...? "></textarea>
+        <label class="c_la">
+            <input type="radio" name="fee" value="b" />Có phí</label>
+        <textarea class="c_et" name="fee_text" rows="5" value="b" disabled placeholder="Miêu tả cách mua được vé tham gia hay bằng 1 cách khác có chi phí..."></textarea>
+    </div>
+</div>
+<div class="first_c">
+    <button type="submit" class="btn btn-primary">Tạo sự kiện</button>
+</div>
+</form>
+<style>
+.first_a {
+    float : left;
+    display : inline-block;
+    width : 400px;
+}
+.first_b {
+    float : left;
+    display : inline-block;
+    width : 400px;
+    padding-right : 5px;
+}
+.first_c {
+    float : left;
+    width : 350px;
+    display : inline-block;
+}
+.c_ah {
+    font-size : 20px;
+    text-align : center;
+    font-family : serif, sans-serif;
+    color : #cc33ff;
+}
+.f_a_m {
+    font-size : 20px;
+    text-align : center;
+    font-family : "Times New Roman";
+}
+.f_b, .f_c {
+    position : relative;
+    text-align : center;
+    margin-top : 20px;
+}
+.f_b_l {
+    position : absolute;
+    top : 8px;
+    left : 36px;
+}
+.f_c_l{
+    position : absolute;
+    top : 8px;
+    left : 38px;
+    font-size : 20px;
+}
+.f_b_i1 {
+    width : 350px;
+    border-style : solid;
+    border-radius : 5px;
+    border-width : 1px;
+    padding : 5px 10px;
+    padding-left : 30px;
+    border-color : #c6538c;
+}
+.f_b_i2 {
+    width : 350px;
+    border-style : solid;
+    border-radius : 5px;
+    border-width : 1px;
+    padding : 5px 10px;
+    padding-left : 30px;
+    border-color : #6600ff;
+}
+.f_d {
+    position : relative;
+    margin-top : 20px;
+    text-align : center;
+}
+.f_d_t {
+    width : 350px;
+    resize : none;
+    border-style : solid;
+    border-width : 1px;
+    border-color : #00ffcc;
+    padding : 5px 10px;
+    padding-left : 30px;
+    border-radius : 5px;
+    margin-bottom : 10px;
+}
+.f_d_t:focus {
+    border-width : 2px;
+}
+.f_he {
+    display : block;
+    font-size : 12px;
+    width : 300px;
+    margin : 0 auto;
+}
+.b_a_m {
+    color : #0088cc;
+    font-size : 20px;
+    font-family : "Times New Roman";
+    text-align : center;
+}
+.c_th {
+    font-size : 16px;
+    margin-top : 5px;
+    margin-bottom : 5px;
+    color : rgb(32,28,89);
+}
+.b_c_m {
+    font-size : 16px;
+    margin-top: 5px;
+    color : rgb(32,28,89);
+    margin-bottom : 5px;
+}
+.b_c_e, .b_c_ee {
+    position : relative;
+    margin-bottom : 10px;
+}
+.b_c_sp {
+    position : absolute;
+    top : 8px;
+    right : 60px;
+}
+.b_c_in {
+    width : 350px;
+    border-style : solid;
+    border-radius : 5px;
+    border-width : 1px;
+    padding : 5px 10px;
+    padding-right : 30px;
+    border-color : #e5e501;
+}
+.b_c_mp {
+    position : absolute;
+    top : 8px;
+    left : 10px;
+}
+.b_c_in1 {
+    width : 350px;
+    border-style : solid;
+    border-radius : 5px;
+    border-width : 1px;
+    padding : 5px 10px;
+    padding-left : 23px;
+    border-color : #6600ff;
+}
+#c_ti1, #c_ti2, #c_ti3, #c_ti4, #c_ti5 {
+    display : inline-block;
+}
+#c_ti1_e, #c_ti2_e, #c_ti3_e, #c_ti4_e, #c_ti5_e {
+    display : inline-block;
+}
+select[name="year"], select[name="year_e"] {
+    width : 60px;
+}
+select[name="month"], select[name="month_e"] {
+    width : 68px;
+}
+select[name="day"], select[name="day_e"] {
+    width : 60px;
+}
+select[name="hour"], select[name="hour_e"] {
+    width : 50px;
+}
+select[name="minute"], select[name="minute_e"] {
+    width : 56px;
+}
+.c_ti_end {
+    margin-bottom : 5px;
+}
+.c_to {
+    color : #888;
+    font-size : 13px;
+    text-align : center;
+}
+select {
+    background-color : white;
+    border-style : solid;
+    border-width : 1px;
+    border-color : #6600ff;
+    padding : 3px;
+    margin-left : 3px;
+    border-radius : 5px;
+}
+.b_ta {
+    margin-top : 10px;
+    margin-bottom : 10px;
+}
+.b_lx {
+    width : 150px;
+}
+.c_la {
+    display : flex;
+    align-items : center;
+}
+.c_cch {
+    font-size : 16px;
+    color : rgb(32,28,89);
+    margin-bottom : 3px;
+}
+.c_la1 {
+    color : #333;
+    font-weight : normal;
+    margin : 5px;
+    margin-top : 8px; 
+    font-size : 15px;
+}
+.c_qu {
+    width : 200px;
+    border-radius : 5px;
+    border-width : 1px;
+    border-style : solid;
+    border-color : #cc6699;
+    padding : 5px;
+}
+.c_ch_li {
+    display : block;
+    margin-left : 5px;
+    margin-top : 5px;
+    color : blue;
+    cursor : pointer;
+}
+.cd_s {
+    width : 300px;
+    border-style : solid;
+    border-width : 1px;
+    border-color : #ff1afa;
+    border-radius : 5px;
+    padding : 5px;
+    margin-bottom : 10px;
+}
+.cd_s:last-of-type {
+    margin-bottom : 2px;
+}
+.c_ccd {
+    margin-top : 10px;
+    position : relative;
+}
+.c_clo {
+    font-size : 20px;
+    position :absolute;
+    top : 1px;
+    right : 55px;
+    cursor : pointer;
+}
+.c_clo:hover {
+    color : #aaa;
+}
+.c_et {
+    resize : none;
+    padding : 10px;
+    width : 350px;
+    border-style : solid;
+    border-width : 1px;
+    border-color : blue;
+    border-radius : 5px;
+}
+.c_et:last-of-type {
+    margin-bottom : 10px;
+}
+.c_et:disabled {
+    border-color : red;
+}
+.f_eimg {
+    width : 30px;
+    height : 30px;
+    border-radius : 3px;
+}
+.f_epp {
+    color : #33cccc;
+    display : inline-block;
+    width : 170px;
+}
+.f_e {
+    display : flex;
+    align-items : center;
+    margin-top : 20px;
+    margin-left : 20px;
+}
+.f_ebut {
+    border-width : 1px;
+    border-color : #339cff;
+    border-style : solid;
+    border-radius : 3px;
+    padding : 3px 6px;
+    background-color : #fff;
+}
+.f_f {
+    margin-top : 10px;
+    margin-left : 20px;
+}
+.f_f_a {
+    position : relative;
+}
+.f_f_ff {
+    width : 200px;
+    color : #333;
+    border-style : solid;
+    border-radius : 5px;
+    border-width : 1px;
+    border-color : #6b6b47;
+    padding : 5px;
+    padding-left : 23px;
+}
+.p_span {
+    display : inline-block;
+    width : 140px;
+    color : #6666ff;
+}
+.p_span_a {
+    position : absolute;
+    top : 9px;
+    left : 150px;
+    color : #777;
+}
+.c_cch {
+    font-size : 16px;
+    color :
+</style>
+{% endblock %}
+{% block script %}
+<script src="/static/event/time.js" async="true"></script>
+<script>
+$('input[name="quan"]').on('change', function() {
+    var a = $(this).val();
+    if (a === 'b') {
+        $('<input type="number" class="c_qu" name="qu" placeholder="Số lượng người dự kiến"/>').appendTo( $(this).parents('div.c_div'));
+    }
+    else {
+        $(this).parents('div.c_div').find('.c_qu').remove();
+    }
+});
+$('.c_ch_li').on('click', function() {
+    var $this = $(this);
+    $('<div class="c_ccd"><input type="text" name="singer" class="cd_s" placeholder="Tên ca sĩ"/><span class="c_clo">&times;</span></div>').insertBefore($this);
+});
+$('.c_d').on('click', '.c_clo', function() {
+    $(this).parent('.c_ccd').remove();
+});
+$('input[name="fee"]').on('change', function () {
+    var x = $(this).val();
+    if (x === 'a') {
+        $('textarea[name="fee_text"][value="a"]').removeAttr('disabled');
+        $('textarea[name="fee_text"][value="a"]').css('border-color','blue');
+        $('textarea[name="fee_text"][value="b"]').attr('disabled','true');
+        $('textarea[name="fee_text"][value="b"]').css('border-color','red');
+    }
+    else {
+        $('textarea[name="fee_text"][value="b"]').removeAttr('disabled');
+        $('textarea[name="fee_text"][value="b"]').css('border-color','blue');
+        $('textarea[name="fee_text"][value="a"]').attr('disabled','true');
+        $('textarea[name="fee_text"][value="a"]').css('border-color','red');
+    }
+});
+(function() {
+var b_a = $('.c_bi').children('select:nth-child(1)');
+var e_a = $('.c_bi').children('select:nth-child(2)');
+var i;
+for(i=10;i<=100;i++) {
+    b_a.append( ['<option value="',i,'">',i,'</option>'].join(''));
+}
+b_a.on('change', function() {
+    var i = parseInt($(this).val());
+    e_a.empty();
+    e_a.append('<option value="">Tuổi kết thúc</option>');
+    for(;i<=100;i++) {
+        e_a.append( ['<option value="',i,'">',i,'</option>'].join(''));
+    }
+});
+})();
+</script>
+{% endblock %}
+{% block style %}
+<style>
+body {
+    background-color : #e6f5ff;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,18 @@
+<div class="comm" style="margin-top:10px;overflow:auto;">
+    {% if comment.user.info.profile_pic %}
+    <img style="width:30px;height:30px;float:left;" src="{{comment.user.info.profile_pic.url}}">
+    {% else %}
+    <img style="width:30px;height:30px;float:left;" src="/static/web/user.jpeg">
+    {% endif %}
+    <div style="float:left;width:440px;margin-left:5px;">
+    <p style="margin:0">
+    <span style="font-size:15px;">{{comment.user.fullname}}</span>
+    <span style="margin-left:3px;font-size:13px;">{{comment.comment}}</span>
+    </p>
+    {% load web_extras %}
+    {% with t=comment.time|deltatime %}
+    <p class="ptime" data-time="{{t}}" style="color:#777;font-size:12px;margin-bottom:5px;"></p>
+    {% endwith %}
+    </div>
+</div>
+<script type="text/javascript" src="/static/event/rendertime.js"></script>

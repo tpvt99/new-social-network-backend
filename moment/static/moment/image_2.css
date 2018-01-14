@@ -1,0 +1,77 @@
+.grid {
+}
+.grid-item {
+    width :550px;
+}
+.moment-item {
+    padding : 20px 10px;
+    margin : 20px 0px;
+    background-color : #fff;
+    border-radius : 10px;
+}
+.moment-img {
+    width : 100%;
+    height : auto;
+    border-radius : 10px;
+}
+.moment-head {
+    margin-bottom : 10px;
+    padding : 5px 20px;
+    display : -webkit-flex;
+    display : flex;
+}
+.moment-user-img {
+    width : 30px;
+    height : 30px;
+    border-radius : 50%;
+}
+.moment-user-name {
+    font-size : 12px;
+    font-weight : 600;
+    color : #666;
+    margin : 0px;
+}
+.moment-text {
+    margin : 0;
+    font-size : 13px;
+    margin-bottom: 10px;
+    padding : 0px 20px;
+}
+.moment-time {
+    font-size : 11px;
+    margin : 0px;
+    font-weight : 400;
+}
+.moment-comment {
+    margin : 20px 0px;
+}
+.moment-comment-text {
+    padding : 0px 10px;
+    flex-flow : row nowrap;
+    justify-content : flex-start;
+}
+.comment-text {
+    position : relative;
+    display : inline-block;
+    padding : 0px 10px;
+    width : 100%;
+    border-radius : 5px;
+    border: 1px solid #ccc;
+    padding : 3px 6px;
+    min-height : 16px;
+}
+.comment-placeholder {
+    position : absolute;
+    top : 3px;
+    left : 5px;
+    color : #777;
+    font-size : 13px;
+    z-index : 0;
+}
+.comment-editable {
+    z-index : 1;
+    outline : medium none;
+}
+.comment-inner {
+    width :100%;
+}

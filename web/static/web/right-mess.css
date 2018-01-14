@@ -1,0 +1,14 @@
+.right-mess-div {
+    margin-top : 30px;
+}
+.le-mess-u-img {
+    width : 40px;
+    height : 40px;
+    border-radius : 50%;
+    cursor : pointer;
+    border : 2px solid #fff;
+}
+.div-mess-each {
+    margin-top : 10px;
+    text-align : center;
+}

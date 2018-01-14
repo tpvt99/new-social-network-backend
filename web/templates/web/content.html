@@ -1,0 +1,315 @@
+<div class="usrcont" data-id="{{ act.id }}">
+    
+    <div class="cont">
+        <div class="w_user">
+            <div class="w_user_1"> 
+                <div class="w_user_img">
+                    {% if act.user.info.profile_pic %}
+                    <img class="w_img" src="{{ act.user.info.profile_pic.url }}" />
+                    {% else %}
+                    {% load staticfiles %}
+                    <img class="w_img" src="{% static 'web/user.jpeg' %}">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="w_user_2">
+                <div class="w_user_name">
+                    <a href="{% url 'pro:profile' %}?id={{act.user.id}}"> {{ act.user.fullname }}</a>
+                    {% if act.city %}
+                    <span>tại <span class="fa fa-map-marker w_un"></span> <span class="w_un">{{ act.city.name_unicode }}</span></span>
+                    {% endif %}
+                </div>
+                <div class="w_option">
+                    <div class="dropdown">
+                        <button id="dopt" type="button" class="btnx" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                        <div class="dropdown-menu w_op_div" aria-labelledby="dopt">
+                            {% if act.user == request.user %}
+                            <div class="w_op_del w_op_e" >Xóa bài viết</div>
+                            {% endif %}
+                            {% if request.user in participants or request.user == act.user %}
+                            <div class="w_op_img w_op_e" >Thêm hình ảnh</div>
+                            <div class="w_op_ser w_op_e">Thêm chuỗi hoạt động</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="w_time" data-time="{{ timedelta.total_seconds }}">
+                    <span class="w_ren_time" data-toggle="tooltip" data-placement="right" title=""></span>
+                </div>
+            </div>
+        </div>
+        <div class="w_content">
+            <div class="row _c_act">
+                {{ act.act_description }}
+            </div>
+        </div>
+         
+        {% load web_extras %}
+        <div class="w_participants" id="{{ 'w_par'|addstr:act.id }}">
+            {% if participants %}
+                {% for participant in participants %}
+                <div class="row w_participant" data-idp="{{ participant.id }}" data-ida="{{ act.id }}"> 
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="w_image">
+            {% if actimgs|length == 1 %}
+                {% for img in actimgs %}
+                <img src="{{ img.image.url }}" class="w_img1">
+                {% endfor %}
+            {% elif actimgs|length == 2 %}
+                {% for img in actimgs %}
+                <img src="{{ img.image.url }}" class="w_img2">
+                {% endfor %}
+            {% elif actimgs|length == 3 %}
+                {% for img in actimgs %}
+                <img src="{{ img.image.url }}" class="w_img3">
+                {% endfor %}
+            {% elif actimgs|length == 4 %}
+                {% for img in actimgs %}
+                <img src="{{ img.image.url }}" class="w_img4">
+                {% endfor %}
+            {% elif actimgs|length == 5 %}
+                {% for img in actimgs %}
+                <img src="{{ img.image.url }}" class="w_img5">
+                {% endfor %}
+            {% elif actimgs|length != 0 %}
+                {% for img in actimgs %}
+                <img src="{{ img.image.url }}" class="w_imge">
+                {% endfor %}
+            {% endif %}
+        </div>
+        {% if act_se %}
+        <div class="w_series">
+            {% for as in act_se %}
+            <div class="w_seri_c">
+                <div class="w_sr_u">
+                    {% if as.user.info.profile_pic %}
+                    <img class="w_sr_u_i" src="{{ as.user.info.profile_pic.url }}">
+                    {% else %}
+                    <img class="w_sr_u_i" src="/static/web/user.jpeg">
+                    {% endif %}
+                    <a href="{% url 'pro:profile' %}?id={{as.user.id}}"><span class="w_sr_u_n">{{ as.user.fullname }}</span></a>
+                </div>
+                {% if as.image %}
+                <div class="w_sr_img">
+                    <p><img class="w_sr_img_e" src="{{ as.image.url }}" /><span class="w_sr_des">{{as.des}}</span></p>
+                </div>
+                {% else %}
+                <div class="w_sr_img">
+                    <p><span class="w_sr_des1">{{as.des}}</span></p>
+                </div>
+                {% endif %}
+                {% if as.time %}
+                <div class="w_sr_time">
+                    <span class="fa fa-clock-o"></span> {{ as.time }}
+                </div>
+                {% endif %}
+                {% if as.place %}
+                <div class="w_sr_place">
+                    <span class="fa fa-map-marker"></span> {{ as.place }}</p>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="w_add_series">
+            {% if request.user in participants or request.user == act.user %}
+            <a class="w_add_ser">Thêm chuỗi hoạt động của bạn...</a>
+            {% endif %}
+            <form method="post" enctype="multipart/form-data" class="w_add_f" style="display:none;">
+                {% csrf_token %}
+                <div class="w_s_image" title="Thêm hình ảnh">
+                    {% load web_extras %}
+                    <label for="{{'w_s_im_in'|addstr:act.id}}" class="w_s_im_la"><span class="fa fa-picture-o w_s_im_fa" ></span></label>
+                    <input id="{{'w_s_im_in'|addstr:act.id}}" type="file" name="w_s_im_in" class="w_s_im_in" style="display:none;">
+                </div>
+                <div class="w_s_more">
+                    <div class="w_s">
+                        <span class="fa fa-comment-o ws_i"></span>
+                        <input type="text" class="w_s_in" placeholder="Tối đa 30 kí tự" name="w_s_des" autocomplete="off" maxlength="30">
+                    </div>
+                    <div class="w_s">
+                        <span class="fa fa-clock-o ws_i"></span>
+                        <input type="text" class="w_s_in" placeholder="Thời gian" name="w_s_time" autocomplete="off">
+                    </div>
+                    <div class="w_s">
+                        <span class="fa fa-map-marker ws_i"></span>
+                        <input type="text" class="w_s_in" placeholder="Địa điểm" name="w_s_pl" autocomplete="off">
+                    </div>
+                </div>
+                <div class="w_s_sub">
+                    <button type="submit" class="btn btn-success">Đăng</button>
+                </div>
+            </form>
+        </div>
+        
+        {% if votes %}
+        <div class="w_rank_display">
+            <div class="row">
+                <div class="w_rank_display_s">
+                {% for vote in votes %}
+                {% load web_extras %}
+                <span class="{{ vote.vote_icon_name }}"></span> <span id="{{ 'actrank'|addstr:act.id }}"> {{ vote.vote }}</span>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+
+        {% if votes %}
+            <div class="w_rank">
+                <div class="row">
+                    <div class="w_rank_s">
+                        {% for vote in votes %}
+                        <div id="w_rank1">
+                            {% if vote_1.been_vote %}
+                            <a class="w_rank_a w_rank_ranked" data-act="{{ act.id }}"><span data-id="{{ vote.vote_icon_code }}" class="{{ vote.vote_icon_name }}"> </span><span> {{ vote.vote_des }}</span></a>
+                            {% else %}
+                            <a class="w_rank_a w_rank_ranking" data-act="{{ act.id }}"><span data-id="{{ vote.vote_icon_code }}" class="{{ vote.vote_icon_name }}"> </span><span> {{ vote.vote_des }}</span></a>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="w_comment">
+            {% if comments %}
+                {% for comment in comments %}
+                <div class="w_com">
+                    <div class="w_com1">
+                        {% if comment.user.info.profile_pic %}
+                        <img src="{{ comment.user.info.profile_pic.url }}" class="w_com_img">
+                        {% else %}
+                        {% load staticfiles %}
+                        <img src="{% static 'web/user.jpeg' %}" class="w_com_img">
+                        {% endif %}
+                        <div style="display:inline-block;">
+                            <a style="display:inline-block;" href="/profile/?id={{comment.user.id}}">{{ comment.user.fullname }}</a>
+                            {% load web_extras %}
+                            <p class="com_time" data-time="{{ comment.create_date|deltatime }}"></p>
+                        </div>
+                    </div>
+                    <div class="w_com_com">
+                        <p class="com_com">{{ comment.comment }}</p>
+                        {% if comment.image %}
+                        <img src="{{ comment.image.url }}" class="w_xxx">
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="w_post">
+                <form method="post" action="#" enctype="multipart/form-data" class="form-horizontal f_wcom">
+                    {% csrf_token %}
+                    <input id="com_id" type="hidden" data-id="{{ act.id }}" name="com_id" value="{{ act.id }}"/>
+                    <input id="user_id" type="hidden" data-uid="{{ act.user.id }}" name="user_id" value="{{ act.user.id }}"/>
+                    <div class="row">
+                        <div class="col-md-1">
+                            {% if user.info.profile_pic %}
+                            <a href="/profile/?id={{user.id}}"><img src="{{user.info.profile_pic.url}}" class="w_com_img"/></a>
+                            {% else %}
+                            <a href="/profile/?id={{user.id}}"> <img src="/static/web/user.jpeg"  class="w_com_img"/></a>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-11" style="background-color : white;">
+                            <div class="row" style="position:relative;">
+                                <textarea rows="1" type="text" class="w_com_t" name="w_com" placeholder="Bình luận của bạn..."></textarea>
+                                {% load web_extras %}
+                                <label for="{{ 'w_com_'|addstr:act.id }}" class="w_cam"><i class="fa fa-camera w_cam_sym" ></i></label>
+                                <input type="file" id="{{ 'w_com_'|addstr:act.id }}" style="display:none;" class="w_just" name="w_just"/>
+                            </div>
+                            <div class="row w_com_div">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+
+    </div>
+    
+</div>
+<script>
+(function() {
+    var act_id = "{{ act.id }}";
+    var x = ['#','w_par',act_id].join('');
+    var list = $(x).find('.w_participant');
+        list.each(function() {
+            if ($(this).text().trim() === ''){
+                var $this = $(this);
+                var parid = $this.data('idp');
+                var actid = $this.data('ida');
+                $.ajax({
+                    url : "/renderpar/",
+                    method : 'GET',
+                    data : {'p':parid,'a':actid},
+                    success : function(data) {
+                        $this.append(data);
+                    },
+                });
+            }
+        });
+})();
+(function() {
+    var x = $('.usrcont:last');
+    var ren = x.find('.w_ren_time');
+    var sec = x.find('.w_time').data('time');
+    var minx = parseInt(sec) / 60;
+    var hourx = minx/60;
+    var dayx = hourx / 24;
+    var timex = new Date();
+    timex.setSeconds(timex.getSeconds() - parseFloat(sec));
+    ren.attr('title', [timex.getDate()," tháng ", timex.getMonth()+1, " năm ", timex.getFullYear() ," vào lúc ", timex.getHours(), " giờ ", timex.getMinutes(), " phút" ].join(''));
+    if(sec < 60 ) {
+        ren.html( [Math.round(sec)," giây trước"].join(''));
+    }
+    else if (minx < 60) {
+        ren.html([Math.round(minx), " phút trước"].join(''));
+    }
+    else if( hourx < 24) {
+        ren.html([Math.round(hourx), " giờ trước"].join(''));
+    }
+    else if(Math.round(dayx) <= 1) {
+        ren.html([Math.round(dayx), " ngày trước"].join(''));
+    }
+    else {
+        ren.html([timex.getDate()," tháng ", timex.getMonth()+1, " năm ", timex.getFullYear()].join(''));
+    }
+})();
+(function() {
+    var x = $('.usrcont:last').find('p.com_time');
+    x.each(function() {
+        var ren = $(this);
+        var sec = ren.data('time');
+        var minx = parseInt(sec) / 60;
+        var hourx = minx/60;
+        var dayx = hourx / 24;
+        var timex = new Date();
+        timex.setSeconds(timex.getSeconds() - parseFloat(sec));
+        ren.attr('title', [timex.getDate()," tháng ", timex.getMonth()+1, " năm ", timex.getFullYear() ," vào lúc ", timex.getHours(), " giờ ", timex.getMinutes(), " phút" ].join(''));
+        if(sec < 60 ) {
+            ren.html( [Math.round(sec)," giây trước"].join(''));
+        }
+        else if (minx < 60) {
+            ren.html([Math.round(minx), " phút trước"].join(''));
+        }
+        else if( hourx < 24) {
+            ren.html([Math.round(hourx), " giờ trước"].join(''));
+        }
+        else if(Math.round(dayx) <= 1) {
+            ren.html([Math.round(dayx), " ngày trước"].join(''));
+        }
+        else {
+            ren.html([timex.getDate()," tháng ", timex.getMonth()+1, " năm ", timex.getFullYear()].join(''));
+        }
+    });
+})();
+</script>

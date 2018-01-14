@@ -1,0 +1,50 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+
+{% include 'search/nav-search-bar.html' %}
+
+<div class="every-one" style="margin-top:20px;">
+    <form class="form-ev" method="get" action="/friend/search/?page=1">
+        <input type="hidden" name="page" value="{{val}}">
+        <input type="search" class="form-evin" name="name" placeholder="Tên bạn bè của bạn...">
+        <span class="fa fa-search form-evs"></span>
+    </form>
+</div>
+<div class="every-result" style="margin-top:20px;">
+    {% include 'friend/search_result.html' %}
+</div>
+{% endblock %}
+
+{% block head %}
+<style>
+.form-ev {
+    width : 300px;
+    position : relative;
+}
+.form-evs {
+    position : absolute;
+    top : 8px;
+    right : 10px;
+}
+.form-evin:focus {
+    border-color : #eee;
+}
+.form-evin {
+    padding : 5px 10px;
+    background-color : white;
+    border : 1px solid #bbb;
+    border-radius : 5px;
+    width : 300px;
+}
+.every-result {
+    margin-left : 10px;
+}
+</style>
+{% endblock %}
+{% block script %}
+<script type="text/javascript" src="/static/search/friend.js"></script>
+{% endblock %}

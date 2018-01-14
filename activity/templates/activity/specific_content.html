@@ -1,0 +1,28 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<div class="search-result">
+    {% include 'activity/search_content.html' %}
+</div>
+<style>
+.search-result {
+    width : 900px;
+    margin-left : 10px;
+}
+.sp-content {
+    background-color : #fff;
+}
+</style>
+<script>
+</script>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/static/activity/button_btnx.js"></script>
+{% endblock %}
+
+{% block style %}
+{% endblock %}

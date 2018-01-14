@@ -1,0 +1,128 @@
+{% extends 'web/standardpage.html' %}
+
+{% block webpage %}
+{% endblock %}
+
+{% block nav-search-bar %}
+{% include 'search/nav-search-bar.html' %}
+{% endblock %}
+
+{% block nav-search-left %}
+    {% include 'search/nav-search-left.html' %}
+{% endblock %}
+
+{% block nav-search-middle %}
+<div class="search-result">
+    {% include 'event/search_content.html' %}
+</div>
+<script>
+function RenDay(a, tz) {
+a.each(function() {
+    var hour=$(this).find('.hour');
+    var day=$(this).find('.day');
+    var month=$(this).find('.month');
+    var year=$(this).find('.year');
+    var t = new Date(Date.UTC(parseInt(year.text()),parseInt(month.text())-1,parseInt(day.text()),parseInt(hour.text())));
+    t.setHours(t.getHours()+tz);
+    hour.text(t.getUTCHours());
+    day.text(t.getUTCDate());
+    month.text(t.getUTCMonth()+1);
+    year.text(t.getUTCFullYear());
+
+    hour=$(this).find('.hour_e');
+    day=$(this).find('.day_e');
+    month=$(this).find('.month_e');
+    year=$(this).find('.year_e');
+    t = new Date(Date.UTC(parseInt(year.text()),parseInt(month.text())-1,parseInt(day.text()),parseInt(hour.text())));
+    t.setHours(t.getHours()+tz);
+    hour.text(t.getUTCHours());
+    day.text(t.getUTCDate());
+    month.text(t.getUTCMonth()+1);
+    year.text(t.getUTCFullYear());
+});
+}
+(function() {
+    var tz = -new Date().getTimezoneOffset()/60;
+    RenDay($('.eve-cont'),tz)
+})();
+</script>
+{% endblock %}
+
+{% block nav-search-right %}
+    <p style="color:#666;padding:5px 5px;">Lọc nâng cao</p>
+    {% include 'search/event_search_option.html' %}
+<script>
+function getPara(a) {
+    var result = null, tmp =[];
+    location.search.substr(1).split("&").forEach(function(item) {
+        tmp = item.split('=');
+        if(tmp[0] === a) result = decodeURIComponent(tmp[1]);
+    });
+    return result;
+}
+function getName(name) {
+    var x = document.getElementsByName(name);
+    for (var i =0;i<x.length;i++) {
+        if(x[i].checked) {
+            return x[i].value;
+        }
+    }
+}
+function getAjax() {
+    var obj = new Object();
+    obj.head = $('.m_op_head').val();
+    obj.type = getPara('type');
+    obj.timezone = -new Date().getTimezoneOffset()/60;
+    obj.time = 'all';
+    obj.quantity = getName('quantity');
+    obj.fee = getName('fee');
+    obj.sex = getName('sex');
+    obj.age = 'all';
+    if (obj.type == 'sport') {
+        obj.sport = $('select[name="m_op_which"]').val();
+    }
+    else if(obj.type == 'esport') {
+        obj.esport = $('select[name="m_op_which"]').val();
+    }
+    else if(obj.type == 'music') {
+        obj.music = $('select[name="m_op_which"]').val();
+    }
+    obj.province = $('select[name="m_op_place"]').val();
+    var csrftoken = getCookie('csrftoken');
+    $.ajaxSetup({beforeSend: function(xhr, settings) {if (!csrfSafeMethod(settings.type) && !this.crossDomain) {xhr.setRequestHeader('X-CSRFToken', csrftoken);}}
+    });
+    $.ajax({
+        method : 'POST', 
+        url : '/event/search/',
+        data : {'data' : JSON.stringify(obj)},
+        success: function(data) {
+            if(data!== 'error') {
+                $('.search-result').empty().append(data);
+            }
+        }
+    });
+};
+$('select[name="m_op_which"]').on('change', function() {
+    getAjax();
+});
+$('select[name="m_op_place"]').on('change', function() {
+    getAjax();
+});
+$('input[name="quantity"]').on('change', function() {
+    getAjax();
+});
+$('input[name="fee"]').on('change', function() {
+    getAjax();
+});
+$('input[name="sex"]').on('change', function() {
+    getAjax();
+});
+(function() {
+    $('input[name="timezone"]')[0].value = -new Date().getTimezoneOffset()/60;
+})();
+</script>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/static/event/subbut.js"></script>
+{% endblock %}

@@ -1,0 +1,390 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<form method="post" style="display:flex;" class="form_s">
+    <div class="s_a">
+        {% csrf_token %}
+        <div class="s_a_pa" style="margin-bottom:5px;">
+            <span class="sa_ren">Chủ đề học bổng</span>
+            <input type="text" name="scho-head" style="border:1px solid #ccc;border-radius:3px;padding:3px 6px;width:200px;">
+            <p class="err-head" style="display:none;"></p>
+        </div>
+        <div class="s_a_pa">
+            <span class="sa_ren">Đại diện tạo học bổng</span>
+            <div class="dropdown s_a_pa1">
+                <button type="button" id="scLabel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="flase">
+                    {% if request.user.info.profile_pic %}
+                    <img class="s_a_img" src="{{ request.user.info.profile_pic.url }}">
+                    {% else %}
+                    {% load staticfiles %}
+                    <img class="s_a_img" src="{% static 'web/user.jpeg' %}">
+                    {% endif %}
+                    <span> {{ request.user.fullname }}</span>
+                    <span class="caret"></span>
+                </button>
+                <div class="dropdown-menu" style="display:none;" aria-labelledby="scLabel">
+                </div>
+            </div>
+        </div>
+        <div class="s_b_ta">
+            <p class="sa_ren">Đối tượng nhận học bổng</p>
+            <label class="s_b_tl"><input type="checkbox" name="tar" value="primary"> Tiểu học</label>
+            <label class="s_b_tl"><input type="checkbox" name="tar" value="junior"> Trung học cơ sở</label>
+            <label class="s_b_tl"><input type="checkbox" name="tar" value="senior"> Trung học phổ thông</label>
+            <label class="s_b_tl"><input type="checkbox" name="tar" value="college"> Đại học, Cao đẳng</label>
+            <label class="s_b_tl"><input type="checkbox" name="tar" value="graduate"> Sau đại học</label>
+            <p class="error_tar" style="display:none;"></p>
+            <textarea rows="7" placeholder="Chính sách ưu tiên, đối tượng cụ thể..." class="s_b_tin" name="s_a_tin" autocomplete="off" spellcheck="false"></textarea>
+            <p class="sa_to"> * Tại đây bạn sẽ ghi những chính sách ưu tiên hoặc đối tượng cụ thể hơn như học chuyên ngành gì, gia đình khó khăn, ưu tiên theo địa phương</p>
+            <p class="error_tardes" style="display:none;"></p>
+            <button type="submit" class="btn btn-success">Tạo học bổng</button>
+        </div>
+    </div>
+    <div class="s_d">
+        <div class="s_d_main">
+            <p class="sa_ren">Nội dung học bổng</p>
+            <textarea rows="9" spellcheck="false" autocomplete="off" placeholder="Hồ sơ, cách thức đăng ký, nộp hồ sơ, quá trình xét tuyển..." class="s_d_t" name="s_d_t"></textarea>
+            <p class="error_main" style="display:none;"></p>
+        </div>
+        <div class="s_d_ta">
+            <p class="sa_ren">Giá trị học bổng</p>
+            <textarea rows="5" spellcheck="false" autocomplete="off" name="s_c_pri" class="s_c_pri" placeholder="Giá trị học bổng và những lợi ích cho người đạt học bổng, đồng thời yêu cầu từ người cung cấp đối với người nhận học bổng nếu có"></textarea>
+            <p class="error_pri" style="display:none;"></p>
+        </div>
+        <div class="s_d_time">
+            <p class="sa_ren">Thời gian bắt đầu nộp hồ sơ</p>
+            <div class="c_ti">
+                <div id="c_ti1">
+                    <select name="year">
+                        <option value="">Năm</option>
+                    </select>
+                </div>
+                <div id="c_ti2" >
+                    <select name="month">
+                        <option value="">Tháng</option>
+                    </select>
+                </div>
+                <div id="c_ti3" >
+                    <select name="day">
+                        <option value="">Ngày</option>
+                    </select>
+                </div>
+                <div id="c_ti4" >
+                    <select name="hour">
+                        <option value="">Giờ</option>
+                    </select>
+                </div>
+                <div id="c_ti5" >
+                    <select name="minute">
+                        <option value="">Phút</option>
+                    </select>
+                </div>
+                <span class="error_be_t" style="display:none;"></span>
+            </div>
+            <p class="sa_ren">Thời gian kết thúc nhận hồ sơ</p>
+            <div class="c_ti_end">
+                <div id="c_ti1_e">
+                    <select name="year_e">
+                        <option value="">Năm</option>
+                    </select>
+                </div>
+                <div id="c_ti2_e" >
+                    <select name="month_e">
+                        <option value="">Tháng</option>
+                    </select>
+                </div>
+                <div id="c_ti3_e" >
+                    <select name="day_e">
+                        <option value="">Ngày</option>
+                    </select>
+                </div>
+                <div id="c_ti4_e" >
+                    <select name="hour_e">
+                        <option value="">Giờ</option>
+                    </select>
+                </div>
+                <div id="c_ti5_e" >
+                    <select name="minute_e">
+                        <option value="">Phút</option>
+                    </select>
+                </div>
+                <span class="error_en_t" style="display:none;"></span>
+            </div>
+            <div class="sa_to">
+                * Hiện tại chúng tôi chỉ cho phép tổ chức sự kiện tại các tỉnh và thành phố thuộc Việt Nam nên múi giời sử dụng là<span style="color:blue;"> UTC+07</span>
+            </div>
+        </div>
+    </div>
+</form>
+<style>
+.s_a_pa, .s_b_ta {
+    width : 500px;
+}
+.sa_ren {
+    font-size : 16px;
+}
+.s_a_pa1 {
+    display : inline-block;
+}
+.s_a_img {
+    width : 30px;
+    height : 30px;
+}
+.s_a_ut {
+    margin-top : 10px;
+    width : 200px;
+    margin-left : 10px;
+    border-width : 1px;
+    border-style : solid;
+    border-color : #a1a1a1;
+    border-radius : 3px;
+    padding : 3px 6px;
+}
+#scLabel {
+    padding : 5px;
+    margin-left : 3px;
+    border-color : #99b3ff;
+    border-style : solid;
+    border-width : 1px;
+    border-radius : 3px;
+    background-color : white;
+}
+.sa_to {
+    margin-top : 10px;
+    font-size : 12px;
+    color : #777;
+}
+.s_b_tl {
+    display : flex;
+    algin-items : center;
+    width : 200px;
+}
+input[name="tar"] {
+    margin-right : 5px;
+    margin-top : 5px;
+}
+.s_b_tin {
+    resize : none;
+    border-color : #a386c6;
+    border-radius : 3px;
+    border-width : 1px;
+    border-style : solid;
+    padding : 5px 10px;
+    width : 400px;
+    margin-top : 10px;
+}
+.t_plholder::-webkit-input-placeholer {
+    color : #d1d1d1;
+}
+.t_plholder:-moz-placeholder {
+    color : #d1d1d1;
+    opacity : 1;
+}
+.t_plholder::-moz-placeholder {
+    color : #d1d1d1;
+    opacity : 1;
+}
+.t_plholder:-ms-input-placeholder {
+    color : #d1d1d1;
+}
+.s_d_ta {
+    width : 500px;
+    margin-top : 5px;
+}
+.s_c_pri {
+    resize : none;
+    border-color : #33ffff;
+    border-radius : 3px;
+    border-width : 1px;
+    border-style : solid;
+    padding : 5px 10px;
+    width : 450px;
+}
+.s_a {
+    display : inline-block;
+    width : 550px;
+}
+.s_d {
+    display : inline-block;
+    width : 550px;
+}
+.s_d_t {
+    resize : none;
+    width : 450px;
+    padding : 5px 10px;
+    border-color : #4747d1;
+    border-width : 1px;
+    border-style : solid;
+    border-radius : 5px;
+}
+.c_ti_end {
+    margin-bottom : 5px;
+}
+select {
+    background-color : white;
+    border-style : solid;
+    border-width : 1px;
+    border-color : #6600ff;
+    padding : 3px;
+    margin-left : 3px;
+    border-radius : 5px;
+}
+#c_ti1, #c_ti2, #c_ti3, #c_ti4, #c_ti5 {
+    display : inline-block;
+}
+#c_ti1_e, #c_ti2_e, #c_ti3_e, #c_ti4_e, #c_ti5_e {
+    display : inline-block;
+}
+select[name="year"], select[name="year_e"] {
+    width : 60px;
+}
+select[name="month"], select[name="month_e"] {
+    width : 68px;
+}
+select[name="day"], select[name="day_e"] {
+    width : 60px;
+}
+select[name="hour"], select[name="hour_e"] {
+    width : 50px;
+}
+select[name="minute"], select[name="minute_e"] {
+    width : 56px;
+}
+.error_tar,.error_tardes,.error_main,.error_pri, .error_be_t, .error_en_t,.err-head {
+    color : #a94442;
+    margin-left : 10px;
+}
+</style>
+<script>
+$('textarea.s_b_tin').each(function() {
+    this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+}).on('input', function() {
+    this.style.height = 'auto';
+    this.style.height = (this.scrollHeight)+'px';
+});
+$('.s_b_tin').on('focusin', function() {
+    $(this).addClass('t_plholder');
+}).on('focusout', function() {
+    $(this).removeClass('t_plholder');
+});
+$('.s_d_t').on('focusin', function() {
+    $(this).addClass('t_plholder');
+}).on('focusout', function() {
+    $(this).removeClass('t_plholder');
+});
+$('.s_c_pri').on('focusin', function() {
+    $(this).addClass('t_plholder');
+}).on('focusout', function() {
+    $(this).removeClass('t_plholder');
+});
+</script>
+{% endblock %}
+{% block script %}
+<script src="/static/event/time.js" async="true"></script>
+<script src="/static/web/cookie.js" async="true"></script>
+<script>
+$('.form_s').on('submit', function(e) {
+    e.preventDefault();
+    var obj = new Object();
+    var send = true;
+    obj.target = [];
+    $('input[name="tar"]:checked').each(function() {
+        obj.target.push($(this).val());
+    });
+    obj.target_des = $('.s_b_tin').val();
+    obj.main = $('.s_d_t').val();
+    obj.pri = $('.s_c_pri').val();
+    obj.begin_time = new Object();
+    obj.begin_time.year = $('select[name="year"]').val();
+    obj.begin_time.month= $('select[name="month"]').val();
+    obj.begin_time.day= $('select[name="day"]').val();
+    obj.begin_time.hour= $('select[name="hour"]').val();
+    obj.begin_time.minute= $('select[name="minute"]').val();
+    obj.end_time = new Object();
+    obj.end_time.year = $('select[name="year_e"]').val();
+    obj.end_time.month= $('select[name="month_e"]').val();
+    obj.end_time.day= $('select[name="day_e"]').val();
+    obj.end_time.hour= $('select[name="hour_e"]').val();
+    obj.end_time.minute= $('select[name="minute_e"]').val();
+    obj.head = $('input[name="scho-head"]').val();
+    if(obj.head === '') {
+        $('.err-head').html('Xin hãy điền vào chủ đề học bổng').show();
+        send = false;
+    }
+    else {
+        $('.err-head').html('').hide();
+    }
+    if (obj.target.length !== 0) {
+        $('.error_tar').html('').hide();
+    }
+    else {
+        $('.error_tar').html('* Xin chọn đối tượng cần trao học bổng').show();
+        send = false;
+    }
+    if(obj.target_des.trim() === '') {
+        $('.error_tardes').html('* Xin nêu ra đối tượng cụ thể cũng như chính sách ưu tiên cho học bổng').show();
+        send = false;
+    }
+    else {
+        $('.error_tardes').html('').hide();
+    }
+    if(obj.main.trim() === '') {
+        $('.error_main').html('* Xin hãy điền vào phần nội dung bên trên').show();
+        send = false;
+    }
+    else {
+        $('.error_main').html('').hide();
+    }
+    if(obj.pri.trim() === '') {
+        $('.error_pri').html('* Xin hãy điền vào ô trống bên trên').show();
+        send = false;
+    }
+    else {
+        $('.error_pri').html('').hide();
+    }
+    if(obj.begin_time.year === null || obj.begin_time.year.trim() === '' || obj.begin_time.month === null || obj.begin_time.month.trim() === '' || obj.begin_time.day === null || obj.begin_time.day.trim() === '' || obj.begin_time.minute === null || obj.begin_time.minute.trim() === '' || obj.begin_time.hour === null || obj.begin_time.hour.trim() === '') {
+        $('.error_be_t').html('Chọn thời gian').show();
+        send = false;
+    }
+    else {
+        $('.error_be_t').html('').hide();
+    }
+    if(obj.end_time.year === null || obj.end_time.year.trim() === '' || obj.end_time.month === null || obj.end_time.month.trim() === '' || obj.end_time.day === null || obj.end_time.day.trim() === '' || obj.end_time.minute === null || obj.end_time.minute.trim() === '' || obj.end_time.hour === null || obj.end_time.hour.trim() === '') {
+        $('.error_en_t').html('Chọn thời gian').show();
+        send = false;
+    }
+    else {
+        $('.error_en_t').html('').hide();
+    }
+    obj.timezone = -new Date().getTimezoneOffset()/60;
+    if (send === true) {
+        var csrftoken = getCookie('csrftoken');
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                }
+            }
+        });
+        $.ajax({
+            url : "/scholarship/create/",
+            method : 'POST',
+            data : {'data': JSON.stringify(obj)},
+            success: function(data) {
+                if(data === 'ok') {
+                    window.location.href ="/search/scholarship/";
+                }
+            },
+        });
+    }
+    else {
+        return false;
+    }
+
+});
+</script>
+{% endblock %}
+

@@ -1,0 +1,84 @@
+<div class="right_sug">
+    {% load web_extras %}
+    {% with t=request.user|act_suggestion %}
+    <p style="color:#777;font-size:13px;">Hoạt động đề xuất</p>
+    <div class="right_act_sug">
+        {% with a=t.activity_type %}
+        {% if a == 'sport' %}
+        <p class="pright_head">Thể thao
+        {% elif a == 'esport' %}
+        <p class="pright_head">Esport
+        {% elif a == 'volunteer' %}
+        <p class="pright_head">Tình nguyện
+        {% elif a == 'clb' %}
+        <p class="pright_head">Hoạt động câu lạc bộ - đội nhóm</p>
+        {% elif a == 'entertainment' %}
+        <p class="pright_head">Vui chơi giải trí
+        {% elif a == 'sing' %}
+        <p class="pright_head">Ca hát
+        {% elif a == 'camp' %}
+        <p class="pright_head">Cắm trại
+        {% elif a == 'backpacking' %}
+        <p class="pright_head">Đi phượt
+        {% endif %}
+        <span style="float:right;style:color:#333;font-size:20px;cursor:pointer;" class="cl_sugg">&times;</span>
+        {% endwith %}
+        <p class="pright_sug"><a style="color:inherit;" href="{% url 'activity:link' %}?id={{t.id}}">{{t.head}}</a></p>
+        <img src="{{t.image.url}}" style="width:100%;height:150px;">
+        <p style="color:#444;font-size:13px;overflow-x:hidden;width:100%;"><span class="ion ion-location" style="margin-right:5px;font-size:16px;"></span><span class="se-add">{{t.address}}</span> - <span class="se-ci">{{t.city}}</span> - <span class="se-pr">{{t.province_unicode}}</span></p>
+        <p style="color:#444;font-size:13px;word-wrap:break-word;word-break:keep-all;width:100%;">
+        <span class="fa fa-calendar-check-o"></span>
+        <span class="day">{{t.time_begin.day}}</span>
+        <span>tháng</span>
+        <span class="month">{{t.time_begin.month}}</span>
+        <span>năm</span>
+        <span class="year">{{t.time_begin.year}}</span>
+        <span>lúc</span>
+        <span class="hour">{{t.time_begin.hour}}</span>
+        <span>giờ</span>
+        <span class="minute">{{t.time_begin.minute}}</span>
+        <span>phút</span>
+        </p>
+    </div>
+    {% endwith %}
+</div>
+<style>
+.right_sug {
+    width : 100%;
+    background-color : #fff;
+    padding : 5px;
+}
+.right_act_sug {
+    border : 1px solid #f1f1f1;
+    border-radius : 3px;
+    padding : 5px;
+}
+.pright_sug {
+    color : #333;
+    font-weight : 600;
+    font-size : 15px;
+}
+.pright_head {
+    color : #555;
+    font-size : 12px;
+    margin-bottom : 0px;
+}
+</style>
+<script>
+(function() {
+    var x = $('.right_act_sug');
+    var tz = -new Date().getTimezoneOffset()/60;
+    x.each(function() {
+        var hour=$(this).find('.hour');
+        var day=$(this).find('.day');
+        var month=$(this).find('.month');
+        var year=$(this).find('.year');
+        var t = new Date(Date.UTC(parseInt(year.text()),parseInt(month.text())-1,parseInt(day.text()),parseInt(hour.text())));
+        t.setHours(t.getHours()+tz);
+        hour.text(t.getUTCHours());
+        day.text(t.getUTCDate());
+        month.text(t.getUTCMonth()+1);
+        year.text(t.getUTCFullYear());
+    });
+})();
+</script>

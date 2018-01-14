@@ -1,0 +1,117 @@
+<form method="post" class="s-form" action="/contest/search/">
+    {% csrf_token %}
+    <input type="hidden" name="type" value="{{request.GET.type}}">
+    <input type="hidden" name="timezone" value="">
+    <input type="hidden" name="age" value="all">
+    <input type="hidden" name="time" value="all">
+    <div class="m_op1">
+        <div class="m_op_c">
+            <select name="m_op_place">
+                {% include 'activity/province.html' %}
+            </select>
+        </div>
+    </div>
+</form>
+<style>
+.m_op_a {
+    position : relative;
+    display : inline-block;
+}
+.m_op_which {
+    display : inline-block;
+    border-width : 1px;
+    border-style : solid;
+    border-radius : 5px;
+    border-color : #e1e1e1;
+    width : 180px;
+    height : 30px;
+    padding : 3px;
+    padding-left : 25px;
+}
+.m_op_which:focus {
+    border-color : #3385ff;
+}
+.m_op_a_l {
+    position : absolute;
+    left : 10px;
+    top : 7px;
+    color : #333;
+}
+.m_op_a_l::-moz-placeholder {
+}
+.m_op_a_pl {
+    position : absolute;
+    left : 115px;
+    top : 7px;
+    color : #aaa;
+}
+.m_op_head {
+    color : #333;
+    border-width : 1px;
+    border-radius : 5px;
+    border-color : #e1e1e1;
+    border-style : solid;
+    width : 250px;
+    height : 30px;
+    padding : 5px;
+    padding-left : 25px;
+    display : inline-block;
+}
+.m_op_head:focus{
+    border-color : #999;
+}
+.m_op_c {
+    position : relative;
+    display: inline-block;
+}
+.m_op_cl{
+    position : absolute;
+    left : 88px;
+    top : 7px;
+    color : #aaa;
+}
+select[name="m_op_place"],select[name="m_op_which"],select[name="quantity"],select[name="fee"] {
+    border-width : 1px;
+    border-style : solid;
+    border-radius : 5px;
+    border-color : #e1e1e1;
+    background-color : #fff;
+    color : #333;
+    height : 30px;
+    padding : 5px;
+}
+label {
+    font-weight : normal;
+}
+.m_op_place:focus {
+    width : 230px;
+    border-color : #79ff4d;
+}
+.m_hh {
+    color : #fff;
+    font-size : 13px;
+}
+.m_op_ra::-moz-selection {
+    color : rgba(0,0,0,0.9);
+    background-color : rgba(100,100,100,0.4);
+}
+.m_op_ra {
+    vertical-align : bottom;
+    width : 13px;
+    height : 13px;
+    padding : 0;
+    margin : 0;
+    position : relative;
+    top : -1px;
+    *overflow : hidden;
+}
+.m_op_ral {
+    display : inline-block;
+    margin-top : 5px;
+    padding-left : 15px;
+    text-indent : -15px;
+}
+.m_op_rax {
+    padding-left : 5px;
+}
+</style>

@@ -1,0 +1,19 @@
+{% extends 'web/standardpage.html' %}
+
+{% block main_thread_all %}
+<input type="hidden" id="k_a" value="{{kind}}">
+<input type="hidden" id="q_s" value="{{request.GET.q}}">
+{% include 'search/main_thread.html' %}
+{% endblock %}
+
+{% block left1_all %}
+{% include 'web/left.html' %}
+{% endblock %}
+
+{% block script_search %}
+<script>
+    $('input#search_bar').prop('placeholder','Tìm kiếm bạn bè, hoạt động và nhiều hơn nữa...');
+</script>
+<script src="/static/search/headsearch.min.js"></script>
+{% endblock %}
+

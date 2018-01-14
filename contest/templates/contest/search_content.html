@@ -1,0 +1,86 @@
+{% for contest in contests %}
+<div class="contest-cont">
+    <div class="cont-head">
+        {% load activity_extras %}
+        {% with z=contest.head|addslash %}
+        <p class="head-p"><a href="{% url 'contest:contest' contest.id z %}">{{contest.head}}</a></p>
+        {% endwith %}
+    </div>
+    <div class="cont-fol">
+        {% load contest_extras %}
+        {% with z=request.user|contest_follow:contest %}
+        {% if z == False %}
+            <button class="but-fol but-fol1" data-submit="true" data-action="interest" data-id="{{contest.id}}">Theo dõi</button>
+        {% else %}
+        <button class="but-fol but-fol2" data-submit="false">Đã theo dõi</button>
+        {% endif %}
+        {% endwith %}
+    </div>
+    <div class="cont-user">
+        <p>
+        {% if contest.user.info.profile_pic %}
+        <img class="user-img" src="{{contest.user.info.profile_pic.url}}">
+        {% else %}
+        <img class="user-img" src="/static/web/user.jpeg">
+        {% endif %}
+        <span class="user-name"><a href="{% url 'pro:profile' %}?id={{contest.user.id}}">{{contest.user.fullname}}</a></span>
+        <span style="font-size:13px;color:#777;">tổ chức cuộc thi này</span>
+        </p>
+    </div>
+    <div class="cont-info">
+        <p>
+        <span class="fa fa-map-marker"></span>
+        <span>Địa điểm:</span>
+        <span>{{contest.province_unicode}}</span>
+        </p>
+        <p>
+            <p><span class="fa fa-calendar-check-o"></span>
+            <span class="day" style="margin-left:5px;">{{contest.time_begin.day}}</span><span style="margin-left:3px">tháng</span><span class="month" style="margin-left:5px;">{{contest.time_begin.month}}</span><span style="margin-left:3px;">năm</span><span class="year" style="margin-left:5px">{{contest.time_begin.year}}</span>
+            <span class="hour" style="margin-left:5px;display:none;">{{contest.time_begin.hour}}</span>
+            <span class="minute" style="margin-left:5px;display:none;">{{contest.time_begin.minute}}</span>
+        </p>
+        <img class="contest-img" src="{{contest.image.url}}">
+        <p style="padding:10px;work-wrap:break-work;work-break:keep-all;line-height:1.5em">{{contest.des|linebreaksbr}}</p>
+    </div>
+</div>
+{% endfor %}
+
+<style>
+.contest-cont {
+    padding : 10px;
+    width : 600px;
+    margin : 0 auto;
+    background-color : #fff;
+    margin-bottom : 20px;
+}
+.head-p {
+    font-weight : 600;
+    font-size : 18px;
+}
+.user-img {
+    width : 35px;
+    height : 35px;
+    border-radius : 5px;
+}
+.user-name {
+    font-size : 15px;
+}
+.contest-img {
+    width : 100%;
+    height : 300px;
+}
+.but-fol {
+    color : #fff;
+    padding : 5px 10px;
+    margin-bottom : 10px;
+    border-radius : 7px;
+}
+.but-fol1 {
+    background-color : #e74c3c;
+    border : 1px solid #e74c3c;
+}
+.but-fol2 {
+    background-color : #2980b9;
+    border : 1px solid #2980b9;
+}
+</style>

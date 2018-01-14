@@ -1,0 +1,162 @@
+<div id="left_nav">
+    <div class="left_main">
+        <div id="left_user">
+            {% if request.user.info.background_pic %}
+            <div id="left_user_background" style="background-image: url('{{request.user.info.background_pic.url}}')">
+            {% else %}
+            <div id="left_user_background" style="background-image: url('/static/web/background.jpeg')">
+            {% endif %}
+            </div>
+            <div id="left_user_info">
+                {% if request.user.info.profile_pic %}
+                <img id="left_user_profile" src="{{request.user.info.profile_pic.url}}">
+                {% else %}
+                <img id="left_user_profile" src="/static/web/user.jpeg">
+                {% endif %}
+                <div id="left_user_name">
+                    <span style="font-weight:600;"><a href="{% url 'pro:profile' %}?id={{request.user.id}}" style="color:#333;">{{request.user.fullname}}</a></span>
+                </div>
+                <div id="left_user_head">
+                    {% if request.user.info.head %}
+                    <p>{{request.user.info.head}}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="le_h le_h1">
+            <p>Phát triển</p>
+        </div>
+
+        <a class="l_item" href="{% url 'activity:activityall' %}">
+            <span class="l_item_head l_item_head1">Hoạt động</span>
+            {% load activities_extras %}
+            {% with t=request.user|total_activities %}
+            <span class="not-num num-special num-special1">{{t}}</span>
+            {% endwith %}
+        </a>
+            {% with z=request.user.act_set.all %}
+                {% for i in z %}
+                {% if i.image %}
+                <a class="l_item_child" href="{% url 'act:act' i.id %}" data-toggle="tooltip" title="{{i.head}}">
+                    <img class="item_child_img" src="{{i.image.url}}">
+                    <div class="item_child_head"><span>{{i.head}}</span></div>
+                    {% with tt=i.actpost_set.all|length %}
+                    <span class="not-num" style="margin-left:auto;">{{tt}}</span>
+                    {% endwith %}
+                </a>
+                {% endif %}
+                {% endfor %}
+            {% endwith %}
+        <a class="l_item" href="{% url 'event:eventall' %}">
+            <span class="l_item_head l_item_head1">Sự kiện</span>
+            {% load events_extras %}
+            {% with t=request.user|total_events %}
+            <span class="not-num num-special num-special1">{{t}}</span>
+            {% endwith %}
+        </a>
+        {% load event_extras %}
+        {% with z=request.user|event %}
+            {% for i in z %}
+            {% load activity_extras %}
+                {% with g=i.head|addslash %}
+                <a class="l_item_child" href="{% url 'event:event' i.id g %}?id={{request.user.id}}" data-toggle="tooltip" title="{{i.head}}">
+                {% endwith %}
+                    <img class="item_child_img" src="{{i.image.url}}">
+                    <div class="item_child_head"><span>{{i.head}}</span></div>
+                    {% with tt=i.eventspost_set.all|length %}
+                    <span class="not-num" style="margin-left:auto;">{{tt}}</span>
+                    {% endwith %}
+                </a>
+            {% endfor %}
+        {% endwith %}
+        <div class="le_h le_h2">
+            <p>Thử thách</p>
+        </div>
+        <a class="l_item" href="{% url 'contest:contestall'  %}">
+            <span class="l_item_head l_item_head2">Cuộc thi</span>
+            {% load contest_extras %}
+            {% with t=request.user|total_contest:'all' %}
+            <span class="not-num num-special num-special2">{{t.quantity}}</span>
+            {% endwith %}
+        </a>
+        {% with z=request.user|total_contest:'all' %}
+            {% for m in z.contest %}
+            {% with i=m.contest %}
+            {% load activity_extras %}
+                {% with g=i.head|addslash %}
+                <a class="l_item_child" href="{% url 'contest:contest' i.id g %}" data-toggle="tooltip" title="{{i.head}}">
+                {% endwith %}
+                    <img class="item_child_img" src="{{i.image.url}}">
+                    <div class="item_child_head"><span>{{i.head}}</span></div>
+                    {% with tt=i.contest_contestpost_contest.all|length %}
+                    <span class="not-num" style="margin-left:auto;">{{tt}}</span>
+                    {% endwith %}
+                </a>
+            {% endwith %}
+            {% endfor %}
+        {% endwith %}
+        <a class="l_item" href="{% url 'search:search' 'scholarship' %}" ><span class="l_item_head l_item_head2">Học bổng</span></a>
+        <div class="le_h le_h3">
+            <p>Phẩm chất</p>
+        </div>
+            {% load trait_extras %}
+            {% with t=request.user|trait %}
+            {% for key,value in t.items %}
+            <a class="l_item">
+                {% with z=key %}
+                <span class="l_item_head l_item_head3">
+                {% if z == 'accessible' %}
+                Ôn hòa
+                {% elif z == 'fun' %}
+                Vui tính
+                {% elif z == 'kind' %}
+                Tốt bụng
+                {% elif z == 'active' %}
+                Năng động
+                {% elif z == 'appreciate' %}
+                Biết khen ngợi
+                {% elif z == 'benevolent' %}
+                Nhân từ
+                {% elif z == 'calm' %}
+                Điềm tĩnh
+                {% elif z == 'caring' %}
+                Quan tâm
+                {% elif z == 'charismatic' %}
+                Lôi cuốn
+                {% elif z == 'challenging' %}
+                Thích thử thách
+                {% elif z == 'compassionate' %}
+                Lòng trắc ẩn
+                {% elif z == 'conciliatory' %}
+                Hòa giải
+                {% elif z == 'curious' %}
+                Hiếu kỳ
+                {% elif z == 'daring' %}
+                Dũng cảm
+                {% elif z == 'decisive' %}
+                Quyết đoán
+                {% elif z == 'fair' %}
+                Công bằng
+                {% elif z == 'forgiving' %}
+                Khoan dung
+                {% elif z == 'humorous' %}
+                Hài hước
+                {% elif z == 'optimistic' %}
+                Lạc quan
+                {% elif z == 'painstaking' %}
+                Siêng năng
+                {% elif z == 'patient' %}
+                Kiên nhẫn
+                {% elif z == 'scrupulous' %}
+                Cẩn thận, chu đáo
+                {% elif z == 'sage' %}
+                Chính chắn
+                {% endif %}
+                </span>
+                {% endwith %}
+                <span class="not-num num-special num-special3">{{value}}</span>
+            </a>
+            {% endfor %}
+            {% endwith %}
+    </div>
+</div>

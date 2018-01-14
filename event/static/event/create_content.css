@@ -1,0 +1,300 @@
+.form-event {
+    margin : 0 auto;
+    margin-top : 90px;
+    background-color : #fff;
+    width : 500px;
+    padding-left : 50px;
+    padding-right : 50px;
+    border-width : 1px;
+    border-style : solid;
+    border-color : #eee;
+    border-radius : 5px;
+}
+.first_a {
+    display : block;
+    width : 400px;
+    margin-bottom : 20px;
+}
+.first_b {
+    display : block;
+    width : 400px;
+    border-top : 1px solid #ccc;
+    padding-top : 10px;
+}
+.first_c {
+    width : 350px;
+    display : block;
+}
+.c_ah {
+    font-size : 20px;
+    text-align : center;
+    font-family : serif, sans-serif;
+    color : #cc33ff;
+}
+.f_a_m {
+    font-size : 20px;
+    text-align : center;
+    font-family : "Times New Roman";
+}
+.f_b, .f_c {
+    position : relative;
+    text-align : center;
+    margin-top : 20px;
+}
+.f_b_l {
+    position : absolute;
+    top : 8px;
+    left : 36px;
+}
+.fbll {
+    cursor : pointer;
+}
+.f_b_i1 {
+    width : 350px;
+    border-style : solid;
+    border-radius : 5px;
+    border-width : 1px;
+    padding : 5px 10px;
+    padding-left : 30px;
+    border-color : #c6538c;
+}
+.f_b_i2 {
+    width : 350px;
+    border-style : solid;
+    border-radius : 5px;
+    border-width : 1px;
+    padding : 5px 10px;
+    padding-left : 30px;
+    border-color : #6600ff;
+}
+.f_d {
+    position : relative;
+    margin-top : 20px;
+    text-align : center;
+}
+.f_d_t {
+    width : 350px;
+    resize : none;
+    border-style : solid;
+    border-width : 1px;
+    border-color : #00ffcc;
+    padding : 5px 10px;
+    padding-left : 30px;
+    border-radius : 5px;
+    margin-bottom : 10px;
+}
+.f_d_t:focus {
+    border-width : 2px;
+}
+.f_he {
+    display : block;
+    font-size : 12px;
+    width : 300px;
+    margin : 0 auto;
+}
+.b_a_m {
+    color : #0088cc;
+    font-size : 20px;
+    font-family : "Times New Roman";
+    text-align : center;
+}
+.c_th {
+    font-size : 16px;
+    margin-top : 5px;
+    margin-bottom : 5px;
+    color : rgb(32,28,89);
+}
+.b_c_m {
+    font-size : 16px;
+    margin-top: 5px;
+    color : rgb(32,28,89);
+    margin-bottom : 5px;
+}
+.b_c_e, .b_c_ee, .b_c_z {
+    position : relative;
+    margin-bottom : 10px;
+}
+.b_c_sp {
+    display : inline-block;
+    width : 165px;
+}
+.b_c_in {
+    width : 350px;
+    border-style : solid;
+    border-radius : 5px;
+    border-width : 1px;
+    padding : 5px 10px;
+    padding-right : 30px;
+    border-color : #e5e501;
+}
+.b_c_mp {
+    position : absolute;
+    top : 8px;
+    left : 10px;
+}
+.b_c_in1 {
+    width : 350px;
+    border-style : solid;
+    border-radius : 5px;
+    border-width : 1px;
+    padding : 5px 10px;
+    padding-left : 23px;
+    border-color : #6600ff;
+}
+#c_ti1, #c_ti2, #c_ti3, #c_ti4, #c_ti5 {
+    display : inline-block;
+}
+#c_ti1_e, #c_ti2_e, #c_ti3_e, #c_ti4_e, #c_ti5_e {
+    display : inline-block;
+}
+select[name="year"], select[name="year_e"] {
+    min-width : 60px;
+}
+select[name="month"], select[name="month_e"] {
+    min-width : 68px;
+}
+select[name="day"], select[name="day_e"] {
+    min-width : 60px;
+}
+select[name="hour"], select[name="hour_e"] {
+    min-width : 50px;
+}
+select[name="minute"], select[name="minute_e"] {
+    min-width : 56px;
+}
+.c_ti_end {
+    margin-bottom : 5px;
+}
+.c_to {
+    color : #888;
+    font-size : 13px;
+    text-align : center;
+}
+select {
+    background-color : white;
+    border-style : solid;
+    border-width : 1px;
+    border-color : #6600ff;
+    padding : 3px;
+    margin-left : 3px;
+    border-radius : 5px;
+}
+.b_ta {
+    margin-top : 10px;
+    margin-bottom : 10px;
+}
+.b_lx {
+    width : 150px;
+}
+.c_la {
+    display : flex;
+    align-items : center;
+}
+.c_cch {
+    font-size : 16px;
+    color : rgb(32,28,89);
+    margin-bottom : 3px;
+}
+.c_la1 {
+    color : #333;
+    font-weight : normal;
+    margin : 5px;
+    margin-top : 8px; 
+    font-size : 15px;
+}
+.c_qu {
+    width : 200px;
+    border-radius : 5px;
+    border-width : 1px;
+    border-style : solid;
+    border-color : #cc6699;
+    padding : 5px;
+}
+.c_ccd {
+    margin-top : 10px;
+    position : relative;
+}
+.c_clo {
+    font-size : 20px;
+    position :absolute;
+    top : 1px;
+    right : 55px;
+    cursor : pointer;
+}
+.c_clo:hover {
+    color : #aaa;
+}
+.c_et {
+    resize : none;
+    padding : 10px;
+    width : 350px;
+    border-style : solid;
+    border-width : 1px;
+    border-color : blue;
+    border-radius : 5px;
+}
+.c_et:last-of-type {
+    margin-bottom : 10px;
+}
+.c_et:disabled {
+    border-color : red;
+}
+.f_eimg {
+    width : 30px;
+    height : 30px;
+    border-radius : 3px;
+}
+.f_epp {
+    color : #33cccc;
+    display : inline-block;
+    width : 170px;
+}
+.f_e {
+    display : flex;
+    align-items : center;
+    margin-top : 20px;
+    margin-left : 20px;
+}
+.f_ebut {
+    border-width : 1px;
+    border-color : #339cff;
+    border-style : solid;
+    border-radius : 3px;
+    padding : 3px 6px;
+    background-color : #fff;
+}
+.p_span {
+    display : inline-block;
+    width : 140px;
+    color : #6666ff;
+}
+.c_cch {
+    font-size : 16px;
+}
+.head-err,.type-err,.des-err,.c_begin_time,.c_end_time,.place-err,.age-err,.fee-err,.quan-err,.img-err {
+    display : none;
+    color : #a94442;
+    text-align : left;
+    margin-top : 5px;
+    margin-left: 30px;
+}
+.c_img_div {
+    width : 100px;
+    margin-top : 10px;
+    margin-bottom : 10px;
+    position : relative;
+    border-radius : 3px;
+    border: 1px solid #e1e1e1;
+}
+.c_img_div img:hover{
+    opacity : 0.5;
+}
+.ld_cl {
+    position : absolute;
+    top : 7;
+    right : 7px;
+    font-size : 20px;
+    font-weight: 600;
+    cursor : pointer;
+    opacity : 1;
+}

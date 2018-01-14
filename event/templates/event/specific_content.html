@@ -1,0 +1,45 @@
+{% extends 'web/standardpage.html' %}
+
+{% block searchpage %}
+{% endblock %}
+
+{% block webpage %}
+<div class="search-result">
+    {% include 'event/search_content.html' %}
+</div>
+<script>
+function RenDay(a, tz) {
+a.each(function() {
+    var hour=$(this).find('.hour');
+    var day=$(this).find('.day');
+    var month=$(this).find('.month');
+    var year=$(this).find('.year');
+    var t = new Date(Date.UTC(parseInt(year.text()),parseInt(month.text())-1,parseInt(day.text()),parseInt(hour.text())));
+    t.setHours(t.getHours()+tz);
+    hour.text(t.getUTCHours());
+    day.text(t.getUTCDate());
+    month.text(t.getUTCMonth()+1);
+    year.text(t.getUTCFullYear());
+
+    hour=$(this).find('.hour_e');
+    day=$(this).find('.day_e');
+    month=$(this).find('.month_e');
+    year=$(this).find('.year_e');
+    t = new Date(Date.UTC(parseInt(year.text()),parseInt(month.text())-1,parseInt(day.text()),parseInt(hour.text())));
+    t.setHours(t.getHours()+tz);
+    hour.text(t.getUTCHours());
+    day.text(t.getUTCDate());
+    month.text(t.getUTCMonth()+1);
+    year.text(t.getUTCFullYear());
+});
+}
+(function() {
+    var tz = -new Date().getTimezoneOffset()/60;
+    RenDay($('.eve-cont'),tz)
+})();
+</script>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/static/event/subbut.js"></script>
+{% endblock %}

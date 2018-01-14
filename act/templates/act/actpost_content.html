@@ -1,0 +1,86 @@
+{% for stat in status %}
+<div class="stat-cont">
+    <div class="stat-user">
+        <div class="s-u-img">
+            {% if stat.actpost.user.info.profile_pic %}
+            <img class="user-image" src="{{stat.actpost.user.info.profile_pic.url}}">
+            {% else %}
+            <img class="user-image" src="/static/web/user.jpeg">
+            {% endif %}
+        </div>
+        <div class="s-u-info">
+            <p class="info-p">
+            <span><a href="{% url 'pro:profile' %}?id={{stat.actpost.user.id}}">{{stat.actpost.user.fullname}}</a></span>
+            <span><span>- thuộc hoạt động</span><a href="{% url 'act:act' stat.actpost.act.id %}" style="margin-left:5px;">{{stat.actpost.act.head}}</a></span>
+            {% with t=stat.actpost.act_actposttagfriend_actpost.all %}
+            {% with a=t|length %}
+            {% if t %}
+                <span>- cùng với</span>
+                {% if a == 1 %}
+                    {% for i in t %}
+                    <span><a href="{% url 'pro:profile' %}?id={{i.friend.id}}">{{i.friend.fullname}}</a></span>
+                    {% endfor %}
+                {% elif a == 2 %}
+                    {% for i in t %}
+                    {% if forloop.counter == 1 %}
+                    <span><a href="{% url 'pro:profile' %}?id={{i.friend.id}}">{{i.friend.fullname}}</a></span>
+                    <span>và</span>
+                    {% else %}
+                    <span><a href="{% url 'pro:profile' %}?id={{i.friend.id}}">{{i.friend.fullname}}</a></span>
+                    {% endif %}
+                    {% endfor %}
+                {% elif a > 2 %}
+                    {% for i in t %}
+                    {% if forloop.counter == a|add:-1 %}
+                    <span><a href="{% url 'pro:profile' %}?id={{i.friend.id}}">{{i.friend.fullname}}</a></span>
+                    <span>và</span>
+                    {% else %}
+                        {% if forloop.counter == a %}
+                        <span><a href="{% url 'pro:profile' %}?id={{i.friend.id}}">{{i.friend.fullname}}</a></span>
+                        {% else %}
+                        <span><a href="{% url 'pro:profile' %}?id={{i.friend.id}}">{{i.friend.fullname}}</a></span>
+                        <span>,</span>
+                        {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+            {% endwith %}
+            {% endwith %}
+            </p>
+            <div>
+                {% include 'status/status_time.html' %}
+            </div>
+        </div>
+    </div>
+    <div class="stat-main">
+        <div class="stat-head">
+            <p class="des-p">{{stat.actpost.des|linebreaksbr}}</p>
+            {% if stat.actpost.image %}
+            <p class="image-p" style="margin:0;">
+            <img src="{{stat.actpost.image.url}}" class="cont-image">
+            </p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="stat-vote">
+        {% include 'status/status_vote.html' %}
+    </div>
+    <div class="stat-opt">
+        {% include 'status/status_option.html' %}
+    </div>
+    <div class="stat-comment-post">
+        {% include 'status/status_comment_post.html' %}
+    </div>
+    <div class="stat-comment">
+        {% include 'status/status_comment.html' %}
+    </div>
+</div>
+{% endfor %}
+
+<link rel="stylesheet" type="text/css" href="/static/act/status.css">
+<script type="text/javascript" src="/static/event/rendertime.js"></script>
+<script type="text/javascript" src="/static/status/vote.js"></script>
+<script type="text/javascript" src="/static/status/comment.js"></script>
+<script type="text/javascript" src="/static/status/time_ymdhm.js"></script>
+<script type="text/javascript" src="/static/status/status_privacy.js"></script>
